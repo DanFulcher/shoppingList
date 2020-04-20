@@ -12,9 +12,11 @@ const Header = props => {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: colours.secondary,
+    backgroundColor: colours.background,
     display: 'flex',
     padding: 20,
+    borderBottomColor: colours.primary,
+    borderBottomWidth: 1,
   },
   header__title: {
     color: '#fff',
