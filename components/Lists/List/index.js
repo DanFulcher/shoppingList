@@ -9,7 +9,11 @@ const List = props => {
       <Text style={styles.listBlock__title}>{props.data.name}</Text>
       {props.data.items.map((item, index) => {
         if (index < 3) {
-          return <Text style={styles.listBlock__item}>{item.name}</Text>;
+          return (
+            <Text style={styles.listBlock__item} key={index}>
+              {item.name}
+            </Text>
+          );
         }
       })}
     </View>
