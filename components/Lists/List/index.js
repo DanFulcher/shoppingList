@@ -1,21 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {colours} from '../../../styles';
 
 const List = props => {
-  const onButtonPress = () => {
+  const [selected, setSelected] = useState(false);
+  const open = () => {
     alert('Button Tapped');
   };
 
-  const onButtonLongPress = () => {
-    alert('Button Held');
+  const select = () => {
+    setSelected(true);
+  };
+  const deselect = () => {
+    setSelected(false);
   };
   return (
     <TouchableWithoutFeedback
-      onPress={() => onButtonPress()}
-      onLongPress={() => onButtonLongPress()}>
-      <View style={styles.listBlock}>
+      onPress={() => (!selected ? open() : deselect())}
+      onLongPress={() => select()}>
+      <View style={[styles.listBlock, selected && styles.listBlock__selected]}>
         <Text style={styles.listBlock__title}>{props.data.name}</Text>
         {props.data.items.map((item, index) => {
           if (index < 3) {
@@ -39,6 +43,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 10,
     borderRadius: 10,
+  },
+  listBlock__selected: {
+    borderWidth: 5,
+    borderColor: colours.primary,
+    padding: 5,
   },
   listBlock__title: {
     fontSize: 18,
