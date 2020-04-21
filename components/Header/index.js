@@ -1,10 +1,16 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {colours} from '../../styles';
 
 const Header = props => {
+  console.log(props);
   return (
     <View style={styles.header}>
+      {props.back && (
+        <TouchableOpacity onPress={props.backFucntion}>
+          <Text>Back</Text>
+        </TouchableOpacity>
+      )}
       <Text style={styles.header__title}>{props.title}</Text>
     </View>
   );

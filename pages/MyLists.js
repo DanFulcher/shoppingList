@@ -6,15 +6,14 @@ import Button from '../components/Button';
 import {colours} from '../styles';
 
 const MyLists = props => {
-  const createList = () => {
-    console.log('Add list');
-  };
   return (
-    <View style={styles.container}>
-      <Header title="My Lists" />
+    <View>
       <View style={styles.body}>
         <Lists />
-        <Button onPress={() => createList()} title="Create New List" />
+        <Button
+          onPress={() => props.navigation.navigate('New List')}
+          title="Create New List"
+        />
       </View>
     </View>
   );

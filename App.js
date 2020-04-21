@@ -5,31 +5,42 @@
  * @format
  * @flow strict-local
  */
+import 'react-native-gesture-handler';
 
 import React from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, StatusBar} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import MyLists from './pages/MyLists';
+import NewList from './pages/NewList';
+import {colours} from './styles';
+const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <MyLists />
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: colours.background,
+              borderBottomColor: colours.primary,
+              borderBottomWidth: 2,
+            },
+            headerTintColor: '#fff',
+          }}>
+          <Stack.Screen name="My Lists" component={MyLists} />
+          <Stack.Screen
+            name="New List"
+            component={NewList}
+            gestureEnabled={true}
+            gestureDirection="horizontal"
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  // },
-});
 
 export default App;

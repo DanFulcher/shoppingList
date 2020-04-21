@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
 
-import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Vibration,
+} from 'react-native';
 import {colours} from '../../../styles';
 
 const List = props => {
@@ -11,6 +17,7 @@ const List = props => {
 
   const select = () => {
     setSelected(true);
+    Vibration.vibrate(50);
   };
   const deselect = () => {
     setSelected(false);
