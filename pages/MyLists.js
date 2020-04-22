@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import Header from '../components/Header';
 import Lists from '../components/Lists';
 import Button from '../components/Button';
 import {colours} from '../styles';

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {
   View,
@@ -10,22 +10,35 @@ import {
 import {colours} from '../../../styles';
 
 const List = props => {
-  const [selected, setSelected] = useState(false);
+  // const [selected, setSelected] = useState(false);
   const open = () => {
     alert('Button Tapped');
   };
 
+  const selected = props.selectedLists.find(
+    element => element.id === props.data.id,
+  );
+
   const select = () => {
-    setSelected(true);
+    props.onSelectMulti();
+    // setSelected(true);
     Vibration.vibrate(50);
   };
   const deselect = () => {
-    setSelected(false);
+    props.onDeselect();
+    // setSelected(false);
+    Vibration.vibrate(50);
   };
   return (
     <TouchableWithoutFeedback
-      onPress={() => (!selected ? open() : deselect())}
-      onLongPress={() => select()}>
+      onPress={() =>
+        !props.multiSelMode
+          ? open()
+          : props.multiSelMode && !selected
+          ? select()
+          : deselect()
+      }
+      onLongPress={() => (!selected ? select() : deselect())}>
       <View style={[styles.listBlock, selected && styles.listBlock__selected]}>
         <Text style={styles.listBlock__title}>{props.data.name}</Text>
         {props.data.items.map((item, index) => {
