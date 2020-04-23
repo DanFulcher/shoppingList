@@ -1,13 +1,24 @@
 import React from 'react';
-import Header from '../components/Header';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import {colours} from '../styles';
+
+import Input from '../components/Forms/Fields/Input';
+import ShoppingListRepeater from '../components/Forms/Fields/ShoppingListRepeater';
 
 const NewList = props => {
   return (
-    <View>
-      <Text>Create a new List</Text>
+    <View style={styles.body}>
+      <Input label="List Name" placeholder="eg. My List" />
+      <ShoppingListRepeater title="List" />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  body: {
+    backgroundColor: colours.background,
+    padding: 20,
+  },
+});
 
 export default NewList;
