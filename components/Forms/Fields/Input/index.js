@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {TextInput, StyleSheet} from 'react-native';
 import Label from '../Label';
+import Error from '../Error';
 import {colours} from '../../../../styles';
 
 const Input = props => {
@@ -10,7 +11,7 @@ const Input = props => {
     setBorder(colours.primary);
   };
   const onBlur = () => {
-    setBorder(colours.primary);
+    setBorder(colours.white);
   };
   return (
     <>
@@ -18,10 +19,15 @@ const Input = props => {
       <TextInput
         placeholder={props.placeholder}
         placeholderTextColor={colours.white}
-        style={[styles.input, {borderColor: border}]}
+        style={[
+          styles.input,
+          props.error ? {borderColor: colours.error} : {borderColor: border},
+        ]}
         onFocus={() => onFocus()}
         onBlur={() => onBlur()}
+        onChangeText={text => props.onChange(text)}
       />
+      {props.error && <Error text={props.errorMessage} />}
     </>
   );
 };

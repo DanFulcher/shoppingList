@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   body: {
     padding: 20,
     backgroundColor: colours.background,
+    height: '100%',
   },
 });
 
