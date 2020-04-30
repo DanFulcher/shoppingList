@@ -1,7 +1,9 @@
 import React from 'react';
-import {Text, View, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
+import {useNavigation} from '@react-navigation/native';
 
+import CircleButton from '../Button/CircleButton';
 import List from './List';
 
 const Lists = props => {
@@ -13,22 +15,15 @@ const Lists = props => {
     userLists,
     selectedLists,
   } = useLists();
-
+  const navigation = useNavigation();
   return (
     <>
       {multiSelMode && (
         <View style={styles.multiSelectbar}>
-          <View>
-            <Text style={styles.multiSelectbar__text}>
-              {selectedLists.length} List{selectedLists.length > 1 && 's'}{' '}
-              Selected
-            </Text>
-          </View>
-          <View>
-            <TouchableWithoutFeedback onPress={() => clearSel()}>
-              <Text style={styles.multiSelectbar__text}>Clear Selected</Text>
-            </TouchableWithoutFeedback>
-          </View>
+          <Text style={styles.multiSelectbar__text}>
+            {selectedLists.length} List{selectedLists.length > 1 && 's'}{' '}
+            Selected
+          </Text>
         </View>
       )}
       <View style={styles.listContainer}>
@@ -44,6 +39,14 @@ const Lists = props => {
             />
           ))}
       </View>
+      {multiSelMode ? (
+        <CircleButton type="cross" onPress={() => clearSel()} />
+      ) : (
+        <CircleButton
+          type="plus"
+          onPress={() => navigation.navigate('New List')}
+        />
+      )}
     </>
   );
 };
@@ -57,13 +60,10 @@ const styles = StyleSheet.create({
   },
   multiSelectbar: {
     marginBottom: 20,
-    display: 'flex',
-    justifyContent: 'space-between',
   },
   multiSelectbar__text: {
     color: '#fff',
-    fontSize: 21,
-    width: '50%',
+    fontSize: 18,
   },
 });
 

@@ -4,8 +4,6 @@ export default () => {
   const [multiSelMode, setMultiSelMode] = useState(false);
   const [selectedLists, setSelectedLists] = useState([]);
 
-  console.log(selectedLists);
-
   const onSelectMulti = list => {
     setMultiSelMode(true);
     setSelectedLists([...selectedLists, list]);

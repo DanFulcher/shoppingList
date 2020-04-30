@@ -7,8 +7,14 @@ import {colours} from '../../styles';
 const Button = props => {
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <View style={styles.button}>
-        <Text style={styles.button__text}>{props.title}</Text>
+      <View style={[styles.button, props.small && styles.small]}>
+        <Text
+          style={[
+            styles.button__text,
+            props.small && styles.button__text__small,
+          ]}>
+          {props.title}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -22,6 +28,14 @@ const styles = StyleSheet.create({
   button__text: {
     color: '#fff',
     fontSize: 18,
+    textAlign: 'center',
+  },
+  small: {
+    width: 150,
+    padding: 10,
+  },
+  button__text__small: {
+    fontSize: 16,
     textAlign: 'center',
   },
 });
