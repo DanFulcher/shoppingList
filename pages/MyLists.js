@@ -4,7 +4,6 @@ import Lists from '../components/Lists';
 import {colours} from '../styles';
 
 const MyLists = props => {
-
   return (
     <View>
       <View style={styles.body}>
