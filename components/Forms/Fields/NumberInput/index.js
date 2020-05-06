@@ -22,6 +22,7 @@ const Input = props => {
         style={[styles.input, {borderColor: border}]}
         onFocus={() => onFocus()}
         onBlur={() => onBlur()}
+        onChangeText={text => props.onChange(text)}
       />
     </>
   );

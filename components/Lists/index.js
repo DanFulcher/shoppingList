@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
 import {useNavigation} from '@react-navigation/native';
@@ -14,11 +14,14 @@ const Lists = props => {
     onSelectMulti,
     onDeselect,
     clearSel,
+    getLists,
     userLists,
     selectedLists,
   } = useLists();
   const navigation = useNavigation();
-  console.log(userLists);
+  useEffect(() => {
+    getLists();
+  }, [getLists]);
   return (
     <>
       {multiSelMode && (

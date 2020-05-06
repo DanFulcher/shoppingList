@@ -14,6 +14,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MyLists from './pages/MyLists';
 import NewList from './pages/NewList';
 import ListView from './pages/ListView';
+import AddItem from './pages/AddItem';
 import {colours} from './styles';
 const Stack = createStackNavigator();
 
@@ -42,6 +43,11 @@ const App: () => React$Node = () => {
             name="List View"
             component={ListView}
             options={({route}) => ({title: route.params.list.name})}
+          />
+          <Stack.Screen
+            name="Add Item"
+            component={AddItem}
+            options={({route}) => ({list: route.params.list})}
           />
         </Stack.Navigator>
       </NavigationContainer>

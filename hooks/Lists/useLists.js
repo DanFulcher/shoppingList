@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 export default () => {
@@ -8,11 +8,22 @@ export default () => {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    getLists();
-  }, [getLists]);
+  const getList = id => {
+    fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${id}.json`)
+      .then(res => res.json())
+      .then(parsedRes => {
+        const listsArray = [];
+        listsArray.push({
+          name: parsedRes.name,
+          items: parsedRes.items ? parsedRes.items : [],
+        });
+        setUserLists(listsArray);
+      })
+      .catch(err => console.log(err));
+    return userLists;
+  };
 
-  const getLists = useCallback(() => {
+  const getLists = () => {
     fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
       .then(res => res.json())
       .then(parsedRes => {
@@ -28,7 +39,7 @@ export default () => {
       })
       .catch(err => console.log(err));
     return userLists;
-  }, [userLists]);
+  };
 
   const onOpen = list => {
     navigation.navigate('List View', {
@@ -62,6 +73,7 @@ export default () => {
     onSelectMulti,
     onDeselect,
     clearSel,
+    getList,
     getLists,
     userLists,
   };
