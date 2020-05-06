@@ -1,7 +1,10 @@
 import {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 export default () => {
   const [listName, setListName] = useState('');
   const [validate, setValidate] = useState(false);
+
+  const navigation = useNavigation();
 
   const onNameChange = text => {
     setValidate(false);
@@ -13,10 +16,17 @@ export default () => {
         method: 'POST',
         body: JSON.stringify({
           name: listName,
-          items: [],
         }),
       })
-        .then(res => console.log(res))
+        .then(res => res.json())
+        .then(parsedRes => {
+          const id = parsedRes.name;
+          const list = {
+            id: id,
+            name: listName,
+          };
+          navigation.navigate('List View', {list});
+        })
         .catch(err => console.log(err));
       setListName('');
     } else {

@@ -10,30 +10,23 @@ import {
 import {colours} from '../../../styles';
 
 const List = props => {
-  // const [selected, setSelected] = useState(false);
-  const open = () => {
-    alert('Button Tapped');
-  };
-
   const selected = props.selectedLists.find(
     element => element.id === props.data.id,
   );
 
   const select = () => {
     props.onSelectMulti();
-    // setSelected(true);
     Vibration.vibrate(50);
   };
   const deselect = () => {
     props.onDeselect();
-    // setSelected(false);
     Vibration.vibrate(50);
   };
   return (
     <TouchableWithoutFeedback
       onPress={() =>
         !props.multiSelMode
-          ? open()
+          ? props.onOpen()
           : props.multiSelMode && !selected
           ? select()
           : deselect()
@@ -62,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: colours.lighterBg,
     marginBottom: 15,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 0,
   },
   listBlock__selected: {
     borderWidth: 5,

@@ -5,10 +5,12 @@ import {useNavigation} from '@react-navigation/native';
 
 import CircleButton from '../Button/CircleButton';
 import List from './List';
+import {colours} from '../../styles';
 
 const Lists = props => {
   const {
     multiSelMode,
+    onOpen,
     onSelectMulti,
     onDeselect,
     clearSel,
@@ -16,6 +18,7 @@ const Lists = props => {
     selectedLists,
   } = useLists();
   const navigation = useNavigation();
+  console.log(userLists);
   return (
     <>
       {multiSelMode && (
@@ -33,11 +36,29 @@ const Lists = props => {
               key={index}
               data={list}
               multiSelMode={multiSelMode}
+              onOpen={() => onOpen(list)}
               onSelectMulti={() => onSelectMulti(list)}
               onDeselect={() => onDeselect(list.id)}
               selectedLists={selectedLists}
             />
           ))}
+        {/* {userLists.length < 0 ? (
+          userLists.map((list, index) => (
+            <List
+              key={index}
+              data={list}
+              multiSelMode={multiSelMode}
+              onSelectMulti={() => onSelectMulti(list)}
+              onDeselect={() => onDeselect(list.id)}
+              selectedLists={selectedLists}
+            />
+          ))
+        ) : (
+          <Text style={styles.noLists}>
+            You currently have no lists. Click the "+" icon below to create your
+            first list.
+          </Text>
+        )} */}
       </View>
       {multiSelMode ? (
         <CircleButton type="cross" onPress={() => clearSel()} />
@@ -63,6 +84,11 @@ const styles = StyleSheet.create({
   },
   multiSelectbar__text: {
     color: '#fff',
+    fontSize: 18,
+  },
+  noLists: {
+    color: colours.white,
+    textAlign: 'center',
     fontSize: 18,
   },
 });

@@ -1,8 +1,40 @@
-import {useState} from 'react';
+import {useState, useEffect, useCallback} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 export default () => {
   const [multiSelMode, setMultiSelMode] = useState(false);
   const [selectedLists, setSelectedLists] = useState([]);
+  const [userLists, setUserLists] = useState([]);
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    getLists();
+  }, [getLists]);
+
+  const getLists = useCallback(() => {
+    fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
+      .then(res => res.json())
+      .then(parsedRes => {
+        const listsArray = [];
+        for (const key in parsedRes) {
+          listsArray.push({
+            name: parsedRes[key].name,
+            items: parsedRes[key].items ? parsedRes[key].items : [],
+            id: key,
+          });
+        }
+        setUserLists(listsArray);
+      })
+      .catch(err => console.log(err));
+    return userLists;
+  }, [userLists]);
+
+  const onOpen = list => {
+    navigation.navigate('List View', {
+      list,
+    });
+  };
 
   const onSelectMulti = list => {
     setMultiSelMode(true);
@@ -21,72 +53,16 @@ export default () => {
     setMultiSelMode(false);
   };
 
-  const userLists = [
-    {
-      name: 'My First List',
-      id: '12345',
-      items: [
-        {
-          name: 'Brocolli',
-        },
-        {
-          name: 'Oat Milk',
-          desc: 'Oatly if possible. Found with the long life milks.',
-        },
-        {
-          name: 'Beans',
-        },
-      ],
-    },
-    {
-      name: 'Mums list',
-      id: '23456',
-      items: [
-        {
-          name: 'Spinach',
-        },
-        {
-          name: 'Toilet Paper',
-          desc: '4 ply',
-        },
-        {
-          name: 'Tinned Fruit',
-        },
-        {
-          name: 'Flour',
-          desc: 'Self Raising',
-        },
-      ],
-    },
-    {
-      name: 'Dads list',
-      id: '34567',
-      items: [
-        {
-          name: 'Peas',
-        },
-        {
-          name: 'Tuna',
-        },
-        {
-          name: 'Teabags',
-          desc: 'Tetley',
-        },
-        {
-          name: 'Instant Coffee',
-        },
-      ],
-    },
-  ];
-
   return {
     multiSelMode,
     setMultiSelMode,
     selectedLists,
     setSelectedLists,
+    onOpen,
     onSelectMulti,
     onDeselect,
     clearSel,
+    getLists,
     userLists,
   };
 };

@@ -13,6 +13,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import MyLists from './pages/MyLists';
 import NewList from './pages/NewList';
+import ListView from './pages/ListView';
 import {colours} from './styles';
 const Stack = createStackNavigator();
 
@@ -36,6 +37,11 @@ const App: () => React$Node = () => {
             component={NewList}
             gestureEnabled={true}
             gestureDirection="horizontal"
+          />
+          <Stack.Screen
+            name="List View"
+            component={ListView}
+            options={({route}) => ({title: route.params.list.name})}
           />
         </Stack.Navigator>
       </NavigationContainer>
