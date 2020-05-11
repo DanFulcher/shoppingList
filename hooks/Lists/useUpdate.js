@@ -1,13 +1,10 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import useLists from '../../hooks/Lists/useLists';
 export default () => {
   const [itemName, setItemName] = useState('');
   const [itemQuant, setItemQuant] = useState(1);
   const [validateName, setValidateName] = useState(false);
   const [validateQuant, setValidateQuant] = useState(false);
-
-  const {getLists} = useLists();
 
   const navigation = useNavigation();
 
@@ -22,7 +19,9 @@ export default () => {
   const updateList = list => {
     if (itemName !== '') {
       fetch(
-        `https://shopping-list-app-e9d27.firebaseio.com/lists/${list.id}/items/${list.items.length}.json`,
+        `https://shopping-list-app-e9d27.firebaseio.com/lists/${
+          list.id
+        }/items/${list.items.length}.json`,
         {
           method: 'PATCH',
           body: JSON.stringify({
@@ -32,11 +31,14 @@ export default () => {
         },
       )
         .then(res => res.json())
-        .then(refresh => {
-          getLists();
-        })
         .then(parsedRes => {
-          navigation.goBack();
+          const id = parsedRes.name;
+          const paresedList = {
+            id: id,
+          };
+          navigation.navigate('List View', {
+            paresedList,
+          });
         })
         .catch(err => console.log(err));
       setItemName('');

@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 
 import CircleButton from '../Button/CircleButton';
 import List from './List';
@@ -19,9 +19,12 @@ const Lists = props => {
     selectedLists,
   } = useLists();
   const navigation = useNavigation();
-  useEffect(() => {
-    getLists();
-  }, [getLists]);
+  useFocusEffect(
+    useCallback(() => {
+      getLists();
+    }, [getLists]),
+  );
+  console.log(userLists);
   return (
     <>
       {multiSelMode && (
@@ -45,23 +48,6 @@ const Lists = props => {
               selectedLists={selectedLists}
             />
           ))}
-        {/* {userLists.length < 0 ? (
-          userLists.map((list, index) => (
-            <List
-              key={index}
-              data={list}
-              multiSelMode={multiSelMode}
-              onSelectMulti={() => onSelectMulti(list)}
-              onDeselect={() => onDeselect(list.id)}
-              selectedLists={selectedLists}
-            />
-          ))
-        ) : (
-          <Text style={styles.noLists}>
-            You currently have no lists. Click the "+" icon below to create your
-            first list.
-          </Text>
-        )} */}
       </View>
       {multiSelMode ? (
         <CircleButton type="cross" onPress={() => clearSel()} />

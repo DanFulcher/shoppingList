@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+
+import useLists from '../../hooks/Lists/useLists';
 import {colours} from '../../styles';
 
 const SingleList = props => {
-  console.log(props.list);
+  const {getList, userList} = useLists();
+  useFocusEffect(
+    useCallback(() => {
+      getList(props.list.id);
+    }, [getList, props.list.id]),
+  );
+  console.log(userList);
   return (
     <View style={styles.listBody}>
-      {props.list.items &&
-        props.list.items.map((item, index) => (
+      {userList.items &&
+        userList.items.map((item, index) => (
           <Text key={index} style={styles.listBody__item}>
             {item.name}
             {item.quantity > 1 && ` x ${item.quantity}`}

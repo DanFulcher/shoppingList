@@ -5,6 +5,7 @@ export default () => {
   const [multiSelMode, setMultiSelMode] = useState(false);
   const [selectedLists, setSelectedLists] = useState([]);
   const [userLists, setUserLists] = useState([]);
+  const [userList, setUserList] = useState({});
 
   const navigation = useNavigation();
 
@@ -12,12 +13,10 @@ export default () => {
     fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${id}.json`)
       .then(res => res.json())
       .then(parsedRes => {
-        const listsArray = [];
-        listsArray.push({
+        setUserList({
           name: parsedRes.name,
           items: parsedRes.items ? parsedRes.items : [],
         });
-        setUserLists(listsArray);
       })
       .catch(err => console.log(err));
     return userLists;
@@ -76,5 +75,6 @@ export default () => {
     getList,
     getLists,
     userLists,
+    userList,
   };
 };
