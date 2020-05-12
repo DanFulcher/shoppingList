@@ -16,6 +16,7 @@ export default () => {
         setUserList({
           name: parsedRes.name,
           items: parsedRes.items ? parsedRes.items : [],
+          id: id,
         });
       })
       .catch(err => console.log(err));

@@ -24,7 +24,6 @@ const Lists = props => {
       getLists();
     }, [getLists]),
   );
-  console.log(userLists);
   return (
     <>
       {multiSelMode && (

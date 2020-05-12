@@ -1,20 +1,28 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {colours} from '../styles';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+
+import useLists from '../hooks/Lists/useLists';
 
 import SingleList from '../components/SingleList';
 import CircleButton from '../components/Button/CircleButton';
 
 const ListView = props => {
-  const navigation = useNavigation();
   const {list} = props.route.params;
+  const navigation = useNavigation();
+  const {getList, userList} = useLists();
+  useFocusEffect(
+    useCallback(() => {
+      getList(list.id);
+    }, [getList, list]),
+  );
   return (
     <View>
       <View style={styles.body}>
-        <SingleList list={list} />
+        <SingleList list={userList} />
         <CircleButton
-          onPress={() => navigation.navigate('Add Item', {list: list})}
+          onPress={() => navigation.navigate('Add Item', {list: userList})}
         />
       </View>
     </View>
