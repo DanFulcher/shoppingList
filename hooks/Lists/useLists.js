@@ -23,7 +23,27 @@ export default () => {
     return userLists;
   };
 
-  const getLists = () => {
+  const getLists = lists => {
+    const listsArray = [];
+    lists.forEach(element => {
+      fetch(
+        `https://shopping-list-app-e9d27.firebaseio.com/lists/${
+          element.id
+        }.json`,
+      )
+        .then(res => res.json())
+        .then(parsedRes => {
+          listsArray.push({
+            name: parsedRes.name,
+            items: parsedRes.items ? parsedRes.items : [],
+            id: element.id,
+          });
+        });
+    });
+    setUserLists(listsArray);
+  };
+
+  const getAllLists = () => {
     fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
       .then(res => res.json())
       .then(parsedRes => {
@@ -42,8 +62,15 @@ export default () => {
   };
 
   const onOpen = list => {
+    const lists = [list];
     navigation.navigate('List View', {
-      list,
+      lists,
+    });
+  };
+
+  const openMulti = lists => {
+    navigation.navigate('List View', {
+      lists,
     });
   };
 
@@ -70,11 +97,13 @@ export default () => {
     selectedLists,
     setSelectedLists,
     onOpen,
+    openMulti,
     onSelectMulti,
     onDeselect,
     clearSel,
     getList,
     getLists,
+    getAllLists,
     userLists,
     userList,
   };

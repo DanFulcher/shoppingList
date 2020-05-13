@@ -11,18 +11,19 @@ const Lists = props => {
   const {
     multiSelMode,
     onOpen,
+    openMulti,
     onSelectMulti,
     onDeselect,
     clearSel,
-    getLists,
+    getAllLists,
     userLists,
     selectedLists,
   } = useLists();
   const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
-      getLists();
-    }, [getLists]),
+      getAllLists();
+    }, [getAllLists]),
   );
   return (
     <>
@@ -49,7 +50,10 @@ const Lists = props => {
           ))}
       </View>
       {multiSelMode ? (
-        <CircleButton type="cross" onPress={() => clearSel()} />
+        <CircleButton
+          type="chevron-right"
+          onPress={() => openMulti(selectedLists)}
+        />
       ) : (
         <CircleButton
           type="plus"

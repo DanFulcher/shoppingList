@@ -21,11 +21,13 @@ export default () => {
         .then(res => res.json())
         .then(parsedRes => {
           const id = parsedRes.name;
-          const list = {
-            id: id,
-            name: listName,
-          };
-          navigation.navigate('List View', {list});
+          const lists = [
+            {
+              id: id,
+              name: listName,
+            },
+          ];
+          navigation.navigate('List View', {lists});
         })
         .catch(err => console.log(err));
       setListName('');

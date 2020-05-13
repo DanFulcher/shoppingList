@@ -42,7 +42,11 @@ const App: () => React$Node = () => {
           <Stack.Screen
             name="List View"
             component={ListView}
-            options={({route}) => ({title: route.params.list.name})}
+            options={({route}) => ({
+              title: `${route.params.lists.length} List${
+                route.params.lists.length > 1 ? 's' : ''
+              }`,
+            })}
           />
           <Stack.Screen
             name="Add Item"

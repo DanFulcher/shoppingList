@@ -6,6 +6,7 @@ import {colours} from '../../styles';
 const SingleList = props => {
   return (
     <View style={styles.listBody}>
+      <Text style={styles.listBody__title}>{props.list.name}</Text>
       {props.list.items &&
         props.list.items.map((item, index) => (
           <Text key={index} style={styles.listBody__item}>
@@ -22,9 +23,15 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: colours.lighterBg,
     borderRadius: 10,
+    marginBottom: 20,
+  },
+  listBody__title: {
+    fontSize: 21,
+    color: colours.white,
+    marginBottom: 10,
   },
   listBody__item: {
-    fontSize: 18,
+    fontSize: 16,
     color: colours.white,
   },
 });

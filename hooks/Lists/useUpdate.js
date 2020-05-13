@@ -30,18 +30,24 @@ export default () => {
           }),
         },
       )
-        .then(res => res.json())
-        .then(parsedRes => {
-          const id = parsedRes.name;
-          const paresedList = {
-            id: id,
-          };
-          navigation.navigate('List View', {
-            paresedList,
-          });
-        })
+        .then(res => console.log(res))
         .catch(err => console.log(err));
       setItemName('');
+      const listsArray = [];
+      fetch(
+        `https://shopping-list-app-e9d27.firebaseio.com/lists/${list.id}.json`,
+      )
+        .then(res => res.json())
+        .then(parsedRes => {
+          listsArray.push({
+            name: parsedRes.name,
+            items: parsedRes.items ? parsedRes.items : [],
+            id: list.id,
+          });
+          navigation.navigate('List View', {
+            lists: listsArray,
+          });
+        });
     } else {
       setValidateName(true);
     }
