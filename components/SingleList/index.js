@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import Item from './Item';
 
 import {colours} from '../../styles';
 
@@ -9,10 +10,7 @@ const SingleList = props => {
       <Text style={styles.listBody__title}>{props.list.name}</Text>
       {props.list.items &&
         props.list.items.map((item, index) => (
-          <Text key={index} style={styles.listBody__item}>
-            {item.name}
-            {item.quantity > 1 && ` x ${item.quantity}`}
-          </Text>
+          <Item key={index} data={item} listID={props.list.id} itemID={index} />
         ))}
     </View>
   );
@@ -29,10 +27,6 @@ const styles = StyleSheet.create({
     fontSize: 21,
     color: colours.white,
     marginBottom: 10,
-  },
-  listBody__item: {
-    fontSize: 16,
-    color: colours.white,
   },
 });
 export default SingleList;

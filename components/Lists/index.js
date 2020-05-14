@@ -14,7 +14,6 @@ const Lists = props => {
     openMulti,
     onSelectMulti,
     onDeselect,
-    clearSel,
     getAllLists,
     userLists,
     selectedLists,
@@ -25,6 +24,7 @@ const Lists = props => {
       getAllLists();
     }, [getAllLists]),
   );
+  console.log(userLists);
   return (
     <>
       {multiSelMode && (

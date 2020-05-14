@@ -53,10 +53,25 @@ export default () => {
     }
   };
 
+  const checkItem = (list, id, checked) => {
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          checked: !checked,
+        }),
+      },
+    )
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
   return {
     onNameChange,
     onQuantChange,
     updateList,
+    checkItem,
     validateName,
     validateQuant,
   };

@@ -11,18 +11,18 @@ const ListView = props => {
   const navigation = useNavigation();
 
   return (
-    <View>
-      <ScrollView style={styles.body}>
+    <View style={styles.body}>
+      <ScrollView>
         {lists &&
           lists.map((singleList, index) => (
             <SingleList key={index} list={singleList} />
           ))}
-        {lists.length === 1 && (
-          <CircleButton
-            onPress={() => navigation.navigate('Add Item', {list: lists[0]})}
-          />
-        )}
       </ScrollView>
+      {lists.length === 1 && (
+        <CircleButton
+          onPress={() => navigation.navigate('Add Item', {list: lists[0]})}
+        />
+      )}
     </View>
   );
 };
