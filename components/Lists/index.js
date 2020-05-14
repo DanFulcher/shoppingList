@@ -1,11 +1,12 @@
 import React, {useCallback} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {ScrollView, Text, View, StyleSheet} from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 
 import CircleButton from '../Button/CircleButton';
 import List from './List';
 import {colours} from '../../styles';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const Lists = props => {
   const {
@@ -15,6 +16,7 @@ const Lists = props => {
     onSelectMulti,
     onDeselect,
     getAllLists,
+    clearSel,
     userLists,
     selectedLists,
   } = useLists();
@@ -22,9 +24,9 @@ const Lists = props => {
   useFocusEffect(
     useCallback(() => {
       getAllLists();
-    }, [getAllLists]),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
   );
-  console.log(userLists);
   return (
     <>
       {multiSelMode && (
@@ -33,9 +35,12 @@ const Lists = props => {
             {selectedLists.length} List{selectedLists.length > 1 && 's'}{' '}
             Selected
           </Text>
+          <TouchableWithoutFeedback onPress={() => clearSel()}>
+            <Text style={styles.multiSelectbar__clear}>Clear selection</Text>
+          </TouchableWithoutFeedback>
         </View>
       )}
-      <View style={styles.listContainer}>
+      <ScrollView style={styles.listContainer}>
         {userLists &&
           userLists.map((list, index) => (
             <List
@@ -48,7 +53,7 @@ const Lists = props => {
               selectedLists={selectedLists}
             />
           ))}
-      </View>
+      </ScrollView>
       {multiSelMode ? (
         <CircleButton
           type="chevron-right"
@@ -65,18 +70,20 @@ const Lists = props => {
 };
 
 const styles = StyleSheet.create({
-  listContainer: {
+  multiSelectbar: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
-  },
-  multiSelectbar: {
+    alignItems: 'center',
     marginBottom: 20,
   },
   multiSelectbar__text: {
     color: '#fff',
     fontSize: 18,
+  },
+  multiSelectbar__clear: {
+    color: '#fff',
+    fontSize: 16,
   },
   noLists: {
     color: colours.white,

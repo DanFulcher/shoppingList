@@ -15,7 +15,7 @@ const MyLists = props => {
 
 const styles = StyleSheet.create({
   body: {
-    padding: 20,
+    padding: 15,
     backgroundColor: colours.background,
     height: '100%',
   },

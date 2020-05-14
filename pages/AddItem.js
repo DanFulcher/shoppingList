@@ -43,7 +43,7 @@ const AddItem = props => {
 const styles = StyleSheet.create({
   body: {
     backgroundColor: colours.background,
-    padding: 20,
+    padding: 15,
     height: '100%',
   },
 });
