@@ -8,7 +8,6 @@ import {colours} from '../../../styles';
 const Item = props => {
   const [checked, setChecked] = useState(props.data.checked);
   const {checkItem} = useUpdate();
-  console.log(props);
   const onCheck = () => {
     checkItem(props.listID, props.itemID, checked);
     setChecked(!checked);
