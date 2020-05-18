@@ -1,5 +1,11 @@
-import React, {useCallback} from 'react';
-import {ScrollView, Text, View, StyleSheet} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {
+  ScrollView,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  StyleSheet,
+} from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
 import useDelete from '../../hooks/Lists/useDelete';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
@@ -7,9 +13,10 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import CircleButton from '../Button/CircleButton';
 import List from './List';
 import {colours} from '../../styles';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import Modal from '../Modal';
 
 const Lists = props => {
+  const [showModal, setShowModal] = useState(false);
   const {
     multiSelMode,
     onOpen,
@@ -63,7 +70,7 @@ const Lists = props => {
             iconSize={20}
             position="bottomLeft"
             alert={true}
-            onPress={() => deleteLists(selectedLists)}
+            onPress={() => setShowModal(!showModal)}
           />
           <CircleButton
             type="chevron-right"
@@ -76,6 +83,28 @@ const Lists = props => {
           onPress={() => navigation.navigate('New List')}
         />
       )}
+
+      <Modal
+        showModal={showModal}
+        toggle={() => setShowModal(!showModal)}
+        modalTitle="Delete List(s)">
+        <Text style={styles.modal__text}>
+          Are you sure you want to delete{' '}
+          {selectedLists.length > 1 ? 'these lists' : 'this list'}? This action
+          cannot be undone.
+        </Text>
+        <View style={styles.modalActions}>
+          <TouchableWithoutFeedback onPress={() => deleteLists(selectedLists)}>
+            <Text
+              style={[styles.modalActions__text, styles.modalActions__warning]}>
+              Yes
+            </Text>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => setShowModal(!showModal)}>
+            <Text style={styles.modalActions__text}>No</Text>
+          </TouchableWithoutFeedback>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -100,6 +129,23 @@ const styles = StyleSheet.create({
     color: colours.white,
     textAlign: 'center',
     fontSize: 18,
+  },
+  modal__text: {
+    color: colours.white,
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  modalActions: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalActions__text: {
+    color: colours.white,
+    fontSize: 21,
+  },
+  modalActions__warning: {
+    color: colours.error,
   },
 });
 
