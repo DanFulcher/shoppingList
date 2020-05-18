@@ -24,7 +24,6 @@ const ShoppingListRepeater = props => {
       placeholder: 'Category',
     },
   ];
-  console.log(repeaterFields);
   return (
     <View style={styles.repeater}>
       <Label text={props.title} />

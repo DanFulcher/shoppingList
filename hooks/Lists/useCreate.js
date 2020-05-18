@@ -16,6 +16,7 @@ export default () => {
         method: 'POST',
         body: JSON.stringify({
           name: listName,
+          items: [],
         }),
       })
         .then(res => res.json())

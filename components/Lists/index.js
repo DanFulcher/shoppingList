@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
 import {ScrollView, Text, View, StyleSheet} from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
+import useDelete from '../../hooks/Lists/useDelete';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 
 import CircleButton from '../Button/CircleButton';
@@ -20,6 +21,7 @@ const Lists = props => {
     userLists,
     selectedLists,
   } = useLists();
+  const {deleteLists} = useDelete();
   const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
@@ -55,10 +57,19 @@ const Lists = props => {
           ))}
       </ScrollView>
       {multiSelMode ? (
-        <CircleButton
-          type="chevron-right"
-          onPress={() => openMulti(selectedLists)}
-        />
+        <>
+          <CircleButton
+            type="trash"
+            iconSize={20}
+            position="bottomLeft"
+            alert={true}
+            onPress={() => deleteLists(selectedLists)}
+          />
+          <CircleButton
+            type="chevron-right"
+            onPress={() => openMulti(selectedLists)}
+          />
+        </>
       ) : (
         <CircleButton
           type="plus"

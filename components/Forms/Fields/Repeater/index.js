@@ -9,7 +9,6 @@ import Button from '../../../Button';
 
 const Repeater = props => {
   const [repeaterFields, setRepeaterFields] = useState([]);
-  console.log(repeaterFields);
   return (
     <View style={styles.repeater}>
       <Label text={props.title} />

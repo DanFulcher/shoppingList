@@ -1,48 +1,39 @@
 import React, {useState} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import Item from './Item';
-import Modal from 'react-native-modal';
+import Modal from '../Modal';
+
+import useDelete from '../../hooks/Lists/useDelete';
 
 import {colours} from '../../styles';
 
 const SingleList = props => {
   const [showOptions, setShowOptions] = useState(false);
-  const toggleOptions = () => {
-    setShowOptions(!showOptions);
-  };
+  const {deleteLists} = useDelete();
   return (
     <View style={styles.listBody}>
       <View style={styles.listBody__header}>
         <Text style={styles.listBody__title}>{props.list.name}</Text>
-        <TouchableOpacity onPress={() => toggleOptions()}>
+        <TouchableOpacity onPress={() => setShowOptions(!showOptions)}>
           <Icon name="dots-three-vertical" color="#fff" size={18} />
         </TouchableOpacity>
         <Modal
-          isVisible={showOptions}
-          onBackButtonPress={() => setShowOptions(!showOptions)}
-          hideModalContentWhileAnimating={true}
-          onSwipeComplete={() => setShowOptions(!showOptions)}
-          swipeDirection="up">
-          <View style={styles.listBody__options}>
-            <View style={styles.listBody__options__header}>
-              <Text style={styles.listBody__options__title}>List Options</Text>
-              <Icon
-                name="cross"
-                size={21}
-                color="#fff"
-                onPress={() => setShowOptions(false)}
-              />
-            </View>
-            <Text style={styles.listBody__options__option}>Rename List</Text>
-            <Text
-              style={[
-                styles.listBody__options__option,
-                {color: colours.error},
-              ]}>
+          showModal={showOptions}
+          toggle={() => setShowOptions(!showOptions)}
+          modalTitle="List Options">
+          <Text style={styles.modal__option}>Rename List</Text>
+          <TouchableWithoutFeedback onPress={() => deleteLists([props.list])}>
+            <Text style={[styles.modal__option, {color: colours.error}]}>
               Delete List
             </Text>
-          </View>
+          </TouchableWithoutFeedback>
         </Modal>
       </View>
       {props.list.items &&
@@ -66,25 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  listBody__options: {
-    borderColor: colours.background,
-    borderWidth: 1,
-    padding: 15,
-    width: '95%',
-    backgroundColor: colours.lighterBg,
-  },
-  listBody__options__header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  listBody__options__title: {
-    color: colours.white,
-    fontSize: 21,
-  },
-  listBody__options__option: {
+  modal__option: {
     fontSize: 18,
     color: '#fff',
     marginBottom: 10,

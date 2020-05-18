@@ -6,8 +6,20 @@ import {colours} from '../../styles';
 
 const CircleButton = props => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={styles.Button}>
-      <Icon name={props.type ? props.type : 'plus'} size={30} color="#fff" />
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={[
+        styles.Button,
+        props.position === 'bottomLeft'
+          ? styles.Button__left
+          : styles.Button__right,
+        props.alert && styles.red,
+      ]}>
+      <Icon
+        name={props.type ? props.type : 'plus'}
+        size={props.iconSize || 30}
+        color="#fff"
+      />
     </TouchableOpacity>
   );
 };
@@ -15,11 +27,25 @@ const CircleButton = props => {
 const styles = StyleSheet.create({
   Button: {
     position: 'absolute',
-    right: 20,
     bottom: 20,
     backgroundColor: colours.primary,
     padding: 15,
     borderRadius: 50,
+    minWidth: 65,
+    minHeight: 65,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  Button__right: {
+    right: 20,
+  },
+  Button__left: {
+    left: 20,
+  },
+  red: {
+    backgroundColor: colours.error,
   },
 });
 

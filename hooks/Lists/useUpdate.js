@@ -21,7 +21,7 @@ export default () => {
       fetch(
         `https://shopping-list-app-e9d27.firebaseio.com/lists/${
           list.id
-        }/items/${list.items.length}.json`,
+        }/items/${list.items ? list.items.length : 0}.json`,
         {
           method: 'PATCH',
           body: JSON.stringify({

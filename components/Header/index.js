@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {colours} from '../../styles';
 
 const Header = props => {
-  console.log(props);
   return (
     <View style={styles.header}>
       {props.back && (
