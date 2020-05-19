@@ -26,6 +26,8 @@ const Input = props => {
         onFocus={() => onFocus()}
         onBlur={() => onBlur()}
         onChangeText={text => props.onChange(text)}
+        value={props.value}
+        secureTextEntry={props.password && true}
       />
       {props.error && <Error text={props.errorMessage} />}
     </>

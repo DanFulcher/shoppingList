@@ -1,14 +1,20 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
+import auth from '@react-native-firebase/auth';
 import Lists from '../components/Lists';
+import Button from '../components/Button';
 import {colours} from '../styles';
 
 const MyLists = props => {
+  const logout = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
   return (
-    <View>
-      <View style={styles.body}>
-        <Lists />
-      </View>
+    <View style={styles.body}>
+      <Lists />
+      <Button title="Log Out" onPress={() => logout()} />
     </View>
   );
 };

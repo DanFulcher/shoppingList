@@ -7,10 +7,13 @@
  */
 import 'react-native-gesture-handler';
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import auth from '@react-native-firebase/auth';
+
+import Login from './pages/Login';
 import MyLists from './pages/MyLists';
 import NewList from './pages/NewList';
 import ListView from './pages/ListView';
@@ -19,11 +22,30 @@ import {colours} from './styles';
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  const onAuthStateChanged = userName => {
+    setUser(userName);
+    if (initializing) {
+      setInitializing(false);
+    }
+  };
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (initializing) {
+    return null;
+  }
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Home"
+          initialRouteName={!user ? 'Login' : 'My Lists'}
           screenOptions={{
             headerStyle: {
               backgroundColor: colours.background,
@@ -32,6 +54,7 @@ const App: () => React$Node = () => {
             },
             headerTintColor: '#fff',
           }}>
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="My Lists" component={MyLists} />
           <Stack.Screen
             name="New List"
