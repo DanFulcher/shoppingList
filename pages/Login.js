@@ -1,67 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import auth from '@react-native-firebase/auth';
+import useLogin from '../hooks/User/useLogin';
 import {colours} from '../styles';
 import Input from '../components/Forms/Fields/Input';
 import Button from '../components/Button';
 
 const Login = props => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [validateEmail, setValidateEmail] = useState(false);
-  const [emailValMes, setEmailValMes] = useState(
-    'Please enter a valid email address',
-  );
-  const [validatePW, setValidatePW] = useState(false);
-  const [pwValMes, setPWValMes] = useState('Please enter your password');
-  const onEmailChange = text => {
-    setEmail(text);
-    setValidateEmail(false);
-  };
-  const onPasswordChange = text => {
-    setPassword(text);
-    setValidatePW(false);
-  };
-  console.log(password);
-  const login = () => {
-    if (email && password) {
-      auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          console.log('User signed in!');
-        })
-        .catch(error => {
-          console.log(error.code);
-          if (error.code === 'auth/user-not-found') {
-            setEmailValMes(
-              'We can not find an account with this email address',
-            );
-            setEmail('');
-            setValidateEmail(true);
-          }
-          if (error.code === 'auth/invalid-email') {
-            setEmailValMes('Please enter a valid email address');
-            setEmail('');
-            setValidateEmail(true);
-          }
-          if (error.code === 'auth/wrong-password') {
-            setPWValMes('The password you have entered is incorrect');
-            setPassword('');
-            setValidatePW(true);
-          } else {
-            console.error(error);
-          }
-        });
-    }
-    if (!email) {
-      setEmailValMes('Please enter a valid email address');
-      setValidateEmail(true);
-    }
-    if (!password) {
-      setPWValMes('Please enter your password');
-      setValidatePW(true);
-    }
-  };
+  const {
+    email,
+    validateEmail,
+    emailValMes,
+    onEmailChange,
+    password,
+    validatePW,
+    pwValMes,
+    onPasswordChange,
+    onLogin,
+  } = useLogin();
   return (
     <View style={styles.body}>
       <View style={styles.loginForm}>
@@ -82,7 +37,7 @@ const Login = props => {
           password
         />
       </View>
-      <Button title="Log in" onPress={() => login()} />
+      <Button title="Log in" onPress={() => onLogin()} />
     </View>
   );
 };
