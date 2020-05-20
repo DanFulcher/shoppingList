@@ -14,6 +14,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 
 import Login from './pages/Login';
+import CreateAccount from './pages/CreateAccount';
 import MyLists from './pages/MyLists';
 import NewList from './pages/NewList';
 import ListView from './pages/ListView';
@@ -55,6 +56,7 @@ const App: () => React$Node = () => {
             headerTintColor: '#fff',
           }}>
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Create an Account" component={CreateAccount} />
           <Stack.Screen name="My Lists" component={MyLists} />
           <Stack.Screen
             name="New List"

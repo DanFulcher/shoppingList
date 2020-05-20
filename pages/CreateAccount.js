@@ -1,12 +1,12 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import useLogin from '../hooks/User/useLogin';
+import useCreate from '../hooks/User/useCreate';
 import {colours} from '../styles';
 import Input from '../components/Forms/Fields/Input';
 import Button from '../components/Button';
 
-const Login = props => {
+const CreateAccount = props => {
   const {
     email,
     validateEmail,
@@ -16,12 +16,16 @@ const Login = props => {
     validatePW,
     pwValMes,
     onPasswordChange,
-    onLogin,
-  } = useLogin();
+    confPW,
+    validateConfPW,
+    confPWValMes,
+    onConfPWChange,
+    onCreate,
+  } = useCreate();
   const navigation = useNavigation();
   return (
     <View style={styles.body}>
-      <View style={styles.loginForm}>
+      <View style={styles.createAccountForm}>
         <Input
           label="Email Address"
           error={validateEmail}
@@ -38,12 +42,17 @@ const Login = props => {
           value={password}
           password
         />
-        <Button title="Log in" onPress={() => onLogin()} />
+        <Input
+          label="Confirm Password"
+          error={validateConfPW}
+          errorMessage={confPWValMes}
+          onChange={text => onConfPWChange(text)}
+          value={confPW}
+          password
+        />
+        <Button title="Create Account" onPress={() => onCreate()} />
       </View>
-      <Button
-        title="Create an account"
-        onPress={() => navigation.navigate('Create an Account')}
-      />
+      <Button title="Back" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 };
@@ -58,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default CreateAccount;
