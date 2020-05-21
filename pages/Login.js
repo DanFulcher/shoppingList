@@ -43,6 +43,7 @@ const Login = props => {
       <Button
         title="Create an account"
         onPress={() => navigation.navigate('Create an Account')}
+        noFill
       />
     </View>
   );

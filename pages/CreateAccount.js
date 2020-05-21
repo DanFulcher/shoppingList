@@ -52,7 +52,11 @@ const CreateAccount = props => {
         />
         <Button title="Create Account" onPress={() => onCreate()} />
       </View>
-      <Button title="Back" onPress={() => navigation.navigate('Login')} />
+      <Button
+        title="Back"
+        onPress={() => navigation.navigate('Login')}
+        noFill
+      />
     </View>
   );
 };
