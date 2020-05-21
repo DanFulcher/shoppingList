@@ -8,6 +8,10 @@ import Button from '../components/Button';
 
 const CreateAccount = props => {
   const {
+    name,
+    validateName,
+    nameValMes,
+    onNameChange,
     email,
     validateEmail,
     emailValMes,
@@ -26,6 +30,13 @@ const CreateAccount = props => {
   return (
     <View style={styles.body}>
       <View style={styles.createAccountForm}>
+        <Input
+          label="Full Name"
+          error={validateName}
+          errorMessage={nameValMes}
+          onChange={text => onNameChange(text)}
+          value={name}
+        />
         <Input
           label="Email Address"
           error={validateEmail}

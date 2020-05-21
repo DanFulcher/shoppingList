@@ -7,6 +7,7 @@ import {colours} from '../styles';
 
 const MyLists = props => {
   const {onLogout} = useLogin();
+  console.log(props.route.params);
   return (
     <View style={styles.body}>
       <Lists />
