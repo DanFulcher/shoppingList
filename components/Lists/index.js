@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   Text,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
 import useDelete from '../../hooks/Lists/useDelete';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import CircleButton from '../Button/CircleButton';
 import List from './List';
@@ -16,6 +16,7 @@ import {colours} from '../../styles';
 import Modal from '../Modal';
 
 const Lists = props => {
+  console.log(props.lists);
   const [showModal, setShowModal] = useState(false);
   const {
     multiSelMode,
@@ -23,19 +24,11 @@ const Lists = props => {
     openMulti,
     onSelectMulti,
     onDeselect,
-    getAllLists,
     clearSel,
-    userLists,
     selectedLists,
   } = useLists();
   const {deleteLists} = useDelete();
   const navigation = useNavigation();
-  useFocusEffect(
-    useCallback(() => {
-      getAllLists();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
-  );
   return (
     <>
       {multiSelMode && (
@@ -50,8 +43,8 @@ const Lists = props => {
         </View>
       )}
       <ScrollView style={styles.listContainer}>
-        {userLists &&
-          userLists.map((list, index) => (
+        {props.lists &&
+          props.lists.map((list, index) => (
             <List
               key={index}
               data={list}

@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 export default () => {
   const [multiSelMode, setMultiSelMode] = useState(false);
@@ -8,6 +9,7 @@ export default () => {
   const [userList, setUserList] = useState({});
 
   const navigation = useNavigation();
+  const user = auth().currentUser;
 
   const getList = id => {
     fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${id}.json`)
@@ -20,7 +22,6 @@ export default () => {
         });
       })
       .catch(err => console.log(err));
-    return userLists;
   };
 
   const getLists = lists => {
@@ -44,21 +45,34 @@ export default () => {
   };
 
   const getAllLists = () => {
-    fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/users/${
+        user._user.uid
+      }.json`,
+    )
       .then(res => res.json())
       .then(parsedRes => {
+        console.log(parsedRes);
         const listsArray = [];
-        for (const key in parsedRes) {
-          listsArray.push({
-            name: parsedRes[key].name,
-            items: parsedRes[key].items ? parsedRes[key].items : [],
-            id: key,
-          });
-        }
-        setUserLists(listsArray);
-      })
-      .catch(err => console.log(err));
-    return userLists;
+        parsedRes.lists.forEach(element => {
+          fetch(
+            `https://shopping-list-app-e9d27.firebaseio.com/lists/${
+              element.id
+            }.json`,
+          )
+            .then(res => res.json())
+            .then(responseList => {
+              listsArray.push({
+                name: responseList.name,
+                items: responseList.items ? responseList.items : [],
+                id: element.id,
+              });
+              setUserLists(listsArray);
+              console.log(userLists);
+            });
+        });
+        // console.log(listsArray);
+      });
   };
 
   const onOpen = list => {

@@ -48,19 +48,19 @@ export default () => {
       auth()
         .createUserWithEmailAndPassword(email, password)
         .then(res => {
-          fetch('https://shopping-list-app-e9d27.firebaseio.com/users.json', {
-            method: 'POST',
-            body: JSON.stringify({
-              uid: res.user.uid,
-              name: name,
-              email: email,
-              lists: [],
-            }),
-          })
-            .then(postRes => postRes.json())
-            .then(parsedRes => {
-              navigation.navigate('My Lists', {user: parsedRes.name});
-            });
+          fetch(
+            `https://shopping-list-app-e9d27.firebaseio.com/users/${
+              res.user.uid
+            }.json`,
+            {
+              method: 'PUT',
+              body: JSON.stringify({
+                name: name,
+                email: email,
+                lists: [],
+              }),
+            },
+          ).then(navigation.navigate('My Lists', {user: res.user.uid}));
         })
         .catch(error => {
           console.log(error.code);

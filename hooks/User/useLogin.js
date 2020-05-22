@@ -27,8 +27,8 @@ export default () => {
     if (email && password) {
       auth()
         .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          navigation.navigate('My Lists');
+        .then(res => {
+          navigation.navigate('My Lists', {user: res.user.uid});
         })
         .catch(error => {
           console.log(error.code);

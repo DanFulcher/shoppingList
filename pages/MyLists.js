@@ -1,16 +1,27 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, StyleSheet} from 'react-native';
+
 import useLogin from '../hooks/User/useLogin';
+import useLists from '../hooks/Lists/useLists';
+import {useFocusEffect} from '@react-navigation/native';
+
 import Lists from '../components/Lists';
 import Button from '../components/Button';
 import {colours} from '../styles';
 
 const MyLists = props => {
   const {onLogout} = useLogin();
-  console.log(props.route.params);
+  const {userLists, getAllLists} = useLists();
+
+  useFocusEffect(
+    useCallback(() => {
+      getAllLists();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
   return (
     <View style={styles.body}>
-      <Lists />
+      <Lists lists={userLists} />
       <Button title="Log Out" onPress={() => onLogout()} />
     </View>
   );
