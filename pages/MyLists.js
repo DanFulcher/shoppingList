@@ -11,17 +11,17 @@ import {colours} from '../styles';
 
 const MyLists = props => {
   const {onLogout} = useLogin();
-  const {userLists, getAllLists} = useLists();
+  const {userLists, getUsersLists} = useLists();
 
   useFocusEffect(
     useCallback(() => {
-      getAllLists();
+      getUsersLists();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
   return (
     <View style={styles.body}>
-      <Lists lists={userLists} />
+      {userLists && <Lists lists={userLists} />}
       <Button title="Log Out" onPress={() => onLogout()} />
     </View>
   );

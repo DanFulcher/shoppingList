@@ -16,7 +16,6 @@ import {colours} from '../../styles';
 import Modal from '../Modal';
 
 const Lists = props => {
-  console.log(props.lists);
   const [showModal, setShowModal] = useState(false);
   const {
     multiSelMode,
@@ -27,8 +26,10 @@ const Lists = props => {
     clearSel,
     selectedLists,
   } = useLists();
+
   const {deleteLists} = useDelete();
   const navigation = useNavigation();
+
   return (
     <>
       {multiSelMode && (
@@ -43,7 +44,7 @@ const Lists = props => {
         </View>
       )}
       <ScrollView style={styles.listContainer}>
-        {props.lists &&
+        {props.lists !== [] &&
           props.lists.map((list, index) => (
             <List
               key={index}

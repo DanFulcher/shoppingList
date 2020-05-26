@@ -9,7 +9,7 @@ export default () => {
   const [userList, setUserList] = useState({});
 
   const navigation = useNavigation();
-  const user = auth().currentUser;
+  const userID = auth().currentUser._user.uid;
 
   const getList = id => {
     fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${id}.json`)
@@ -25,7 +25,7 @@ export default () => {
   };
 
   const getLists = lists => {
-    const listsArray = [];
+    setUserLists([]);
     lists.forEach(element => {
       fetch(
         `https://shopping-list-app-e9d27.firebaseio.com/lists/${
@@ -34,45 +34,24 @@ export default () => {
       )
         .then(res => res.json())
         .then(parsedRes => {
-          listsArray.push({
+          const list = {
             name: parsedRes.name,
             items: parsedRes.items ? parsedRes.items : [],
             id: element.id,
-          });
+          };
+          setUserLists(currentLists => [...currentLists, list]);
         });
     });
-    setUserLists(listsArray);
+    return userLists;
   };
 
-  const getAllLists = () => {
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/users/${
-        user._user.uid
-      }.json`,
-    )
-      .then(res => res.json())
-      .then(parsedRes => {
-        console.log(parsedRes);
-        const listsArray = [];
-        parsedRes.lists.forEach(element => {
-          fetch(
-            `https://shopping-list-app-e9d27.firebaseio.com/lists/${
-              element.id
-            }.json`,
-          )
-            .then(res => res.json())
-            .then(responseList => {
-              listsArray.push({
-                name: responseList.name,
-                items: responseList.items ? responseList.items : [],
-                id: element.id,
-              });
-              setUserLists(listsArray);
-              console.log(userLists);
-            });
-        });
-        // console.log(listsArray);
-      });
+  const getUsersLists = async () => {
+    setUserLists([]);
+    const response = await fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`,
+    );
+    const json = await response.json();
+    getLists(json.lists);
   };
 
   const onOpen = list => {
@@ -117,7 +96,7 @@ export default () => {
     clearSel,
     getList,
     getLists,
-    getAllLists,
+    getUsersLists,
     userLists,
     userList,
   };
