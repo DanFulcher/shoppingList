@@ -57,7 +57,7 @@ const App: () => React$Node = () => {
           }}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Create an Account" component={CreateAccount} />
-          <Stack.Screen name="My Lists" component={MyLists} />
+          <Stack.Screen name="My Lists" component={MyLists} headerLeft={null} />
           <Stack.Screen
             name="New List"
             component={NewList}

@@ -19,7 +19,10 @@ const NewList = props => {
         placeholder="eg. My List"
         onChange={text => onNameChange(text)}
       />
-      <Button title="Create List" onPress={() => createList()} />
+      <Button
+        title="Create List"
+        onPress={() => createList(props.route.params.numberOfLists)}
+      />
     </View>
   );
 };

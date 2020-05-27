@@ -44,18 +44,17 @@ const Lists = props => {
         </View>
       )}
       <ScrollView style={styles.listContainer}>
-        {props.lists !== [] &&
-          props.lists.map((list, index) => (
-            <List
-              key={index}
-              data={list}
-              multiSelMode={multiSelMode}
-              onOpen={() => onOpen(list)}
-              onSelectMulti={() => onSelectMulti(list)}
-              onDeselect={() => onDeselect(list.id)}
-              selectedLists={selectedLists}
-            />
-          ))}
+        {props.lists.map((list, index) => (
+          <List
+            key={index}
+            data={list}
+            multiSelMode={multiSelMode}
+            onOpen={() => onOpen(list)}
+            onSelectMulti={() => onSelectMulti(list)}
+            onDeselect={() => onDeselect(list.id)}
+            selectedLists={selectedLists}
+          />
+        ))}
       </ScrollView>
       {multiSelMode ? (
         <>
@@ -74,7 +73,9 @@ const Lists = props => {
       ) : (
         <CircleButton
           type="plus"
-          onPress={() => navigation.navigate('New List')}
+          onPress={() =>
+            navigation.navigate('New List', {numberOfLists: props.lists.length})
+          }
         />
       )}
 
