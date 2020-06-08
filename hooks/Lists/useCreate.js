@@ -1,16 +1,20 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+
 export default () => {
   const [listName, setListName] = useState('');
   const [validate, setValidate] = useState(false);
 
   const navigation = useNavigation();
 
+  const userID = auth().currentUser._user.uid;
+
   const onNameChange = text => {
     setValidate(false);
     setListName(text);
   };
-  const createList = () => {
+  const createList = usersLists => {
     if (listName !== '') {
       fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json', {
         method: 'POST',
@@ -22,13 +26,25 @@ export default () => {
         .then(res => res.json())
         .then(parsedRes => {
           const id = parsedRes.name;
-          const lists = [
+          const list = [
             {
               id: id,
               name: listName,
             },
           ];
-          navigation.navigate('List View', {lists});
+          navigation.navigate('List View', {lists: list});
+          return id;
+        })
+        .then(id => {
+          fetch(
+            `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}/lists/${usersLists}.json`,
+            {
+              method: 'PUT',
+              body: JSON.stringify({
+                id: id,
+              }),
+            },
+          );
         })
         .catch(err => console.log(err));
       setListName('');

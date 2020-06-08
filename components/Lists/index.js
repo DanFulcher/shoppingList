@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   Text,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import useLists from '../../hooks/Lists/useLists';
 import useDelete from '../../hooks/Lists/useDelete';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import CircleButton from '../Button/CircleButton';
 import List from './List';
@@ -23,19 +23,13 @@ const Lists = props => {
     openMulti,
     onSelectMulti,
     onDeselect,
-    getAllLists,
     clearSel,
-    userLists,
     selectedLists,
   } = useLists();
+
   const {deleteLists} = useDelete();
   const navigation = useNavigation();
-  useFocusEffect(
-    useCallback(() => {
-      getAllLists();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
-  );
+
   return (
     <>
       {multiSelMode && (
@@ -50,18 +44,17 @@ const Lists = props => {
         </View>
       )}
       <ScrollView style={styles.listContainer}>
-        {userLists &&
-          userLists.map((list, index) => (
-            <List
-              key={index}
-              data={list}
-              multiSelMode={multiSelMode}
-              onOpen={() => onOpen(list)}
-              onSelectMulti={() => onSelectMulti(list)}
-              onDeselect={() => onDeselect(list.id)}
-              selectedLists={selectedLists}
-            />
-          ))}
+        {props.lists.map((list, index) => (
+          <List
+            key={index}
+            data={list}
+            multiSelMode={multiSelMode}
+            onOpen={() => onOpen(list)}
+            onSelectMulti={() => onSelectMulti(list)}
+            onDeselect={() => onDeselect(list.id)}
+            selectedLists={selectedLists}
+          />
+        ))}
       </ScrollView>
       {multiSelMode ? (
         <>
@@ -80,7 +73,9 @@ const Lists = props => {
       ) : (
         <CircleButton
           type="plus"
-          onPress={() => navigation.navigate('New List')}
+          onPress={() =>
+            navigation.navigate('New List', {numberOfLists: props.lists.length})
+          }
         />
       )}
 

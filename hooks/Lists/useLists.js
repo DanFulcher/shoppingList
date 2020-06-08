@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 export default () => {
   const [multiSelMode, setMultiSelMode] = useState(false);
@@ -8,6 +9,7 @@ export default () => {
   const [userList, setUserList] = useState({});
 
   const navigation = useNavigation();
+  const userID = auth().currentUser._user.uid;
 
   const getList = id => {
     fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${id}.json`)
@@ -20,11 +22,10 @@ export default () => {
         });
       })
       .catch(err => console.log(err));
-    return userLists;
   };
 
   const getLists = lists => {
-    const listsArray = [];
+    setUserLists([]);
     lists.forEach(element => {
       fetch(
         `https://shopping-list-app-e9d27.firebaseio.com/lists/${
@@ -33,32 +34,24 @@ export default () => {
       )
         .then(res => res.json())
         .then(parsedRes => {
-          listsArray.push({
+          const list = {
             name: parsedRes.name,
             items: parsedRes.items ? parsedRes.items : [],
             id: element.id,
-          });
+          };
+          setUserLists(currentLists => [...currentLists, list]);
         });
     });
-    setUserLists(listsArray);
+    return userLists;
   };
 
-  const getAllLists = () => {
-    fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
-      .then(res => res.json())
-      .then(parsedRes => {
-        const listsArray = [];
-        for (const key in parsedRes) {
-          listsArray.push({
-            name: parsedRes[key].name,
-            items: parsedRes[key].items ? parsedRes[key].items : [],
-            id: key,
-          });
-        }
-        setUserLists(listsArray);
-      })
-      .catch(err => console.log(err));
-    return userLists;
+  const getUsersLists = async () => {
+    setUserLists([]);
+    const response = await fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`,
+    );
+    const json = await response.json();
+    getLists(json.lists);
   };
 
   const onOpen = list => {
@@ -103,7 +96,7 @@ export default () => {
     clearSel,
     getList,
     getLists,
-    getAllLists,
+    getUsersLists,
     userLists,
     userList,
   };

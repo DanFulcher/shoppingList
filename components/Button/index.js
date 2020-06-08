@@ -7,7 +7,12 @@ import {colours} from '../../styles';
 const Button = props => {
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <View style={[styles.button, props.small && styles.small]}>
+      <View
+        style={[
+          styles.button,
+          props.small && styles.small,
+          props.noFill && styles.noFill,
+        ]}>
         <Text
           style={[
             styles.button__text,
@@ -33,6 +38,11 @@ const styles = StyleSheet.create({
   small: {
     width: 150,
     padding: 10,
+  },
+  noFill: {
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: colours.primary,
   },
   button__text__small: {
     fontSize: 16,
