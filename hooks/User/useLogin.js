@@ -28,6 +28,8 @@ export default () => {
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(res => {
+          setEmail('');
+          setPassword('');
           navigation.navigate('My Lists', {user: res.user.uid});
         })
         .catch(error => {

@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableWithoutFeedback, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-import Icon from 'react-native-vector-icons/Entypo';
+
+import Hamburger from '../components/Hamburger';
 
 import Login from '../pages/Login';
 import CreateAccount from '../pages/CreateAccount';
@@ -18,8 +17,6 @@ const Stack = createStackNavigator();
 const ListsStack = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-
-  const navigation = useNavigation();
 
   const onAuthStateChanged = userName => {
     setUser(userName);
@@ -54,14 +51,7 @@ const ListsStack = () => {
         name="My Lists"
         component={MyLists}
         options={{
-          headerLeft: () => (
-            <View style={styles.headerLeft}>
-              <TouchableWithoutFeedback
-                onPress={() => navigation.toggleDrawer()}>
-                <Icon name="menu" size={30} color="#fff" />
-              </TouchableWithoutFeedback>
-            </View>
-          ),
+          headerLeft: () => <Hamburger />,
         }}
       />
       <Stack.Screen
@@ -87,9 +77,4 @@ const ListsStack = () => {
     </Stack.Navigator>
   );
 };
-const styles = StyleSheet.create({
-  headerLeft: {
-    paddingLeft: 15,
-  },
-});
 export default ListsStack;
