@@ -20,10 +20,7 @@ const MyLists = props => {
     }, []),
   );
   return (
-    <View style={styles.body}>
-      {userLists && <Lists lists={userLists} />}
-      <Button title="Log Out" onPress={() => onLogout()} />
-    </View>
+    <View style={styles.body}>{userLists && <Lists lists={userLists} />}</View>
   );
 };
 
