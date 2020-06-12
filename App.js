@@ -12,7 +12,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import DrawerContent from './components/DrawerContent';
-import ListStack from './stacks/ListsStack';
+import ListsStack from './stacks/ListsStack';
+import ProfileStack from './stacks/ProfileStack';
 import Profile from './pages/Profile';
 
 import {colours} from './styles';
@@ -41,8 +42,8 @@ const App: () => React$Node = () => {
               padding: 5,
             },
           }}>
-          <Drawer.Screen name="Home" component={ListStack} />
-          <Drawer.Screen name="Profile" component={Profile} />
+          <Drawer.Screen name="Home" component={ListsStack} />
+          <Drawer.Screen name="Profile" component={ProfileStack} />
         </Drawer.Navigator>
       </NavigationContainer>
     </>
