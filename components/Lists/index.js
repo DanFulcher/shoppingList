@@ -121,12 +121,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   noLists: {
-    color: colours.white,
+    color: colours.dark,
     textAlign: 'center',
     fontSize: 18,
   },
   modal__text: {
-    color: colours.white,
+    color: colours.dark,
     fontSize: 16,
     marginBottom: 20,
   },
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   modalActions__text: {
-    color: colours.white,
+    color: colours.dark,
     fontSize: 21,
   },
   modalActions__warning: {

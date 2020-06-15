@@ -4,7 +4,7 @@ import Label from '../Label';
 import {colours} from '../../../../styles';
 
 const Input = props => {
-  const [border, setBorder] = useState(colours.white);
+  const [border, setBorder] = useState(colours.dark);
 
   const onFocus = () => {
     setBorder(colours.primary);
@@ -17,7 +17,7 @@ const Input = props => {
       {props.label && <Label text={props.label} />}
       <TextInput
         placeholder={props.placeholder}
-        placeholderTextColor={colours.white}
+        placeholderTextColor={colours.dark}
         keyboardType="numeric"
         style={[styles.input, {borderColor: border}]}
         onFocus={() => onFocus()}
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-    color: colours.white,
+    color: colours.primary,
     marginBottom: 20,
   },
 });

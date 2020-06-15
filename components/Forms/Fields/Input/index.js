@@ -5,20 +5,20 @@ import Error from '../Error';
 import {colours} from '../../../../styles';
 
 const Input = props => {
-  const [border, setBorder] = useState(colours.white);
+  const [border, setBorder] = useState(colours.dark);
 
   const onFocus = () => {
     setBorder(colours.primary);
   };
   const onBlur = () => {
-    setBorder(colours.white);
+    setBorder(colours.dark);
   };
   return (
     <>
       {props.label && <Label text={props.label} />}
       <TextInput
         placeholder={props.placeholder}
-        placeholderTextColor={colours.white}
+        placeholderTextColor={colours.dark}
         style={[
           styles.input,
           props.error ? {borderColor: colours.error} : {borderColor: border},
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-    color: colours.white,
+    color: colours.primary,
     marginBottom: 20,
   },
 });

@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   item__text: {
     fontSize: 16,
-    color: colours.white,
+    color: colours.dark,
   },
   item__text__linethrough: {
     textDecorationLine: 'line-through',

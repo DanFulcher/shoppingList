@@ -15,9 +15,7 @@ const ProfileStack = () => {
       initialRouteName={Profile}
       screenOptions={{
         headerStyle: {
-          backgroundColor: colours.background,
-          borderBottomColor: colours.primary,
-          borderBottomWidth: 2,
+          backgroundColor: colours.primary,
         },
         headerTintColor: '#fff',
       }}>

@@ -16,6 +16,7 @@ const Button = props => {
         <Text
           style={[
             styles.button__text,
+            props.noFill && styles.noFill__text,
             props.small && styles.button__text__small,
           ]}>
           {props.title}
@@ -43,6 +44,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: colours.primary,
+  },
+  noFill__text: {
+    color: colours.primary,
   },
   button__text__small: {
     fontSize: 16,

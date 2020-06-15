@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   listBody__title: {
     fontSize: 21,
-    color: colours.white,
+    color: colours.dark,
     marginBottom: 10,
   },
 });

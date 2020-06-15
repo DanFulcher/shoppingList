@@ -59,8 +59,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: colours.lighterBg,
     marginBottom: 15,
-    padding: 10,
-    borderRadius: 10,
+    padding: 15,
   },
   listBlock__selected: {
     borderWidth: 5,
@@ -74,17 +73,15 @@ const styles = StyleSheet.create({
   },
   listBlock__title: {
     fontSize: 18,
-    color: colours.white,
-    fontWeight: 'bold',
+    color: colours.dark,
     marginBottom: 10,
   },
   listBlock__checkCount: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: colours.white,
+    color: colours.dark,
   },
   listBlock__item: {
-    color: '#fff',
+    color: colours.dark,
   },
 });
 

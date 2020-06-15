@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
   },
   userItem__label: {
     fontSize: 14,
-    color: colours.white,
+    color: colours.dark,
   },
   userItem__value: {
     fontSize: 21,
-    color: colours.white,
+    color: colours.dark,
   },
 });
 export default UserItem;

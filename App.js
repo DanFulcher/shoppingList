@@ -14,7 +14,6 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import DrawerContent from './components/DrawerContent';
 import ListsStack from './stacks/ListsStack';
 import ProfileStack from './stacks/ProfileStack';
-import Profile from './pages/Profile';
 
 import {colours} from './styles';
 
@@ -34,7 +33,7 @@ const App: () => React$Node = () => {
           drawerContentOptions={{
             activeBackgroundColor: colours.primary,
             activeTintColor: colours.white,
-            inactiveTintColor: colours.white,
+            inactiveTintColor: colours.dark,
             itemStyle: {
               marginVertical: 0,
               marginHorizontal: 0,

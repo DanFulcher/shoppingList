@@ -26,6 +26,10 @@ const DrawerContent = props => {
             },
           ])
         }
+        style={{
+          marginHorizontal: 0,
+          paddingHorizontal: 5,
+        }}
       />
     </ScrollView>
   );
