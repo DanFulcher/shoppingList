@@ -113,11 +113,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   multiSelectbar__text: {
-    color: '#fff',
+    color: colours.dark,
     fontSize: 18,
   },
   multiSelectbar__clear: {
-    color: '#fff',
+    color: colours.primary,
     fontSize: 16,
   },
   noLists: {

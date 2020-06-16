@@ -17,7 +17,7 @@ const Item = props => {
       <CheckBox
         value={checked}
         onValueChange={() => onCheck()}
-        tintColors={{true: colours.primary, false: colours.white}}
+        tintColors={{true: colours.primary, false: colours.primary}}
       />
       <Text
         style={[styles.item__text, checked && styles.item__text__linethrough]}>

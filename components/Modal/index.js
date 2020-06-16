@@ -14,7 +14,12 @@ const Modal = props => {
               {props.modalTitle}
             </Text>
           )}
-          <Icon name="cross" size={21} color="#fff" onPress={props.toggle} />
+          <Icon
+            name="cross"
+            size={21}
+            color={colours.dark}
+            onPress={props.toggle}
+          />
         </View>
         {props.children}
       </View>
@@ -37,7 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalBody__header__title: {
-    color: colours.white,
+    color: colours.dark,
     fontSize: 21,
   },
 });

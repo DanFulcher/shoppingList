@@ -22,7 +22,7 @@ const SingleList = props => {
       <View style={styles.listBody__header}>
         <Text style={styles.listBody__title}>{props.list.name}</Text>
         <TouchableOpacity onPress={() => setShowOptions(!showOptions)}>
-          <Icon name="dots-three-vertical" color="#fff" size={18} />
+          <Icon name="dots-three-vertical" color={colours.dark} size={18} />
         </TouchableOpacity>
         <Modal
           showModal={showOptions}
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   modal__option: {
     fontSize: 18,
-    color: '#fff',
+    color: colours.dark,
     marginBottom: 10,
   },
   listBody__title: {
