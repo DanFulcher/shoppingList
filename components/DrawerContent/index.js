@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, Alert} from 'react-native';
+import {ScrollView, Alert, StyleSheet} from 'react-native';
 import {DrawerItemList, DrawerItem} from '@react-navigation/drawer';
 import auth from '@react-native-firebase/auth';
 
@@ -26,13 +26,17 @@ const DrawerContent = props => {
             },
           ])
         }
-        style={{
-          marginHorizontal: 0,
-          paddingHorizontal: 5,
-        }}
+        style={styles.drawerItem}
       />
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  drawerItem: {
+    marginHorizontal: 0,
+    paddingHorizontal: 5,
+  },
+});
 
 export default DrawerContent;
