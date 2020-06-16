@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
   listBody: {
     padding: 15,
     backgroundColor: colours.lighterBg,
-    borderRadius: 10,
     marginBottom: 20,
   },
   listBody__header: {

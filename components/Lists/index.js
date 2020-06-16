@@ -89,7 +89,11 @@ const Lists = props => {
           cannot be undone.
         </Text>
         <View style={styles.modalActions}>
-          <TouchableWithoutFeedback onPress={() => deleteLists(selectedLists)}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              deleteLists(selectedLists);
+              setShowModal(!showModal);
+            }}>
             <Text
               style={[styles.modalActions__text, styles.modalActions__warning]}>
               Yes

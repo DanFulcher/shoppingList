@@ -46,7 +46,6 @@ export default () => {
   };
 
   const getUsersLists = async () => {
-    setUserLists([]);
     const response = await fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`,
     );
