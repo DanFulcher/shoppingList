@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 
 import Hamburger from '../components/Hamburger';
+import ShareIcon from '../components/ShareIcon';
 
 import Login from '../pages/Login';
 import CreateAccount from '../pages/CreateAccount';
@@ -10,6 +11,7 @@ import MyLists from '../pages/MyLists';
 import NewList from '../pages/NewList';
 import ListView from '../pages/ListView';
 import AddItem from '../pages/AddItem';
+import ShareList from '../pages/ShareList';
 import {colours} from '../styles';
 
 const Stack = createStackNavigator();
@@ -65,6 +67,7 @@ const ListsStack = () => {
           title: `${route.params.lists.length} List${
             route.params.lists.length > 1 ? 's' : ''
           }`,
+          headerRight: () => <ShareIcon lists={route.params.lists} />,
         })}
       />
       <Stack.Screen
@@ -72,6 +75,7 @@ const ListsStack = () => {
         component={AddItem}
         options={({route}) => ({list: route.params.list})}
       />
+      <Stack.Screen name="Share List" component={ShareList} />
     </Stack.Navigator>
   );
 };
