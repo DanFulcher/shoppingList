@@ -3,12 +3,12 @@ import {View, ScrollView, StyleSheet} from 'react-native';
 import SearchInput from 'react-native-search-filter';
 import Label from '../components/Forms/Fields/Label';
 import FilterResults from '../components/FilterResults';
-import userShare from '../hooks/Lists/useShare';
+import useShare from '../hooks/Lists/useShare';
 
 import {colours} from '../styles';
 
 const ShareList = props => {
-  const {term, filteredUsers, searchUpdated} = userShare();
+  const {term, filteredUsers, searchUpdated} = useShare();
   return (
     <View style={styles.body}>
       <View style={styles.inputContainer}>
@@ -28,7 +28,12 @@ const ShareList = props => {
         />
       </View>
       <ScrollView>
-        {term !== '' && <FilterResults results={filteredUsers} />}
+        {term !== '' && (
+          <FilterResults
+            results={filteredUsers}
+            lists={props.route.params.lists}
+          />
+        )}
       </ScrollView>
     </View>
   );

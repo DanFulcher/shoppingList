@@ -9,6 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import Item from './Item';
 import Modal from '../Modal';
+import NoItems from '../NoItems';
 
 import useDelete from '../../hooks/Lists/useDelete';
 
@@ -36,10 +37,17 @@ const SingleList = props => {
           </TouchableWithoutFeedback>
         </Modal>
       </View>
-      {props.list.items &&
+      {props.list.items ? (
         props.list.items.map((item, index) => (
           <Item key={index} data={item} listID={props.list.id} itemID={index} />
-        ))}
+        ))
+      ) : (
+        <NoItems
+          title="List empty"
+          text="This list is currently empty"
+          text2="Press the '+' icon to start adding items"
+        />
+      )}
     </View>
   );
 };

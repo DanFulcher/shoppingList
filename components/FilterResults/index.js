@@ -11,7 +11,7 @@ const FilterResaults = props => {
         props.results.map(user => {
           return (
             <TouchableOpacity
-              onPress={() => shareList(user, props.route.params.lists)}
+              onPress={() => shareList(user, props.lists)}
               key={user.id}>
               <View style={styles.result}>
                 <Text style={styles.result__name}>{user.name}</Text>
@@ -21,7 +21,7 @@ const FilterResaults = props => {
           );
         })
       ) : (
-        <Text>No users</Text>
+        <Text>No users found</Text>
       )}
     </View>
   );

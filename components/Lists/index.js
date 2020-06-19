@@ -14,6 +14,7 @@ import CircleButton from '../Button/CircleButton';
 import List from './List';
 import {colours} from '../../styles';
 import Modal from '../Modal';
+import NoItems from '../NoItems';
 
 const Lists = props => {
   const [showModal, setShowModal] = useState(false);
@@ -44,17 +45,25 @@ const Lists = props => {
         </View>
       )}
       <ScrollView style={styles.listContainer}>
-        {props.lists.map((list, index) => (
-          <List
-            key={index}
-            data={list}
-            multiSelMode={multiSelMode}
-            onOpen={() => onOpen(list)}
-            onSelectMulti={() => onSelectMulti(list)}
-            onDeselect={() => onDeselect(list.id)}
-            selectedLists={selectedLists}
+        {props.lists.length ? (
+          props.lists.map((list, index) => (
+            <List
+              key={index}
+              data={list}
+              multiSelMode={multiSelMode}
+              onOpen={() => onOpen(list)}
+              onSelectMulti={() => onSelectMulti(list)}
+              onDeselect={() => onDeselect(list.id)}
+              selectedLists={selectedLists}
+            />
+          ))
+        ) : (
+          <NoItems
+            title="No lists"
+            text="You currently have no lists."
+            text2="Press the '+' icon to create your first list."
           />
-        ))}
+        )}
       </ScrollView>
       {multiSelMode ? (
         <>
@@ -124,11 +133,6 @@ const styles = StyleSheet.create({
     color: colours.primary,
     fontSize: 16,
   },
-  noLists: {
-    color: colours.dark,
-    textAlign: 'center',
-    fontSize: 18,
-  },
   modal__text: {
     color: colours.dark,
     fontSize: 16,
@@ -145,6 +149,13 @@ const styles = StyleSheet.create({
   },
   modalActions__warning: {
     color: colours.error,
+  },
+  noLists: {
+    marginTop: 10,
+  },
+  noLists__text: {
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 

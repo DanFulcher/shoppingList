@@ -9,7 +9,6 @@ import CircleButton from '../components/Button/CircleButton';
 const ListView = props => {
   const {lists} = props.route.params;
   const navigation = useNavigation();
-
   return (
     <View style={styles.body}>
       <ScrollView>

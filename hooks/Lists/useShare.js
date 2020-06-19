@@ -23,7 +23,7 @@ export default () => {
       fetch(
         `https://shopping-list-app-e9d27.firebaseio.com/users/${
           user.id
-        }/lists/${user.lists.length + i}.json`,
+        }/lists/${user.lists ? user.lists.length + i : 0}.json`,
         {
           method: 'PATCH',
           body: JSON.stringify({
@@ -35,6 +35,7 @@ export default () => {
           console.log(res);
         })
         .catch(err => console.log(err));
+
       i++;
     });
   };
