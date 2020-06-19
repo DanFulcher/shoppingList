@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     left: 0,
     fontSize: 14,
     color: colours.error,
-    marginBottom: 20,
+    marginTop: 10,
   },
 });
 export default Error;

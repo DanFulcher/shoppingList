@@ -36,12 +36,12 @@ const CreateAccount = props => {
             errorMessage={nameValMes}
             onChange={text => onNameChange(text)}
             value={name}
+            placeholder="The name used to share lists with you"
           />
           <Input
             label="Email Address"
             error={validateEmail}
             errorMessage={emailValMes}
-            placeholder="eg. example@example.com"
             onChange={text => onEmailChange(text)}
             value={email}
           />

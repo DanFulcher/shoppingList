@@ -6,5 +6,6 @@ export const colours = {
   background: '#f5f5f5',
   lighterBg: '#fff',
   white: '#fff',
-  dark: '#121212',
+  dark: '#212121',
+  lessDark: '#bababa',
 };

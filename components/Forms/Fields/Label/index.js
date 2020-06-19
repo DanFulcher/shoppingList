@@ -9,8 +9,7 @@ const Label = props => {
 
 const styles = StyleSheet.create({
   label: {
-    fontSize: 16,
-    marginBottom: 10,
+    fontSize: 18,
     color: colours.dark,
   },
 });

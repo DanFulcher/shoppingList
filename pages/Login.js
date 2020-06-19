@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import useLogin from '../hooks/User/useLogin';
 import {colours} from '../styles';
@@ -21,30 +21,34 @@ const Login = props => {
   const navigation = useNavigation();
   return (
     <View style={styles.body}>
-      <View style={styles.loginForm}>
-        <Input
-          label="Email Address"
-          error={validateEmail}
-          errorMessage={emailValMes}
-          placeholder="eg. example@example.com"
-          onChange={text => onEmailChange(text)}
-          value={email}
+      <ScrollView>
+        <View style={styles.loginForm}>
+          <Input
+            label="Email Address"
+            error={validateEmail}
+            errorMessage={emailValMes}
+            onChange={text => onEmailChange(text)}
+            value={email}
+          />
+          <Input
+            label="Password"
+            error={validatePW}
+            errorMessage={pwValMes}
+            onChange={text => onPasswordChange(text)}
+            value={password}
+            password
+          />
+          <Button title="Log in" onPress={() => onLogin()} />
+        </View>
+        <Text style={styles.formText}>
+          New to the app? Create an account to start creating and sharing lists
+        </Text>
+        <Button
+          title="Create an account"
+          onPress={() => navigation.navigate('Create an Account')}
+          noFill
         />
-        <Input
-          label="Password"
-          error={validatePW}
-          errorMessage={pwValMes}
-          onChange={text => onPasswordChange(text)}
-          value={password}
-          password
-        />
-        <Button title="Log in" onPress={() => onLogin()} />
-      </View>
-      <Button
-        title="Create an account"
-        onPress={() => navigation.navigate('Create an Account')}
-        noFill
-      />
+      </ScrollView>
     </View>
   );
 };
@@ -54,8 +58,14 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: colours.background,
     height: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
+  },
+  loginForm: {
+    marginBottom: 75,
+  },
+  formText: {
+    textAlign: 'center',
+    fontSize: 14,
+    marginBottom: 10,
   },
 });
 

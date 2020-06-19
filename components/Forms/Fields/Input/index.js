@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TextInput, StyleSheet} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
 import Label from '../Label';
 import Error from '../Error';
 import {colours} from '../../../../styles';
@@ -14,11 +14,11 @@ const Input = props => {
     setBorder(colours.dark);
   };
   return (
-    <>
+    <View style={styles.inputContainer}>
       {props.label && <Label text={props.label} />}
       <TextInput
         placeholder={props.placeholder}
-        placeholderTextColor={colours.dark}
+        placeholderTextColor={colours.lessDark}
         style={[
           styles.input,
           props.error ? {borderColor: colours.error} : {borderColor: border},
@@ -30,17 +30,27 @@ const Input = props => {
         secureTextEntry={props.password && true}
       />
       {props.error && <Error text={props.errorMessage} />}
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    color: colours.dark,
+  inputContainer: {
+    backgroundColor: colours.lighterBg,
+    padding: 15,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  input: {
+    borderBottomWidth: 1,
+    color: colours.dark,
   },
 });
 

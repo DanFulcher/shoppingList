@@ -43,8 +43,18 @@ const List = props => {
       onLongPress={() => (!selected ? select() : deselect())}>
       <View style={[styles.listBlock, selected && styles.listBlock__selected]}>
         <View style={styles.listBlock__header}>
-          <Text style={styles.listBlock__title}>{props.data.name}</Text>
-          <Text style={styles.listBlock__checkCount}>
+          <Text
+            style={[
+              styles.listBlock__title,
+              selected && styles.listBlock__text__selected,
+            ]}>
+            {props.data.name}
+          </Text>
+          <Text
+            style={[
+              styles.listBlock__checkCount,
+              selected && styles.listBlock__text__selected,
+            ]}>
             {checkCount()}/{props.data.items.length}
           </Text>
         </View>
@@ -60,11 +70,17 @@ const styles = StyleSheet.create({
     backgroundColor: colours.lighterBg,
     marginBottom: 15,
     padding: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
   listBlock__selected: {
-    borderWidth: 5,
-    borderColor: colours.primary,
-    padding: 5,
+    backgroundColor: colours.primary,
   },
   listBlock__header: {
     display: 'flex',
@@ -79,6 +95,9 @@ const styles = StyleSheet.create({
   listBlock__checkCount: {
     fontSize: 18,
     color: colours.dark,
+  },
+  listBlock__text__selected: {
+    color: colours.white,
   },
   listBlock__item: {
     color: colours.dark,

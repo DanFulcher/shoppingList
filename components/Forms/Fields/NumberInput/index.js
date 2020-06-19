@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TextInput, StyleSheet} from 'react-native';
+import {View, TextInput, StyleSheet} from 'react-native';
 import Label from '../Label';
 import {colours} from '../../../../styles';
 
@@ -13,7 +13,7 @@ const Input = props => {
     setBorder(colours.primary);
   };
   return (
-    <>
+    <View style={styles.inputContainer}>
       {props.label && <Label text={props.label} />}
       <TextInput
         placeholder={props.placeholder}
@@ -24,17 +24,27 @@ const Input = props => {
         onBlur={() => onBlur()}
         onChangeText={text => props.onChange(text)}
       />
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    color: colours.dark,
+  inputContainer: {
+    backgroundColor: colours.lighterBg,
+    padding: 15,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  input: {
+    borderBottomWidth: 1,
+    color: colours.dark,
   },
 });
 
