@@ -58,6 +58,7 @@ export default () => {
                 name: name,
                 email: email,
                 lists: [],
+                id: res.user.uid,
               }),
             },
           ).then(navigation.navigate('My Lists', {user: res.user.uid}));
