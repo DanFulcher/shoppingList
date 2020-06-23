@@ -23,7 +23,12 @@ export default () => {
               method: 'PUT',
               body: JSON.stringify(parsedRes),
             },
-          ).then(navigation.navigate('My Lists'));
+          ).then(
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'My Lists'}],
+            }),
+          );
         });
     });
   };
