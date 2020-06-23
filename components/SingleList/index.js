@@ -18,9 +18,12 @@ import {colours} from '../../styles';
 const SingleList = props => {
   const [showOptions, setShowOptions] = useState(false);
   const {deleteLists} = useDelete();
-  console.log(props.list);
   return (
-    <View style={styles.listBody}>
+    <View
+      style={[
+        styles.listBody,
+        props.noOfLists > 1 && styles.listBody__multiView,
+      ]}>
       <View style={styles.listBody__header}>
         <Text style={styles.listBody__title}>{props.list.name}</Text>
         <TouchableOpacity onPress={() => setShowOptions(!showOptions)}>
@@ -67,6 +70,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
+  },
+  listBody__multiView: {
+    width: 300,
+    marginRight: 10,
   },
   listBody__header: {
     display: 'flex',
