@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
 export default () => {
+  const [refreshing, setRefreshing] = useState(false);
   const [multiSelMode, setMultiSelMode] = useState(false);
   const [selectedLists, setSelectedLists] = useState([]);
   const [userLists, setUserLists] = useState([]);
@@ -10,6 +11,12 @@ export default () => {
 
   const navigation = useNavigation();
   const userID = auth().currentUser._user.uid;
+
+  const wait = timeout => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  };
 
   const getList = id => {
     fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${id}.json`)
@@ -51,6 +58,12 @@ export default () => {
     );
     const json = await response.json();
     getLists(json.lists);
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getUsersLists();
+    wait(2000).then(() => setRefreshing(false));
   };
 
   const onOpen = list => {
@@ -98,5 +111,7 @@ export default () => {
     getUsersLists,
     userLists,
     userList,
+    refreshing,
+    onRefresh,
   };
 };

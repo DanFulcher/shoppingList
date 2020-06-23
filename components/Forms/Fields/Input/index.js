@@ -23,6 +23,7 @@ const Input = props => {
           styles.input,
           props.error ? {borderColor: colours.error} : {borderColor: border},
         ]}
+        keyboardType={props.type ? props.type : 'default'}
         onFocus={() => onFocus()}
         onBlur={() => onBlur()}
         onChangeText={text => props.onChange(text)}

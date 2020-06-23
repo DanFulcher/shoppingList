@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {ScrollView, RefreshControl, View, StyleSheet} from 'react-native';
 
 import useLists from '../hooks/Lists/useLists';
@@ -8,8 +8,7 @@ import Lists from '../components/Lists';
 import {colours} from '../styles';
 
 const MyLists = props => {
-  const [refreshing, setRefreshing] = useState(false);
-  const {userLists, getUsersLists} = useLists();
+  const {userLists, getUsersLists, onRefresh, refreshing} = useLists();
 
   useFocusEffect(
     useCallback(() => {
@@ -17,16 +16,6 @@ const MyLists = props => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
-
-  const wait = timeout => {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout);
-    });
-  };
-  const onRefresh = () => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  };
   return (
     <ScrollView
       refreshControl={

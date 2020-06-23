@@ -29,6 +29,7 @@ const Login = props => {
             errorMessage={emailValMes}
             onChange={text => onEmailChange(text)}
             value={email}
+            type="email-address"
           />
           <Input
             label="Password"
