@@ -18,6 +18,7 @@ import {colours} from '../../styles';
 const SingleList = props => {
   const [showOptions, setShowOptions] = useState(false);
   const {deleteLists} = useDelete();
+  console.log(props.list);
   return (
     <View style={styles.listBody}>
       <View style={styles.listBody__header}>
@@ -37,16 +38,17 @@ const SingleList = props => {
           </TouchableWithoutFeedback>
         </Modal>
       </View>
-      {props.list.items ? (
-        props.list.items.map((item, index) => (
-          <Item key={index} data={item} listID={props.list.id} itemID={index} />
-        ))
-      ) : (
+
+      {!props.list.items || !props.list.items.length ? (
         <NoItems
           title="List empty"
           text="This list is currently empty"
           text2="Press the '+' icon to start adding items"
         />
+      ) : (
+        props.list.items.map((item, index) => (
+          <Item key={index} data={item} listID={props.list.id} itemID={index} />
+        ))
       )}
     </View>
   );
@@ -71,6 +73,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: colours.lessDark,
+    marginBottom: 10,
   },
   modal__option: {
     fontSize: 18,

@@ -9,7 +9,7 @@ const DrawerContent = props => {
       <DrawerItemList {...props} />
       <DrawerItem
         {...props}
-        label="Sign Out"
+        label="Sign Out    "
         onPress={() =>
           Alert.alert('Sign Out', 'Are you sure you would like to sign out?', [
             {
@@ -35,7 +35,7 @@ const DrawerContent = props => {
 const styles = StyleSheet.create({
   drawerItem: {
     marginHorizontal: 0,
-    paddingHorizontal: 5,
+    paddingLeft: 5,
   },
 });
 

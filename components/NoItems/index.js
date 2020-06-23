@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {colours} from '../../styles';
 
 const NoItems = props => {
   return (
@@ -17,11 +18,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   noItems__title: {
+    color: colours.lessDark,
     fontSize: 28,
     marginBottom: 10,
     textAlign: 'center',
   },
   noItems__text: {
+    color: colours.lessDark,
     fontSize: 16,
     textAlign: 'center',
   },

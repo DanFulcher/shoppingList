@@ -41,7 +41,7 @@ const App: () => React$Node = () => {
               padding: 5,
             },
           }}>
-          <Drawer.Screen name="Home" component={ListsStack} />
+          <Drawer.Screen name="My Lists" component={ListsStack} />
           <Drawer.Screen name="Profile" component={ProfileStack} />
         </Drawer.Navigator>
       </NavigationContainer>
