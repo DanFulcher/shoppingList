@@ -5,10 +5,11 @@ import useLists from '../hooks/Lists/useLists';
 import {useFocusEffect} from '@react-navigation/native';
 
 import Lists from '../components/Lists';
+import Loading from '../components/Loading';
 import {colours} from '../styles';
 
 const MyLists = props => {
-  const {userLists, getUsersLists, onRefresh, refreshing} = useLists();
+  const {userLists, getUsersLists, onRefresh, refreshing, loading} = useLists();
 
   useFocusEffect(
     useCallback(() => {
@@ -23,7 +24,7 @@ const MyLists = props => {
       }
       contentContainerStyle={styles.scrollView}>
       <View style={styles.body}>
-        {userLists && <Lists lists={userLists} />}
+        {loading ? <Loading /> : userLists && <Lists lists={userLists} />}
       </View>
     </ScrollView>
   );

@@ -8,6 +8,7 @@ export default () => {
   const [selectedLists, setSelectedLists] = useState([]);
   const [userLists, setUserLists] = useState([]);
   const [userList, setUserList] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
   const userID = auth().currentUser._user.uid;
@@ -33,6 +34,8 @@ export default () => {
 
   const getLists = lists => {
     setUserLists([]);
+    setLoading(true);
+    let listsArray = [];
     lists.forEach(element => {
       fetch(
         `https://shopping-list-app-e9d27.firebaseio.com/lists/${
@@ -46,9 +49,16 @@ export default () => {
             items: parsedRes.items ? parsedRes.items : [],
             id: element.id,
           };
-          setUserLists(currentLists => [...currentLists, list]);
+          listsArray.push(list);
+          console.log(listsArray);
+          // setUserLists(currentLists => [...currentLists, list]);
         });
     });
+    setTimeout(function() {
+      setUserLists(listsArray);
+      setLoading(false);
+    }, 300);
+
     return userLists;
   };
 
@@ -113,5 +123,6 @@ export default () => {
     userList,
     refreshing,
     onRefresh,
+    loading,
   };
 };
