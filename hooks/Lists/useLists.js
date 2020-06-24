@@ -11,7 +11,6 @@ export default () => {
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
-  const userID = auth().currentUser._user.uid;
 
   const wait = timeout => {
     return new Promise(resolve => {
@@ -36,33 +35,30 @@ export default () => {
     setUserLists([]);
     setLoading(true);
     let listsArray = [];
-    lists.forEach(element => {
-      fetch(
-        `https://shopping-list-app-e9d27.firebaseio.com/lists/${
-          element.id
-        }.json`,
-      )
-        .then(res => res.json())
-        .then(parsedRes => {
-          const list = {
-            name: parsedRes.name,
-            items: parsedRes.items ? parsedRes.items : [],
-            id: element.id,
-          };
-          listsArray.push(list);
-          console.log(listsArray);
-          // setUserLists(currentLists => [...currentLists, list]);
+    // console.log(lists);
+    fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
+      .then(res => res.json())
+      .then(parsedRes => {
+        lists.forEach(list => {
+          for (const [key, value] of Object.entries(parsedRes)) {
+            if (key === list.id) {
+              listsArray.push({
+                id: key,
+                name: value.name,
+                items: value.items ? value.items : [],
+              });
+            }
+          }
         });
-    });
-    setTimeout(function() {
-      setUserLists(listsArray);
-      setLoading(false);
-    }, 300);
+        setUserLists(listsArray);
+        setLoading(false);
+      });
 
     return userLists;
   };
 
   const getUsersLists = async () => {
+    const userID = auth().currentUser._user.uid;
     const response = await fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`,
     );
@@ -120,6 +116,7 @@ export default () => {
     getLists,
     getUsersLists,
     userLists,
+    setUserLists,
     userList,
     refreshing,
     onRefresh,

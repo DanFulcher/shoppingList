@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import useLists from  '../Lists/useLists';
 import auth from '@react-native-firebase/auth';
 
 export default () => {
@@ -14,6 +15,7 @@ export default () => {
   const [pwValMes, setPWValMes] = useState(defaultPasswordValidation);
 
   const navigation = useNavigation();
+  const {setUserLists} = useLists();
 
   const onEmailChange = text => {
     setEmail(text);
@@ -65,6 +67,7 @@ export default () => {
     }
   };
   const onLogout = () => {
+    setUserLists([]);
     auth()
       .signOut()
       .then(() => {
