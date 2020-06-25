@@ -35,7 +35,6 @@ export default () => {
     setUserLists([]);
     setLoading(true);
     let listsArray = [];
-    // console.log(lists);
     fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
       .then(res => res.json())
       .then(parsedRes => {
@@ -63,7 +62,12 @@ export default () => {
       `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`,
     );
     const json = await response.json();
-    getLists(json.lists);
+    if (json.lists) {
+      getLists(json.lists);
+    } else {
+      setLoading(false);
+      return userLists;
+    }
   };
 
   const onRefresh = () => {

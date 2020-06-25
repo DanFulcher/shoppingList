@@ -13,6 +13,7 @@ import ListView from '../pages/ListView';
 import AddItem from '../pages/AddItem';
 import ShareList from '../pages/ShareList';
 import {colours} from '../styles';
+import EditItem from '../pages/EditItem';
 
 const Stack = createStackNavigator();
 
@@ -75,6 +76,7 @@ const ListsStack = () => {
         component={AddItem}
         options={({route}) => ({list: route.params.list})}
       />
+      <Stack.Screen name="Edit Item" component={EditItem} />
       <Stack.Screen name="Share List" component={ShareList} />
     </Stack.Navigator>
   );

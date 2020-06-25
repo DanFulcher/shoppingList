@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import useLists from  '../Lists/useLists';
+import useLists from '../Lists/useLists';
 import auth from '@react-native-firebase/auth';
 
 export default () => {

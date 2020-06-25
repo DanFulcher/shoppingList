@@ -7,7 +7,6 @@ export default () => {
 
   const currentUser = auth().currentUser._user.uid;
   const getMe = () => {
-    console.log(currentUser);
     fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUser}.json`,
     )
@@ -30,7 +29,6 @@ export default () => {
     )
       .then(res => res.json())
       .then(parsedRes => {
-        console.log(parsedRes);
         setUser({
           name: parsedRes.name,
           email: parsedRes.email,

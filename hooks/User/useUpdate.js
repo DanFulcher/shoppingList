@@ -7,7 +7,6 @@ export default (name, email) => {
   const [userEmail, setUserEmail] = useState(email);
 
   const currentUser = auth().currentUser._user.uid;
-  console.log(userName);
   const navigation = useNavigation();
 
   const onNameChange = text => {

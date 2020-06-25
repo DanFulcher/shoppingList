@@ -15,7 +15,6 @@ const ListView = props => {
     for (let i = 1; i <= items; i++) {
       offsets.push(310 * i);
     }
-    console.log(offsets);
     return offsets;
   };
   return (

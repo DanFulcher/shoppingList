@@ -69,12 +69,26 @@ export default () => {
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
-
+  const editItem = (list, id) => {
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          name: itemName,
+          quantity: itemQuant,
+        }),
+      },
+    )
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
   return {
     onNameChange,
     onQuantChange,
     updateList,
     checkItem,
+    editItem,
     validateName,
     validateQuant,
   };
