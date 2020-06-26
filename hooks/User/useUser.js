@@ -5,10 +5,10 @@ export default () => {
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
 
-  const currentUser = auth().currentUser._user.uid;
+  const currentUserID = auth().currentUser._user.uid;
   const getMe = () => {
     fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUser}.json`,
+      `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUserID}.json`,
     )
       .then(res => res.json())
       .then(parsedRes => {
@@ -16,24 +16,20 @@ export default () => {
           name: parsedRes.name,
           email: parsedRes.email,
           lists: parsedRes.lists.length,
-          id: currentUser,
+          id: currentUserID,
         });
       })
       .catch(err => console.log(err));
   };
   const getUser = userID => {
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/users/${
-        userID ? userID : currentUser
-      }.json`,
-    )
+    fetch(`https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`)
       .then(res => res.json())
       .then(parsedRes => {
         setUser({
           name: parsedRes.name,
           email: parsedRes.email,
           lists: parsedRes.lists.length,
-          id: currentUser,
+          id: userID,
         });
       })
       .catch(err => console.log(err));
@@ -58,5 +54,6 @@ export default () => {
     getMe,
     getUser,
     getUsers,
+    currentUserID,
   };
 };

@@ -21,6 +21,7 @@ export default () => {
         body: JSON.stringify({
           name: listName,
           items: [],
+          author: userID,
         }),
       })
         .then(res => res.json())

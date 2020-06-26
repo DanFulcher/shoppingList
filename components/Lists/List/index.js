@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {
   View,
@@ -7,9 +7,17 @@ import {
   TouchableWithoutFeedback,
   Vibration,
 } from 'react-native';
+
+import useUser from '../../../hooks/User/useUser';
 import {colours} from '../../../styles';
 
 const List = props => {
+  const {getUser, user, currentUserID} = useUser();
+  useEffect(() => {
+    getUser(props.data.author);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const author = props.data.author === currentUserID ? 'You' : user.name;
   const checkCount = () => {
     let count = 0;
     for (let i = 0; i < props.data.items.length; ++i) {
@@ -58,6 +66,7 @@ const List = props => {
             {checkCount()}/{props.data.items.length}
           </Text>
         </View>
+        <Text style={styles.listBlock__author}>Created By: {author}</Text>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -90,7 +99,11 @@ const styles = StyleSheet.create({
   listBlock__title: {
     fontSize: 18,
     color: colours.dark,
-    marginBottom: 10,
+    marginBottom: 5,
+  },
+  listBlock__author: {
+    fontSize: 11,
+    color: colours.lessDark,
   },
   listBlock__checkCount: {
     fontSize: 18,
