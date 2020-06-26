@@ -141,11 +141,12 @@ const styles = StyleSheet.create({
   modalActions: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
   modalActions__text: {
     color: colours.dark,
     fontSize: 21,
+    marginLeft: 40,
   },
   modalActions__warning: {
     color: colours.error,
