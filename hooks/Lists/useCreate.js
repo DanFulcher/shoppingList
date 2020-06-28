@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
+import moment from 'moment';
 
 export default () => {
   const [listName, setListName] = useState('');
@@ -9,6 +10,7 @@ export default () => {
   const navigation = useNavigation();
 
   const userID = auth().currentUser._user.uid;
+  const timestamp = moment().valueOf();
 
   const onNameChange = text => {
     setValidate(false);
@@ -22,6 +24,7 @@ export default () => {
           name: listName,
           items: [],
           author: userID,
+          created_at: timestamp,
         }),
       })
         .then(res => res.json())

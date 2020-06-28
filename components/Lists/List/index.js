@@ -8,6 +8,8 @@ import {
   Vibration,
 } from 'react-native';
 
+import moment from 'moment';
+
 import useUser from '../../../hooks/User/useUser';
 import {colours} from '../../../styles';
 
@@ -27,7 +29,6 @@ const List = props => {
     }
     return count;
   };
-
   const selected = props.selectedLists.find(
     element => element.id === props.data.id,
   );
@@ -39,6 +40,7 @@ const List = props => {
     props.onDeselect();
     Vibration.vibrate(50);
   };
+  const created_at = moment(props.data.created_at).format('MMM Do YYYY, HH:mm');
   return (
     <TouchableWithoutFeedback
       onPress={() =>
@@ -66,7 +68,8 @@ const List = props => {
             {checkCount()}/{props.data.items.length}
           </Text>
         </View>
-        <Text style={styles.listBlock__author}>Created By: {author}</Text>
+        <Text style={styles.listBlock__meta}>Author: {author}</Text>
+        <Text style={styles.listBlock__meta}>Created: {created_at}</Text>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -101,7 +104,7 @@ const styles = StyleSheet.create({
     color: colours.dark,
     marginBottom: 5,
   },
-  listBlock__author: {
+  listBlock__meta: {
     fontSize: 11,
     color: colours.lessDark,
   },

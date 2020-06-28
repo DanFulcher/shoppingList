@@ -27,6 +27,7 @@ export default () => {
           items: parsedRes.items ? parsedRes.items : [],
           id: id,
           author: parsedRes.author,
+          created_at: parsedRes.created_at,
         });
       })
       .catch(err => console.log(err));
@@ -47,6 +48,7 @@ export default () => {
                 name: value.name,
                 items: value.items ? value.items : [],
                 author: value.author,
+                created_at: value.created_at,
               });
             }
           }
