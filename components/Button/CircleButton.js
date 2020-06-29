@@ -2,6 +2,7 @@ import React from 'react';
 
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import {default as MatIcon} from 'react-native-vector-icons/MaterialIcons';
 import {colours} from '../../styles';
 
 const CircleButton = props => {
@@ -15,11 +16,19 @@ const CircleButton = props => {
           : styles.Button__right,
         props.alert && styles.red,
       ]}>
-      <Icon
-        name={props.type ? props.type : 'plus'}
-        size={props.iconSize || 30}
-        color="#fff"
-      />
+      {props.type !== 'done' ? (
+        <Icon
+          name={props.type ? props.type : 'plus'}
+          size={props.iconSize || 30}
+          color={colours.white}
+        />
+      ) : (
+        <MatIcon
+          name={props.type}
+          size={props.iconSize || 30}
+          color={colours.white}
+        />
+      )}
     </TouchableOpacity>
   );
 };

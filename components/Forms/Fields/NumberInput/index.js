@@ -23,7 +23,8 @@ const Input = props => {
         onFocus={() => onFocus()}
         onBlur={() => onBlur()}
         onChangeText={text => props.onChange(text)}
-        value={props.value.toString()}
+        value={props.value && props.value.toString()}
+        onSubmitEditing={props.onSubmitEditing}
       />
     </View>
   );

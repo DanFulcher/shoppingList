@@ -27,8 +27,9 @@ const Input = props => {
         onFocus={() => onFocus()}
         onBlur={() => onBlur()}
         onChangeText={text => props.onChange(text)}
-        value={props.value}
+        value={props.value && props.value}
         secureTextEntry={props.password && true}
+        onSubmitEditing={props.onSubmitEditing}
       />
       {props.error && <Error text={props.errorMessage} />}
     </View>

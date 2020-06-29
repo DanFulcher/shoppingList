@@ -1,50 +1,73 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {ScrollView, Text, View, StyleSheet} from 'react-native';
 import {colours} from '../styles';
 
 import useUpdate from '../hooks/Lists/useUpdate';
 
 import Input from '../components/Forms/Fields/Input';
-import NumberInput from '../components/Forms/Fields/NumberInput';
 import Button from '../components/Button';
-
+import CircleButton from '../components/Button/CircleButton';
 const AddItem = props => {
   const {
+    itemName,
     onNameChange,
     validateName,
-    onQuantChange,
-    validateQuant,
     updateList,
+    addToList,
+    listUpdated,
+    tempList,
   } = useUpdate();
 
   return (
-    <View style={styles.body}>
-      <Input
-        label="Item Name"
-        error={validateName}
-        errorMessage="Give your item a name"
-        placeholder="eg. Oat Milk"
-        onChange={text => onNameChange(text)}
-      />
-      <NumberInput
-        label="Quantity"
-        error={validateQuant}
-        errorMessage="How many of this item?"
-        onChange={text => onQuantChange(text)}
-      />
-      <Button
-        title="Add Item"
-        onPress={() => updateList(props.route.params.list)}
-      />
-    </View>
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      keyboardShouldPersistTaps="handled">
+      <View style={styles.body}>
+        <View style={styles.form}>
+          <Input
+            label="Item Name"
+            error={validateName}
+            errorMessage="Give your item a name"
+            placeholder="eg. Oat Milk"
+            onChange={text => onNameChange(text)}
+            value={itemName}
+            onSubmitEditing={() => addToList()}
+          />
+          <Button title="Add Item" onPress={() => addToList()} />
+        </View>
+        {listUpdated && (
+          <>
+            <Text style={styles.successMessage}>
+              {tempList[tempList.length - 1].name} has been added to your list.
+              Click the tick icon to return to your list. Or add more items.
+            </Text>
+            <CircleButton
+              type="done"
+              size={30}
+              onPress={() => updateList(props.route.params.list)}
+            />
+          </>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+  },
   body: {
     backgroundColor: colours.background,
     padding: 15,
     height: '100%',
+  },
+  form: {
+    marginBottom: 20,
+  },
+  successMessage: {
+    color: colours.lessDark,
+    textAlign: 'center',
   },
 });
 

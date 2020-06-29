@@ -1,12 +1,17 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 export default () => {
   const [itemName, setItemName] = useState('');
   const [itemQuant, setItemQuant] = useState(1);
   const [validateName, setValidateName] = useState(false);
   const [validateQuant, setValidateQuant] = useState(false);
 
+  const [tempList, setTempList] = useState([]);
+  const [listUpdated, setListUpdated] = useState(false);
+
   const navigation = useNavigation();
+  const timestamp = moment().valueOf();
 
   const onNameChange = text => {
     setValidateName(false);
@@ -16,44 +21,40 @@ export default () => {
     setValidateQuant(false);
     setItemQuant(number);
   };
-  const updateList = list => {
+  const addToList = () => {
     if (itemName !== '') {
-      fetch(
-        `https://shopping-list-app-e9d27.firebaseio.com/lists/${
-          list.id
-        }/items/${list.items ? list.items.length : 0}.json`,
+      setTempList([
+        ...tempList,
         {
-          method: 'PATCH',
-          body: JSON.stringify({
-            name: itemName,
-            quantity: parseFloat(itemQuant),
-          }),
+          name: itemName,
+          quantity: parseFloat(itemQuant),
+          checked: false,
         },
-      )
-        .then(() => {
-          setItemName('');
-          const listsArray = [];
-          fetch(
-            `https://shopping-list-app-e9d27.firebaseio.com/lists/${
-              list.id
-            }.json`,
-          )
-            .then(res => res.json())
-            .then(parsedRes => {
-              listsArray.push({
-                name: parsedRes.name,
-                items: parsedRes.items ? parsedRes.items : [],
-                id: list.id,
-              });
-              navigation.navigate('List View', {
-                lists: listsArray,
-              });
-            });
-        })
-        .catch(err => console.log(err));
-    } else {
-      setValidateName(true);
+      ]);
+      setItemName('');
+      setItemQuant(1);
+      setListUpdated(true);
     }
+  };
+  const updateList = list => {
+    const items = list.items || [];
+    tempList.forEach(element => {
+      items.push(element);
+    });
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list.id}.json`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          items: items,
+          updated_at: timestamp,
+        }),
+      },
+    ).then(
+      navigation.navigate('List View', {
+        lists: [list],
+      }),
+    );
   };
 
   const checkItem = (list, id, checked) => {
@@ -84,6 +85,8 @@ export default () => {
       .catch(err => console.log(err));
   };
   return {
+    itemName,
+    itemQuant,
     onNameChange,
     onQuantChange,
     updateList,
@@ -91,5 +94,8 @@ export default () => {
     editItem,
     validateName,
     validateQuant,
+    tempList,
+    addToList,
+    listUpdated,
   };
 };

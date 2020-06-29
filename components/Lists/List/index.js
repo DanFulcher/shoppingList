@@ -40,7 +40,8 @@ const List = props => {
     props.onDeselect();
     Vibration.vibrate(50);
   };
-  const created_at = moment(props.data.created_at).format('MMM Do YYYY, HH:mm');
+  const created_at = moment(props.data.created_at).fromNow();
+  const updated = moment(props.data.updated_at).fromNow();
   return (
     <TouchableWithoutFeedback
       onPress={() =>
@@ -68,8 +69,10 @@ const List = props => {
             {checkCount()}/{props.data.items.length}
           </Text>
         </View>
-        <Text style={styles.listBlock__meta}>Author: {author}</Text>
-        <Text style={styles.listBlock__meta}>Created: {created_at}</Text>
+        <Text style={styles.listBlock__meta}>By {author}</Text>
+        <Text style={styles.listBlock__meta}>
+          Created {created_at} {props.data.updated_at && `(Updated ${updated})`}
+        </Text>
       </View>
     </TouchableWithoutFeedback>
   );

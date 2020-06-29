@@ -28,6 +28,7 @@ export default () => {
           id: id,
           author: parsedRes.author,
           created_at: parsedRes.created_at,
+          updated_at: parsedRes.updated_at || undefined,
         });
       })
       .catch(err => console.log(err));
@@ -49,6 +50,7 @@ export default () => {
                 items: value.items ? value.items : [],
                 author: value.author,
                 created_at: value.created_at,
+                updated_at: value.updated_at || undefined,
               });
             }
           }

@@ -21,7 +21,7 @@ const Login = props => {
   const navigation = useNavigation();
   return (
     <View style={styles.body}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.loginForm}>
           <Input
             label="Email Address"
