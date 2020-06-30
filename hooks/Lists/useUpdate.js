@@ -1,4 +1,6 @@
 import {useState} from 'react';
+import {Keyboard} from 'react-native';
+
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 export default () => {
@@ -22,6 +24,7 @@ export default () => {
     setItemQuant(number);
   };
   const addToList = () => {
+    Keyboard.dismiss();
     if (itemName !== '') {
       setTempList([
         ...tempList,

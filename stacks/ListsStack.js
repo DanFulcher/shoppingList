@@ -44,7 +44,7 @@ const ListsStack = () => {
         headerStyle: {
           backgroundColor: colours.primary,
         },
-        headerTintColor: '#fff',
+        headerTintColor: colours.white,
       }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Create an Account" component={CreateAccount} />
@@ -74,7 +74,9 @@ const ListsStack = () => {
       <Stack.Screen
         name="Add Item"
         component={AddItem}
-        options={({route}) => ({list: route.params.list})}
+        options={({route}) => ({
+          list: route.params.list,
+        })}
       />
       <Stack.Screen name="Edit Item" component={EditItem} />
       <Stack.Screen name="Share List" component={ShareList} />

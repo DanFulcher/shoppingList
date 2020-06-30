@@ -28,12 +28,11 @@ const AddItem = props => {
             label="Item Name"
             error={validateName}
             errorMessage="Give your item a name"
-            placeholder="eg. Oat Milk"
             onChange={text => onNameChange(text)}
             value={itemName}
             onSubmitEditing={() => addToList()}
           />
-          <Button title="Add Item" onPress={() => addToList()} />
+          <Button title="Add to List" onPress={() => addToList()} />
         </View>
         {listUpdated && (
           <>
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   successMessage: {
-    color: colours.lessDark,
+    color: colours.dark,
     textAlign: 'center',
   },
 });
