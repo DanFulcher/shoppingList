@@ -7,7 +7,6 @@ const userInfo = props => {
     <>
       <UserItem label="Name" value={props.user.name} />
       <UserItem label="Email" value={props.user.email} />
-      <UserItem label="Lists" value={props.user.lists} />
     </>
   );
 };

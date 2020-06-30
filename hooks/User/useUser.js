@@ -15,7 +15,6 @@ export default () => {
         setUser({
           name: parsedRes.name,
           email: parsedRes.email,
-          lists: parsedRes.lists.length,
           id: currentUserID,
         });
       })
@@ -28,7 +27,6 @@ export default () => {
         setUser({
           name: parsedRes.name,
           email: parsedRes.email,
-          lists: parsedRes.lists.length,
           id: userID,
         });
       })

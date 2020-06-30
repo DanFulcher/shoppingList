@@ -33,7 +33,6 @@ const SingleList = props => {
           showModal={showOptions}
           toggle={() => setShowOptions(!showOptions)}
           modalTitle="List Options">
-          <Text style={styles.modal__option}>Rename List</Text>
           <TouchableWithoutFeedback onPress={() => deleteLists([props.list])}>
             <Text style={[styles.modal__option, {color: colours.error}]}>
               Delete List
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modal__option: {
-    fontSize: 18,
+    fontSize: 16,
     color: colours.dark,
     marginBottom: 10,
   },

@@ -53,11 +53,26 @@ export default () => {
           updated_at: timestamp,
         }),
       },
-    ).then(
-      navigation.navigate('List View', {
-        lists: [list],
-      }),
-    );
+    ).then(() => {
+      if (list.items) {
+        navigation.navigate('List View', {
+          lists: [list],
+        });
+      } else {
+        fetch(
+          `https://shopping-list-app-e9d27.firebaseio.com/lists/${
+            list.id
+          }.json`,
+        )
+          .then(res => res.json())
+          .then(parsedRes => {
+            parsedRes.id = list.id;
+            navigation.navigate('List View', {
+              lists: [parsedRes],
+            });
+          });
+      }
+    });
   };
 
   const checkItem = (list, id, checked) => {
