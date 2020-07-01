@@ -44,11 +44,11 @@ const Item = props => {
             value={checked}
             onValueChange={() => onCheck()}
             tintColors={
-              props.data.flag.flagged
+              props.data.flag && props.data.flag.flagged
                 ? {true: colours.lessDark, false: colours.lessDark}
                 : {true: colours.primary, false: colours.primary}
             }
-            disabled={props.data.flag.flagged}
+            disabled={props.data.flag && props.data.flag.flagged}
           />
           <TouchableOpacity
             onPress={() =>
@@ -117,18 +117,20 @@ const Item = props => {
           <Text style={styles.modal__option}>Remove item from list</Text>
         </TouchableOpacity>
       </Modal>
-      <Modal
-        showModal={showFlag}
-        toggle={() => setShowFlag(!showFlag)}
-        modalTitle={props.data.name}>
-        <Text style={styles.modal__text}>{props.data.flag.message}</Text>
-        <TouchableOpacity onPress={() => handleEdit()}>
-          <Text style={styles.modal__option}>Replace item</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleDel()}>
-          <Text style={styles.modal__option}>Remove item</Text>
-        </TouchableOpacity>
-      </Modal>
+      {props.data.flag && (
+        <Modal
+          showModal={showFlag}
+          toggle={() => setShowFlag(!showFlag)}
+          modalTitle={props.data.name}>
+          <Text style={styles.modal__text}>{props.data.flag.message}</Text>
+          <TouchableOpacity onPress={() => handleEdit()}>
+            <Text style={styles.modal__option}>Replace item</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleDel()}>
+            <Text style={styles.modal__option}>Remove item</Text>
+          </TouchableOpacity>
+        </Modal>
+      )}
     </>
   );
 };
