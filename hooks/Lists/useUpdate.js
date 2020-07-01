@@ -37,6 +37,8 @@ export default () => {
       setItemName('');
       setItemQuant(1);
       setListUpdated(true);
+    } else {
+      setValidateName(true);
     }
   };
   const updateList = list => {

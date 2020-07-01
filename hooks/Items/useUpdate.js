@@ -64,6 +64,39 @@ export default (name, quantity) => {
     }
   };
 
+  const flagItem = (list, id, flag) => {
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify({
+          flag: {
+            flagged: flag === 'remove' ? false : true,
+            message:
+              flag === 'stock'
+                ? 'This item is out of stock'
+                : flag === 'location'
+                ? "Item can't be found"
+                : 'This item has been flagged',
+          },
+        }),
+      },
+    )
+      .then(
+        fetch(
+          `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}.json`,
+        )
+          .then(res => res.json())
+          .then(parsedRes => {
+            parsedRes.id = list;
+            navigation.navigate('List View', {
+              lists: [parsedRes],
+            });
+          }),
+      )
+      .catch(err => console.log(err));
+  };
+
   return {
     onNameChange,
     onQuantChange,
@@ -73,5 +106,6 @@ export default (name, quantity) => {
     editItem,
     validateName,
     validateQuant,
+    flagItem,
   };
 };

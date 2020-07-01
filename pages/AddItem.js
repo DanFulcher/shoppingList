@@ -27,18 +27,23 @@ const AddItem = props => {
           <Input
             label="Item Name"
             error={validateName}
-            errorMessage="Give your item a name"
+            errorMessage="Name your item"
             onChange={text => onNameChange(text)}
             value={itemName}
             onSubmitEditing={() => addToList()}
           />
-          <Button title="Add to List" onPress={() => addToList()} />
+          <Button
+            title={tempList.length ? 'Add another item' : 'Add item'}
+            onPress={() => addToList()}
+          />
         </View>
         {listUpdated && (
           <>
             <Text style={styles.successMessage}>
               {tempList[tempList.length - 1].name} has been added to your list.
-              Click the tick icon to return to your list. Or add more items.
+            </Text>
+            <Text style={styles.successMessage}>
+              Click the tick icon to return to your list.
             </Text>
             <CircleButton
               type="done"

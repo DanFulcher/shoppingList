@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   modalBody__header__title: {
     color: colours.dark,
-    fontSize: 21,
+    fontSize: 18,
   },
 });
 export default Modal;
