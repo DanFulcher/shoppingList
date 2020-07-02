@@ -11,22 +11,20 @@ const CircleButton = props => {
       onPress={props.onPress}
       style={[
         styles.Button,
-        props.position === 'bottomLeft'
-          ? styles.Button__left
-          : styles.Button__right,
+        props.alt && styles.Button__alt,
         props.alert && styles.red,
       ]}>
       {props.type !== 'done' ? (
         <Icon
           name={props.type ? props.type : 'plus'}
           size={props.iconSize || 30}
-          color={colours.white}
+          color={props.alt ? colours.primary : colours.white}
         />
       ) : (
         <MatIcon
           name={props.type}
           size={props.iconSize || 30}
-          color={colours.white}
+          color={props.alt ? colours.primary : colours.white}
         />
       )}
     </TouchableOpacity>
@@ -37,6 +35,7 @@ const styles = StyleSheet.create({
   Button: {
     position: 'absolute',
     bottom: 20,
+    right: 20,
     backgroundColor: colours.primary,
     padding: 15,
     borderRadius: 50,
@@ -47,11 +46,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  Button__right: {
-    right: 20,
-  },
-  Button__left: {
-    left: 20,
+  Button__alt: {
+    backgroundColor: colours.white,
   },
   red: {
     backgroundColor: colours.error,

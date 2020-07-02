@@ -15,6 +15,7 @@ import List from './List';
 import {colours} from '../../styles';
 import Modal from '../Modal';
 import NoItems from '../NoItems';
+import MultiSelOptions from '../MultiSelOptions';
 
 const Lists = props => {
   const [showModal, setShowModal] = useState(false);
@@ -33,17 +34,6 @@ const Lists = props => {
 
   return (
     <>
-      {multiSelMode && (
-        <View style={styles.multiSelectbar}>
-          <Text style={styles.multiSelectbar__text}>
-            {selectedLists.length} List{selectedLists.length > 1 && 's'}{' '}
-            Selected
-          </Text>
-          <TouchableWithoutFeedback onPress={() => clearSel()}>
-            <Text style={styles.multiSelectbar__clear}>Clear selection</Text>
-          </TouchableWithoutFeedback>
-        </View>
-      )}
       <ScrollView style={styles.listContainer}>
         {props.lists.length ? (
           props.lists.map((list, index) => (
@@ -61,18 +51,15 @@ const Lists = props => {
           <NoItems
             title="No lists"
             text="You currently have no lists."
-            text2="Press the '+' icon to create your first list."
+            text2="Press the button below to create your first list."
           />
         )}
       </ScrollView>
       {multiSelMode ? (
         <>
-          <CircleButton
-            type="trash"
-            iconSize={20}
-            position="bottomLeft"
-            alert={true}
-            onPress={() => setShowModal(!showModal)}
+          <MultiSelOptions
+            clearSel={() => clearSel()}
+            delLists={() => deleteLists()}
           />
           <CircleButton
             type="chevron-right"
@@ -81,7 +68,8 @@ const Lists = props => {
         </>
       ) : (
         <CircleButton
-          type="plus"
+          type="new-message"
+          iconSize={28}
           onPress={() =>
             navigation.navigate('New List', {numberOfLists: props.lists.length})
           }
