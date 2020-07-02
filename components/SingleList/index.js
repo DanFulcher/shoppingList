@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  ScrollView,
   Text,
   View,
   TouchableWithoutFeedback,
@@ -19,44 +20,59 @@ const SingleList = props => {
   const [showOptions, setShowOptions] = useState(false);
   const {deleteLists} = useDelete();
   return (
-    <View
-      style={[
-        styles.listBody,
-        props.noOfLists > 1 && styles.listBody__multiView,
-      ]}>
-      <View style={styles.listBody__header}>
-        <Text style={styles.listBody__title}>{props.list.name}</Text>
-        <TouchableOpacity onPress={() => setShowOptions(!showOptions)}>
-          <Icon name="dots-three-vertical" color={colours.dark} size={14} />
-        </TouchableOpacity>
-        <Modal
-          showModal={showOptions}
-          toggle={() => setShowOptions(!showOptions)}
-          modalTitle="List Options">
-          <TouchableWithoutFeedback onPress={() => deleteLists([props.list])}>
-            <Text style={[styles.modal__option, {color: colours.error}]}>
-              Delete List
-            </Text>
-          </TouchableWithoutFeedback>
-        </Modal>
-      </View>
+    <ScrollView
+      style={props.noOfLists > 1 && styles.scrollview__multiView}
+      contentContainerStyle={
+        props.noOfLists > 1 && styles.scrollview__multiView
+      }>
+      <View
+        style={[
+          styles.listBody,
+          props.noOfLists > 1 && styles.listBody__multiView,
+        ]}>
+        <View style={styles.listBody__header}>
+          <Text style={styles.listBody__title}>{props.list.name}</Text>
+          <TouchableOpacity onPress={() => setShowOptions(!showOptions)}>
+            <Icon name="dots-three-vertical" color={colours.dark} size={14} />
+          </TouchableOpacity>
+          <Modal
+            showModal={showOptions}
+            toggle={() => setShowOptions(!showOptions)}
+            modalTitle="List Options">
+            <TouchableWithoutFeedback onPress={() => deleteLists([props.list])}>
+              <Text style={[styles.modal__option, {color: colours.error}]}>
+                Delete List
+              </Text>
+            </TouchableWithoutFeedback>
+          </Modal>
+        </View>
 
-      {!props.list.items || !props.list.items.length ? (
-        <NoItems
-          title="List empty"
-          text="This list is currently empty"
-          text2="Press the '+' icon to start adding items"
-        />
-      ) : (
-        props.list.items.map((item, index) => (
-          <Item key={index} data={item} listID={props.list.id} itemID={index} />
-        ))
-      )}
-    </View>
+        {!props.list.items || !props.list.items.length ? (
+          <NoItems
+            title="List empty"
+            text="This list is currently empty"
+            text2="Press the '+' icon to start adding items"
+          />
+        ) : (
+          props.list.items.map((item, index) => (
+            <Item
+              key={index}
+              data={item}
+              listID={props.list.id}
+              itemID={index}
+            />
+          ))
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollview__multiView: {
+    maxWidth: 300,
+    marginRight: 10,
+  },
   listBody: {
     padding: 15,
     backgroundColor: colours.lighterBg,
@@ -72,7 +88,6 @@ const styles = StyleSheet.create({
   },
   listBody__multiView: {
     width: 300,
-    marginRight: 10,
   },
   listBody__header: {
     display: 'flex',

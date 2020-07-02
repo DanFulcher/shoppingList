@@ -59,7 +59,7 @@ const Lists = props => {
         <>
           <MultiSelOptions
             clearSel={() => clearSel()}
-            delLists={() => deleteLists()}
+            delLists={() => setShowModal(!showModal)}
           />
           <CircleButton
             type="chevron-right"
@@ -106,24 +106,8 @@ const Lists = props => {
 };
 
 const styles = StyleSheet.create({
-  multiSelectbar: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  multiSelectbar__text: {
-    color: colours.dark,
-    fontSize: 18,
-  },
-  multiSelectbar__clear: {
-    color: colours.primary,
-    fontSize: 16,
-  },
   modal__text: {
     color: colours.dark,
-    fontSize: 16,
     marginBottom: 20,
   },
   modalActions: {
@@ -133,8 +117,8 @@ const styles = StyleSheet.create({
   },
   modalActions__text: {
     color: colours.dark,
-    fontSize: 21,
-    marginLeft: 40,
+    fontSize: 18,
+    marginLeft: 20,
   },
   modalActions__warning: {
     color: colours.error,

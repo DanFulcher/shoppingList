@@ -5,32 +5,60 @@ export default () => {
   const userID = auth().currentUser._user.uid;
 
   const deleteLists = lists => {
-    lists.forEach(element => {
-      fetch(
-        `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}/lists.json`,
-      )
-        .then(res => res.json())
-        .then(parsedRes => {
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}/lists.json`,
+    )
+      .then(res => res.json())
+      .then(parsedRes => {
+        lists.forEach(element => {
           const delList = parsedRes.findIndex(
             returnedlist => returnedlist.id === element.id,
           );
           if (delList > -1) {
             parsedRes.splice(delList, 1);
           }
-          fetch(
-            `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}/lists.json`,
-            {
-              method: 'PUT',
-              body: JSON.stringify(parsedRes),
-            },
-          ).then(
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'My Lists'}],
-            }),
-          );
         });
-    });
+
+        fetch(
+          `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}/lists.json`,
+          {
+            method: 'PUT',
+            body: JSON.stringify(parsedRes),
+          },
+        ).then(
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'My Lists'}],
+          }),
+        );
+      });
+
+    // lists.forEach(element => {
+    //   fetch(
+    //     `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}/lists.json`,
+    //   )
+    //     .then(res => res.json())
+    //     .then(parsedRes => {
+    //       const delList = parsedRes.findIndex(
+    //         returnedlist => returnedlist.id === element.id,
+    //       );
+    //       if (delList > -1) {
+    //         parsedRes.splice(delList, 1);
+    //       }
+    //       fetch(
+    //         `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}/lists.json`,
+    //         {
+    //           method: 'PUT',
+    //           body: JSON.stringify(parsedRes),
+    //         },
+    //       ).then(
+    //         navigation.reset({
+    //           index: 0,
+    //           routes: [{name: 'My Lists'}],
+    //         }),
+    //       );
+    //     });
+    // });
   };
 
   return {

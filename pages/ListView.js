@@ -22,7 +22,6 @@ const ListView = props => {
       <ScrollView
         horizontal={multiView}
         contentContainerStyle={{width: `${100 * lists.length}%`}}
-        // pagingEnabled={multiView}
         decelerationRate="fast"
         snapToOffsets={getOffsets(lists.length)}
         showsHorizontalScrollIndicator={false}>
@@ -47,6 +46,7 @@ const ListView = props => {
 const styles = StyleSheet.create({
   body: {
     padding: 15,
+    paddingBottom: 0,
     backgroundColor: colours.background,
     height: '100%',
   },
