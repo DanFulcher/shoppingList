@@ -21,7 +21,7 @@ const Item = props => {
     setChecked(!checked);
   };
   const handleEdit = () => {
-    setShowModal(!showModal);
+    setShowModal(false);
     navigation.navigate('Edit Item', {
       list: props.listID,
       item: props.itemID,
@@ -29,12 +29,20 @@ const Item = props => {
     });
   };
   const handleFlag = flagType => {
-    setShowModal(!showModal);
+    setShowModal(false);
     flagItem(props.listID, props.itemID, flagType);
   };
   const handleDel = () => {
     deleteItem(props.listID, props.itemID);
-    setShowModal(!showModal);
+    setShowModal(false);
+  };
+  const handleFlagEdit = () => {
+    setShowFlag(false);
+    handleEdit();
+  };
+  const handleFlagDel = () => {
+    setShowFlag(false);
+    handleDel();
   };
   return (
     <>
@@ -123,10 +131,10 @@ const Item = props => {
           toggle={() => setShowFlag(!showFlag)}
           modalTitle={props.data.name}>
           <Text style={styles.modal__text}>{props.data.flag.message}</Text>
-          <TouchableOpacity onPress={() => handleEdit()}>
+          <TouchableOpacity onPress={() => handleFlagEdit()}>
             <Text style={styles.modal__option}>Replace item</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDel()}>
+          <TouchableOpacity onPress={() => handleFlagDel()}>
             <Text style={styles.modal__option}>Remove item</Text>
           </TouchableOpacity>
         </Modal>

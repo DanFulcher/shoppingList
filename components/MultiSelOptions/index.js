@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
   },
   option__text: {
     marginRight: 10,
-    fontWeight: 'bold',
   },
   Button: {
     backgroundColor: colours.white,
