@@ -7,7 +7,9 @@
  */
 import 'react-native-gesture-handler';
 
-import React from 'react';
+import SplashScreen from 'react-native-splash-screen';
+
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
@@ -20,6 +22,9 @@ import {colours} from './styles';
 const Drawer = createDrawerNavigator();
 
 const App: () => React$Node = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <>
       <NavigationContainer>
