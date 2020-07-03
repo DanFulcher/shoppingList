@@ -36,7 +36,6 @@ export default () => {
 
   const getLists = lists => {
     setUserLists([]);
-    setLoading(true);
     let listsArray = [];
     fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
       .then(res => res.json())
@@ -63,6 +62,7 @@ export default () => {
   };
 
   const getUsersLists = async () => {
+    setLoading(true);
     const userID = auth().currentUser._user.uid;
     const response = await fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`,

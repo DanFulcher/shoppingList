@@ -52,8 +52,6 @@ export default () => {
             setPWValMes('The password you have entered is incorrect');
             setPassword('');
             setValidatePW(true);
-          } else {
-            console.error(error);
           }
         });
     }
