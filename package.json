@@ -1,6 +1,6 @@
 {
-  "name": "shoppingList",
-  "version": "0.0.1",
+  "name": "shopping-list-assist",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
