@@ -1,4 +1,4 @@
-package com.shoppinglist;
+package com.shoppinglistassist;
 
 import android.content.Intent;
 import android.os.Bundle;
