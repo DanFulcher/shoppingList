@@ -77,6 +77,10 @@ target 'shoppingList' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
   target 'shoppingListTests' do
     inherit! :complete
     # Pods for testing
