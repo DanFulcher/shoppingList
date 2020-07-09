@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View, StyleSheet} from 'react-native';
+import {ScrollView, Text, View, StyleSheet} from 'react-native';
 import {colours} from '../styles';
 import {useNavigation} from '@react-navigation/native';
 
@@ -20,20 +20,21 @@ const ListView = props => {
   return (
     <View style={styles.body}>
       <ScrollView
-        horizontal={multiView}
+        horizontal={true}
         contentContainerStyle={{width: `${100 * lists.length}%`}}
         decelerationRate="fast"
         snapToOffsets={getOffsets(lists.length)}
         showsHorizontalScrollIndicator={false}>
         {lists &&
           lists.map((singleList, index) => (
-            <SingleList
-              key={index}
-              list={singleList}
-              noOfLists={lists.length}
-            />
+            <SingleList key={index} list={singleList} multiView={multiView} />
           ))}
       </ScrollView>
+      {multiView && (
+        <Text style={{marginBottom: 40, textAlign: 'center'}}>
+          Swipe to view your lists
+        </Text>
+      )}
       {!multiView && (
         <CircleButton
           onPress={() => navigation.navigate('Add Item', {list: lists[0]})}

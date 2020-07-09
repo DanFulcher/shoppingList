@@ -1,82 +1,63 @@
-import React, {useState} from 'react';
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import React from 'react';
+import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+
+import DraggableFlatList from 'react-native-draggable-flatlist';
 import Icon from 'react-native-vector-icons/Entypo';
 import Item from './Item';
-import Modal from '../Modal';
 import NoItems from '../NoItems';
 
-import useDelete from '../../hooks/Lists/useDelete';
+import useItems from '../../hooks/Items/useItems';
 
 import {colours} from '../../styles';
 
 const SingleList = props => {
-  const [showOptions, setShowOptions] = useState(false);
-  const {deleteLists} = useDelete();
+  const {setEditMode, itemOrder, reorderItems} = useItems(props.list);
+  const renderItem = ({item, index, drag}) => {
+    return (
+      <TouchableOpacity onLongPress={drag}>
+        <Item data={item} listID={props.list.id} itemID={index} />
+      </TouchableOpacity>
+    );
+  };
   return (
-    <ScrollView
-      style={props.noOfLists > 1 && styles.scrollview__multiView}
-      contentContainerStyle={
-        props.noOfLists > 1 && styles.scrollview__multiView
-      }>
+    <>
       <View
         style={[
           styles.listBody,
-          props.noOfLists > 1 && styles.listBody__multiView,
+          props.multiView && styles.listBody__multiView,
         ]}>
-        <View style={styles.listBody__header}>
-          <Text style={styles.listBody__title}>{props.list.name}</Text>
-          <TouchableOpacity onPress={() => setShowOptions(!showOptions)}>
-            <Icon name="dots-three-vertical" color={colours.dark} size={14} />
-          </TouchableOpacity>
-          <Modal
-            showModal={showOptions}
-            toggle={() => setShowOptions(!showOptions)}
-            modalTitle="List Options">
-            <TouchableWithoutFeedback onPress={() => deleteLists([props.list])}>
-              <Text style={[styles.modal__option, {color: colours.error}]}>
-                Delete List
-              </Text>
-            </TouchableWithoutFeedback>
-          </Modal>
-        </View>
-
-        {!props.list.items || !props.list.items.length ? (
-          <NoItems
-            title="List empty"
-            text="This list is currently empty"
-            text2="Press the '+' icon to start adding items"
-          />
-        ) : (
-          props.list.items.map((item, index) => (
-            <Item
-              key={index}
-              data={item}
-              listID={props.list.id}
-              itemID={index}
+        <DraggableFlatList
+          ListHeaderComponent={
+            <View style={styles.listBody__header}>
+              <Text style={styles.listBody__title}>{props.list.name}</Text>
+              <TouchableOpacity onPress={() => setEditMode(true)}>
+                <Icon name="edit" color={colours.lessDark} size={20} />
+              </TouchableOpacity>
+            </View>
+          }
+          ListEmptyComponent={
+            <NoItems
+              title="List empty"
+              text="This list is currently empty"
+              text2="Press the '+' icon to start adding items"
             />
-          ))
-        )}
+          }
+          data={itemOrder}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => `listItem-${index}`}
+          onDragEnd={({data}) => reorderItems(data)}
+        />
       </View>
-    </ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  scrollview__multiView: {
-    maxWidth: 300,
-    marginRight: 10,
-  },
   listBody: {
+    width: '100%',
     padding: 15,
     backgroundColor: colours.lighterBg,
-    marginBottom: 20,
+    marginBottom: 40,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -87,7 +68,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   listBody__multiView: {
-    width: 300,
+    width: 350,
+    marginRight: 10,
   },
   listBody__header: {
     display: 'flex',

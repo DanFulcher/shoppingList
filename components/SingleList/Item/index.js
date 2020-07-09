@@ -58,26 +58,14 @@ const Item = props => {
             }
             disabled={props.data.flag && props.data.flag.flagged}
           />
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Edit Item', {
-                list: props.listID,
-                item: props.itemID,
-                data: props.data,
-              })
-            }
-            onLongPress={() => {
-              setShowModal(true);
-            }}>
-            <Text
-              style={[
-                styles.item__text,
-                checked && styles.item__text__linethrough,
-              ]}>
-              {props.data.name}
-              {props.data.quantity > 1 && ` x ${props.data.quantity}`}
-            </Text>
-          </TouchableOpacity>
+          <Text
+            style={[
+              styles.item__text,
+              checked && styles.item__text__linethrough,
+            ]}>
+            {props.data.name}
+            {props.data.quantity > 1 && ` x ${props.data.quantity}`}
+          </Text>
         </View>
 
         <View style={styles.item__actions}>
@@ -151,7 +139,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: colours.background,
-    paddingVertical: 5,
+    paddingVertical: 10,
   },
   item__info: {
     display: 'flex',
