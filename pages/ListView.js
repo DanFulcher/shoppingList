@@ -10,6 +10,7 @@ const ListView = props => {
   const {lists} = props.route.params;
   const navigation = useNavigation();
   const multiView = lists.length > 1;
+  console.log(lists);
   return (
     <View style={styles.body}>
       <FlatList

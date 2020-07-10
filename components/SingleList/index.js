@@ -56,6 +56,7 @@ const SingleList = props => {
 const styles = StyleSheet.create({
   listBody: {
     width: Dimensions.get('screen').width - 30,
+    height: '95%',
     padding: 15,
     backgroundColor: colours.lighterBg,
     marginBottom: 100,
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
   listBody__multiView: {
     width: 350,
     flexBasis: '80%',
+    height: '83%',
     marginRight: 10,
   },
   listBody__header: {
