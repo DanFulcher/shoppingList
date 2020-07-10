@@ -6,7 +6,7 @@ export default list => {
   const [editMode, setEditMode] = useState(false);
   const reorderItems = data => {
     setEditMode(true);
-    console.log(data);
+    // console.log(data);
     // console.log(listID);
     setItemOrder(data);
     // fetch(

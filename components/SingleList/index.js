@@ -1,5 +1,11 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -14,50 +20,45 @@ const SingleList = props => {
   const {setEditMode, itemOrder, reorderItems} = useItems(props.list);
   const renderItem = ({item, index, drag}) => {
     return (
-      <TouchableOpacity onLongPress={drag}>
+      <TouchableOpacity onLongPress={drag} delayLongPress={200}>
         <Item data={item} listID={props.list.id} itemID={index} />
       </TouchableOpacity>
     );
   };
   return (
-    <>
-      <View
-        style={[
-          styles.listBody,
-          props.multiView && styles.listBody__multiView,
-        ]}>
-        <DraggableFlatList
-          ListHeaderComponent={
-            <View style={styles.listBody__header}>
-              <Text style={styles.listBody__title}>{props.list.name}</Text>
-              <TouchableOpacity onPress={() => setEditMode(true)}>
-                <Icon name="edit" color={colours.lessDark} size={20} />
-              </TouchableOpacity>
-            </View>
-          }
-          ListEmptyComponent={
-            <NoItems
-              title="List empty"
-              text="This list is currently empty"
-              text2="Press the '+' icon to start adding items"
-            />
-          }
-          data={itemOrder}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => `listItem-${index}`}
-          onDragEnd={({data}) => reorderItems(data)}
-        />
-      </View>
-    </>
+    <View
+      style={[styles.listBody, props.multiView && styles.listBody__multiView]}>
+      <DraggableFlatList
+        ListHeaderComponent={
+          <View style={styles.listBody__header}>
+            <Text style={styles.listBody__title}>{props.list.name}</Text>
+            <TouchableOpacity onPress={() => setEditMode(true)}>
+              <Icon name="edit" color={colours.lessDark} size={20} />
+            </TouchableOpacity>
+          </View>
+        }
+        ListEmptyComponent={
+          <NoItems
+            title="List empty"
+            text="This list is currently empty"
+            text2="Press the '+' icon to start adding items"
+          />
+        }
+        data={itemOrder}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => `listItem-${index}`}
+        onDragEnd={({data}) => reorderItems(data)}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   listBody: {
-    width: '100%',
+    width: Dimensions.get('screen').width - 30,
     padding: 15,
     backgroundColor: colours.lighterBg,
-    marginBottom: 40,
+    marginBottom: 100,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
   },
   listBody__multiView: {
     width: 350,
+    flexBasis: '80%',
     marginRight: 10,
   },
   listBody__header: {
