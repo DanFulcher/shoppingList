@@ -82,19 +82,7 @@ export default (name, quantity) => {
         }),
       },
     )
-      .then(
-        console.log(list),
-        // fetch(
-        //   `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}.json`,
-        // )
-        //   .then(res => res.json())
-        //   .then(parsedRes => {
-        //     console.log(parsedRes);
-        //     navigation.navigate('List View', {
-        //       lists: [parsedRes],
-        //     });
-        //   }),
-      )
+      .then()
       .catch(err => console.log(err));
   };
 

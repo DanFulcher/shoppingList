@@ -3,7 +3,6 @@ export default list => {
   const [itemOrder, setItemOrder] = useState(list.items);
   const reorderItems = data => {
     setItemOrder(data);
-    console.log(data);
     fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/lists/${
         list.id
