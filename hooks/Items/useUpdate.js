@@ -83,16 +83,17 @@ export default (name, quantity) => {
       },
     )
       .then(
-        fetch(
-          `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}.json`,
-        )
-          .then(res => res.json())
-          .then(parsedRes => {
-            parsedRes.id = list;
-            navigation.navigate('List View', {
-              lists: [parsedRes],
-            });
-          }),
+        console.log(list),
+        // fetch(
+        //   `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}.json`,
+        // )
+        //   .then(res => res.json())
+        //   .then(parsedRes => {
+        //     console.log(parsedRes);
+        //     navigation.navigate('List View', {
+        //       lists: [parsedRes],
+        //     });
+        //   }),
       )
       .catch(err => console.log(err));
   };

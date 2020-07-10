@@ -84,7 +84,7 @@ export default () => {
 
   const onOpen = list => {
     const lists = [list];
-    console.log(lists);
+    // console.log(lists);
     navigation.navigate('List View', {
       lists,
     });

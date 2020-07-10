@@ -27,6 +27,7 @@ const ListView = props => {
           multiView && <Text>{'Swipe here to scroll between lists >>>>'}</Text>
         }
         ListFooterComponentStyle={styles.multiView__textContainer}
+        keyExtractor={(item, index) => `list-${index}`}
       />
       {!multiView && (
         <CircleButton

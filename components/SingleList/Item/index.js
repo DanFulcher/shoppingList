@@ -12,8 +12,8 @@ import Icon from 'react-native-vector-icons/Entypo';
 const Item = props => {
   const [checked, setChecked] = useState(props.data.checked);
   const [showModal, setShowModal] = useState(false);
-  const [showFlag, setShowFlag] = useState(false);
-  const {checkItem, flagItem} = useUpdate();
+  const [showFlagModal, setShowFlagModal] = useState(false);
+  const {checkItem} = useUpdate();
   const {deleteItem} = useDelete();
   const navigation = useNavigation();
   const onCheck = () => {
@@ -28,20 +28,16 @@ const Item = props => {
       data: props.data,
     });
   };
-  const handleFlag = flagType => {
-    setShowModal(false);
-    flagItem(props.listID, props.itemID, flagType);
-  };
   const handleDel = () => {
     deleteItem(props.listID, props.itemID);
     setShowModal(false);
   };
   const handleFlagEdit = () => {
-    setShowFlag(false);
+    setShowFlagModal(false);
     handleEdit();
   };
   const handleFlagDel = () => {
-    setShowFlag(false);
+    setShowFlagModal(false);
     handleDel();
   };
   return (
@@ -70,7 +66,7 @@ const Item = props => {
 
         <View style={styles.item__actions}>
           {props.data.flag && props.data.flag.flagged && (
-            <TouchableOpacity onPress={() => setShowFlag(true)}>
+            <TouchableOpacity onPress={() => setShowFlagModal(true)}>
               <Icon name="flag" size={16} color={colours.error} />
             </TouchableOpacity>
           )}
@@ -90,22 +86,6 @@ const Item = props => {
         showModal={showModal}
         toggle={() => setShowModal(!showModal)}
         modalTitle="Item Options">
-        {props.data.flag && props.data.flag.flagged ? (
-          <TouchableOpacity onPress={() => handleFlag('remove')}>
-            <Text style={styles.modal__option}>Remove Flag</Text>
-          </TouchableOpacity>
-        ) : (
-          <>
-            <TouchableOpacity onPress={() => handleFlag('location')}>
-              <Text style={styles.modal__option}>I can't find this item</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFlag('stock')}>
-              <Text style={styles.modal__option}>
-                This item is out of stock
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
         <TouchableOpacity onPress={() => handleEdit()}>
           <Text style={styles.modal__option}>Edit item</Text>
         </TouchableOpacity>
@@ -115,8 +95,8 @@ const Item = props => {
       </Modal>
       {props.data.flag && (
         <Modal
-          showModal={showFlag}
-          toggle={() => setShowFlag(!showFlag)}
+          showModal={showFlagModal}
+          toggle={() => setShowFlagModal(!showFlagModal)}
           modalTitle={props.data.name}>
           <Text style={styles.modal__text}>{props.data.flag.message}</Text>
           <TouchableOpacity onPress={() => handleFlagEdit()}>
