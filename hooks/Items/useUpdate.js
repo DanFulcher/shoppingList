@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 export default (name, quantity) => {
   const [itemName, setItemName] = useState(name);
   const [itemQuant, setItemQuant] = useState(quantity);
@@ -17,73 +18,46 @@ export default (name, quantity) => {
     setItemQuant(number);
   };
 
-  const checkItem = (list, id, checked) => {
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          checked: !checked,
-        }),
-      },
-    )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
-  const editItem = (list, id) => {
-    if (itemName !== '') {
-      fetch(
-        `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({
-            name: itemName,
-            quantity: itemQuant,
-          }),
-        },
-      )
-        .then(() => {
-          setItemName('');
-          const listsArray = [];
-          fetch(
-            `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}.json`,
-          )
-            .then(res => res.json())
-            .then(parsedRes => {
-              listsArray.push({
-                name: parsedRes.name,
-                items: parsedRes.items ? parsedRes.items : [],
-                id: list,
-              });
-              navigation.navigate('List View', {
-                lists: listsArray,
-              });
-            });
-        })
-        .catch(err => console.log(err));
+  const checkItem = async (list, id, checked) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('lists');
+      const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
+      const checkedItem = currentLists[list].items[id];
+      checkedItem.checked = !checked;
+      try {
+        const newLocalLists = JSON.stringify(currentLists);
+        await AsyncStorage.setItem('lists', newLocalLists);
+      } catch (e) {
+        // saving error
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  const flagItem = (list, id, flag) => {
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          flag: {
-            flagged: flag === 'remove' ? false : true,
-            message:
-              flag === 'stock'
-                ? 'This item is out of stock'
-                : flag === 'location'
-                ? "Item can't be found"
-                : 'This item has been flagged',
-          },
-        }),
-      },
-    )
-      .then()
-      .catch(err => console.log(err));
+  const editItem = async (list, id) => {
+    if (itemName !== '') {
+      try {
+        console.log('here');
+        const jsonValue = await AsyncStorage.getItem('lists');
+        const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
+        let item = currentLists[list].items[id];
+        item.name = itemName;
+        item.quantity = parseFloat(itemQuant);
+        console.log(currentLists);
+        try {
+          const newLocalLists = JSON.stringify(currentLists);
+          await AsyncStorage.setItem('lists', newLocalLists);
+          navigation.navigate('List View', {
+            lists: [currentLists[list]],
+          });
+        } catch (e) {
+          // saving error
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   return {
@@ -95,6 +69,5 @@ export default (name, quantity) => {
     editItem,
     validateName,
     validateQuant,
-    flagItem,
   };
 };

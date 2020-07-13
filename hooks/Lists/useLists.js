@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 
 export default () => {
@@ -16,6 +17,16 @@ export default () => {
     return new Promise(resolve => {
       setTimeout(resolve, timeout);
     });
+  };
+
+  const getLocalLists = async () => {
+    try {
+      const localLists = await AsyncStorage.getItem('lists');
+      setUserLists(localLists != null ? JSON.parse(localLists) : []);
+    } catch (e) {
+      console.log(e);
+    }
+    console.log('Done.');
   };
 
   const getList = id => {
@@ -82,10 +93,11 @@ export default () => {
     wait(2000).then(() => setRefreshing(false));
   };
 
-  const onOpen = list => {
+  const onOpen = (list, index) => {
     const lists = [list];
     navigation.navigate('List View', {
       lists,
+      listNumber: index,
     });
   };
 
@@ -122,6 +134,7 @@ export default () => {
     onSelectMulti,
     onDeselect,
     clearSel,
+    getLocalLists,
     getList,
     getLists,
     getUsersLists,

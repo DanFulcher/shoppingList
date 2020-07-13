@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {Keyboard} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
@@ -41,40 +42,26 @@ export default () => {
       setValidateName(true);
     }
   };
-  const updateList = list => {
-    const items = list.items || [];
-    tempList.forEach(element => {
-      items.push(element);
-    });
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list.id}.json`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          items: items,
-          updated_at: timestamp,
-        }),
-      },
-    ).then(() => {
-      if (list.items) {
+  const updateList = async list => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('lists');
+      const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
+      tempList.forEach(tempListItem => {
+        currentLists[list].items.push(tempListItem);
+      });
+      currentLists[list].updated_at = timestamp;
+      try {
+        const newLocalLists = JSON.stringify(currentLists);
+        await AsyncStorage.setItem('lists', newLocalLists);
         navigation.navigate('List View', {
-          lists: [list],
+          lists: [currentLists[list]],
         });
-      } else {
-        fetch(
-          `https://shopping-list-app-e9d27.firebaseio.com/lists/${
-            list.id
-          }.json`,
-        )
-          .then(res => res.json())
-          .then(parsedRes => {
-            parsedRes.id = list.id;
-            navigation.navigate('List View', {
-              lists: [parsedRes],
-            });
-          });
+      } catch (e) {
+        // saving error
       }
-    });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const checkItem = (list, id, checked) => {

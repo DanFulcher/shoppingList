@@ -29,19 +29,21 @@ const Lists = props => {
     selectedLists,
   } = useLists();
 
+  console.log(selectedLists);
+
   const {deleteLists} = useDelete();
   const navigation = useNavigation();
 
   return (
     <>
-      <ScrollView style={styles.listContainer}>
+      <ScrollView contentContainerStyle={styles.listContainer}>
         {props.lists.length ? (
           props.lists.map((list, index) => (
             <List
               key={index}
               data={list}
               multiSelMode={multiSelMode}
-              onOpen={() => onOpen(list)}
+              onOpen={() => onOpen(list, index)}
               onSelectMulti={() => onSelectMulti(list)}
               onDeselect={() => onDeselect(list.id)}
               selectedLists={selectedLists}

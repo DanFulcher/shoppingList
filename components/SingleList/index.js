@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
@@ -17,11 +17,16 @@ import useItems from '../../hooks/Items/useItems';
 import {colours} from '../../styles';
 
 const SingleList = props => {
-  const {setEditMode, itemOrder, reorderItems} = useItems(props.list);
+  const {itemOrder, setItemOrder, reorderItems, setEditMode} = useItems(
+    props.list,
+  );
+  useEffect(() => {
+    setItemOrder(props.list.items);
+  }, [props.list.items, setItemOrder]);
   const renderItem = ({item, index, drag}) => {
     return (
       <TouchableOpacity onLongPress={drag} delayLongPress={200}>
-        <Item data={item} listID={props.list.id} itemID={index} />
+        <Item data={item} listID={props.listID} itemID={index} />
       </TouchableOpacity>
     );
   };
@@ -55,7 +60,7 @@ const SingleList = props => {
 
 const styles = StyleSheet.create({
   listBody: {
-    width: Dimensions.get('screen').width - 30,
+    width: Dimensions.get('screen').width,
     height: '95%',
     padding: 15,
     backgroundColor: colours.lighterBg,
@@ -82,8 +87,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: colours.lessDark,
-    paddingBottom: 15,
-    marginBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 20,
+    marginBottom: 5,
   },
   modal__option: {
     fontSize: 16,
