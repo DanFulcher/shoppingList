@@ -29,8 +29,6 @@ const Lists = props => {
     selectedLists,
   } = useLists();
 
-  console.log(selectedLists);
-
   const {deleteLists} = useDelete();
   const navigation = useNavigation();
 

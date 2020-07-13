@@ -38,13 +38,11 @@ export default (name, quantity) => {
   const editItem = async (list, id) => {
     if (itemName !== '') {
       try {
-        console.log('here');
         const jsonValue = await AsyncStorage.getItem('lists');
         const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
         let item = currentLists[list].items[id];
         item.name = itemName;
         item.quantity = parseFloat(itemQuant);
-        console.log(currentLists);
         try {
           const newLocalLists = JSON.stringify(currentLists);
           await AsyncStorage.setItem('lists', newLocalLists);

@@ -8,8 +8,6 @@ export default () => {
       const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
       const listItems = currentLists[list].items;
       listItems.splice(item, 1);
-
-      console.log(currentLists);
       try {
         const newLocalLists = JSON.stringify(currentLists);
         await AsyncStorage.setItem('lists', newLocalLists);
