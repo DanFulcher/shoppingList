@@ -117,9 +117,11 @@ const styles = StyleSheet.create({
   result__name: {
     fontSize: 16,
     marginBottom: 5,
+    color: colours.dark,
   },
   result__email: {
     fontSize: 12,
+    color: colours.dark,
   },
   modal__text: {
     color: colours.dark,

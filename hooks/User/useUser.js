@@ -1,11 +1,17 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 
 export default () => {
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const currentUserID = auth().currentUser._user.uid;
+  useEffect(() => {
+    setIsLoggedIn(auth().currentUser ? true : false);
+  }, []);
+  const currentUserID = auth().currentUser
+    ? auth().currentUser._user.uid
+    : null;
   const getMe = () => {
     fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUserID}.json`,
@@ -53,5 +59,6 @@ export default () => {
     getUser,
     getUsers,
     currentUserID,
+    isLoggedIn,
   };
 };

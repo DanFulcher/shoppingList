@@ -38,13 +38,7 @@ const MyLists = props => {
       contentContainerStyle={styles.scrollView}>
       <View style={styles.body}>
         {loading ? <Loading /> : lists && <Lists lists={lists} />}
-        <Button title="Clear local data" onPress={() => clearAsyncStorage()} />
       </View>
-      <CircleButton
-        type="new-message"
-        iconSize={28}
-        onPress={() => navigation.navigate('New List')}
-      />
     </ScrollView>
   );
 };

@@ -16,7 +16,7 @@ import {colours} from '../../../styles';
 const List = props => {
   const {getUser, user, currentUserID} = useUser();
   useEffect(() => {
-    getUser(props.data.author);
+    props.data.author && getUser(props.data.author);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const author =

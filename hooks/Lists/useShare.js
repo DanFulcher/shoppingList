@@ -31,19 +31,30 @@ export default () => {
     setComplete(false);
     lists.forEach(element => {
       let i = 0;
-      fetch(
-        `https://shopping-list-app-e9d27.firebaseio.com/users/${
-          user.id
-        }/lists/${user.lists ? user.lists.length + i : 0}.json`,
-        {
-          method: 'PATCH',
-          body: JSON.stringify({
-            id: element.id,
-          }),
-        },
-      )
-        .then(res => {
-          console.log(res);
+      fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json', {
+        method: 'POST',
+        body: JSON.stringify({
+          created_at: element.created_at,
+          id: element.id,
+          items: element.items,
+          name: element.name,
+          updated_at: element.updated_at || null,
+        }),
+      })
+        .then(res => res.json())
+        .then(parsedRes => {
+          const id = parsedRes.name;
+          fetch(
+            `https://shopping-list-app-e9d27.firebaseio.com/users/${
+              user.id
+            }/lists/${user.lists ? user.lists.length + i : 0}.json`,
+            {
+              method: 'PUT',
+              body: JSON.stringify({
+                id: id,
+              }),
+            },
+          );
         })
         .catch(err => console.log(err));
       i++;
