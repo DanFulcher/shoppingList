@@ -2,17 +2,18 @@ import {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import useUser from '../User/useUser';
 import {createFilter} from 'react-native-search-filter';
+
 export default () => {
   const [showModal, setShowModal] = useState(false);
   const [term, setTerm] = useState('');
   const [selectedUser, setSelUser] = useState({});
   const [complete, setComplete] = useState(false);
-  const {getUsers, users} = useUser();
+  const {getUsers, users, getMe, user} = useUser();
   const KEYS_TO_FILTERS = ['name', 'email'];
-
   useFocusEffect(
     useCallback(() => {
       getUsers();
+      getMe();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
@@ -21,13 +22,13 @@ export default () => {
   };
   const filteredUsers = users.filter(createFilter(term, KEYS_TO_FILTERS));
 
-  const openShareModal = user => {
-    setSelUser(user);
+  const openShareModal = sharedUser => {
+    setSelUser(sharedUser);
     setComplete(false);
     setShowModal(true);
   };
 
-  const shareList = (user, lists) => {
+  const shareList = (sharedUser, lists) => {
     setComplete(false);
     lists.forEach(element => {
       let i = 0;
@@ -46,8 +47,8 @@ export default () => {
           const id = parsedRes.name;
           fetch(
             `https://shopping-list-app-e9d27.firebaseio.com/users/${
-              user.id
-            }/lists/${user.lists ? user.lists.length + i : 0}.json`,
+              sharedUser.id
+            }/lists/${sharedUser.lists ? sharedUser.lists.length + i : 0}.json`,
             {
               method: 'PUT',
               body: JSON.stringify({
@@ -62,6 +63,25 @@ export default () => {
         setComplete(true);
       }
     });
+    const listIDs = [];
+    lists.forEach(el => {
+      listIDs.push(el.id);
+    });
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/users/${
+        sharedUser.id
+      }/notifications.json`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          message: `${user.name} has shared ${lists.length} list${
+            lists.length > 1 ? 's' : ''
+          } with you.`,
+          lists: listIDs,
+          read: false,
+        }),
+      },
+    );
   };
   return {
     term,
