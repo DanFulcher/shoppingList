@@ -1,12 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {default as MatIcon} from 'react-native-vector-icons/MaterialIcons';
 import {default as EntIcon} from 'react-native-vector-icons/Entypo';
 
 import {colours} from '../../styles';
 
 const Notification = props => {
-  console.log(props);
   return (
     <View style={styles.notification}>
       <View style={styles.notification__textContainer}>
@@ -20,12 +19,16 @@ const Notification = props => {
         </Text>
       </View>
       <View style={styles.notification__actions}>
-        <View style={styles.notification__actions__action}>
-          <MatIcon name="done" size={30} color={colours.primary} />
-        </View>
-        <View style={styles.notification__actions__action}>
-          <EntIcon name="cross" size={20} color={colours.primary} />
-        </View>
+        <TouchableOpacity onPress={props.onAccept}>
+          <View style={styles.notification__actions__action}>
+            <MatIcon name="done" size={30} color={colours.primary} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={props.onReject}>
+          <View style={styles.notification__actions__action}>
+            <EntIcon name="cross" size={20} color={colours.primary} />
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -1,17 +1,33 @@
 import React, {useCallback} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
+import {
+  ScrollView,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  StyleSheet,
+} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import useNotifications from '../hooks/Notifications/useNotifications';
 
 import Notification from '../components/Notification';
 import NoItems from '../components/NoItems';
+import Modal from '../components/Modal';
+
+import {colours} from '../styles';
 
 const Notifications = () => {
-  const {getNotifications, notifications} = useNotifications();
+  const {
+    getNotifications,
+    notifications,
+    onAccept,
+    onReject,
+    showModal,
+    setShowModal,
+  } = useNotifications();
+  const navigation = useNavigation();
   useFocusEffect(
     useCallback(() => {
       getNotifications();
-      console.log(notifications);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
@@ -24,10 +40,12 @@ const Notifications = () => {
               const notification = notifications[key];
               return (
                 <Notification
-                  key={notification}
-                  id={notification}
+                  key={key}
+                  id={key}
                   message={notification.message}
                   read={notification.read}
+                  onAccept={() => onAccept(key, notification.lists)}
+                  onReject={() => onReject(key)}
                 />
               );
             })}
@@ -44,6 +62,30 @@ const Notifications = () => {
           text="This is where you will see lists that have been shared with you"
         />
       )}
+      <Modal
+        showModal={showModal}
+        toggle={() => setShowModal(!showModal)}
+        modalTitle="List downloaded">
+        <>
+          <Text style={styles.modal__text}>
+            List has been added to your lists.
+          </Text>
+          <View style={styles.modalActions}>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                setShowModal(!showModal);
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: 'My Lists'}],
+                });
+              }}>
+              <Text style={styles.modalActions__text__small}>
+                Go to My Lists
+              </Text>
+            </TouchableWithoutFeedback>
+          </View>
+        </>
+      </Modal>
     </ScrollView>
   );
 };
@@ -54,6 +96,26 @@ const styles = StyleSheet.create({
   notificationInstructions: {
     textAlign: 'center',
     paddingHorizontal: 15,
+  },
+  modal__text: {
+    color: colours.dark,
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  modalActions: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  modalActions__text: {
+    color: colours.dark,
+    fontSize: 21,
+    marginLeft: 40,
+  },
+  modalActions__text__small: {
+    color: colours.dark,
+    fontSize: 16,
+    marginLeft: 40,
   },
 });
 export default Notifications;

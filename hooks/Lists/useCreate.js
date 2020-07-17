@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import auth from '@react-native-firebase/auth';
 import moment from 'moment';
 
 export default () => {
