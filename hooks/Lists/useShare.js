@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import useUser from '../User/useUser';
 import {createFilter} from 'react-native-search-filter';
@@ -9,6 +9,7 @@ export default () => {
   const [selectedUser, setSelUser] = useState({});
   const [complete, setComplete] = useState(false);
   const {getUsers, users, getMe, user} = useUser();
+  const [sharedLists, setSharedLists] = useState([]);
   const KEYS_TO_FILTERS = ['name', 'email'];
   useFocusEffect(
     useCallback(() => {
@@ -17,6 +18,13 @@ export default () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
+  useEffect(() => {
+    if (complete && sharedLists.length > 0) {
+      sendSharedNotification();
+      console.log(sharedLists);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [complete, sharedLists]);
   const searchUpdated = sTerm => {
     setTerm(sTerm);
   };
@@ -30,6 +38,7 @@ export default () => {
 
   const shareList = (sharedUser, lists) => {
     setComplete(false);
+    setSharedLists([]);
     lists.forEach(element => {
       let i = 0;
       fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json', {
@@ -45,17 +54,7 @@ export default () => {
         .then(res => res.json())
         .then(parsedRes => {
           const id = parsedRes.name;
-          fetch(
-            `https://shopping-list-app-e9d27.firebaseio.com/users/${
-              sharedUser.id
-            }/lists/${sharedUser.lists ? sharedUser.lists.length + i : 0}.json`,
-            {
-              method: 'PUT',
-              body: JSON.stringify({
-                id: id,
-              }),
-            },
-          );
+          setSharedLists([...sharedLists, id]);
         })
         .catch(err => console.log(err));
       i++;
@@ -63,21 +62,20 @@ export default () => {
         setComplete(true);
       }
     });
-    const listIDs = [];
-    lists.forEach(el => {
-      listIDs.push(el.id);
-    });
+  };
+
+  const sendSharedNotification = () => {
     fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/users/${
-        sharedUser.id
+        selectedUser.id
       }/notifications.json`,
       {
         method: 'POST',
         body: JSON.stringify({
-          message: `${user.name} has shared ${lists.length} list${
-            lists.length > 1 ? 's' : ''
+          message: `${user.name} has shared ${sharedLists.length} list${
+            sharedLists.length > 1 ? 's' : ''
           } with you.`,
-          lists: listIDs,
+          lists: sharedLists,
           read: false,
         }),
       },
