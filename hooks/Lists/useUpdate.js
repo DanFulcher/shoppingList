@@ -63,42 +63,12 @@ export default () => {
       console.log(e);
     }
   };
-
-  const checkItem = (list, id, checked) => {
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          checked: !checked,
-        }),
-      },
-    )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
-  const editItem = (list, id) => {
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/lists/${list}/items/${id}.json`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          name: itemName,
-          quantity: itemQuant,
-        }),
-      },
-    )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
-  };
   return {
     itemName,
     itemQuant,
     onNameChange,
     onQuantChange,
     updateList,
-    checkItem,
-    editItem,
     validateName,
     validateQuant,
     tempList,
