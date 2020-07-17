@@ -1,13 +1,12 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default () => {
   const [refreshing, setRefreshing] = useState(false);
   const [multiSelMode, setMultiSelMode] = useState(false);
   const [selectedLists, setSelectedLists] = useState([]);
   const [userLists, setUserLists] = useState([]);
-  const [userList, setUserList] = useState({});
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
@@ -18,74 +17,29 @@ export default () => {
     });
   };
 
-  const getList = id => {
-    fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${id}.json`)
-      .then(res => res.json())
-      .then(parsedRes => {
-        setUserList({
-          name: parsedRes.name,
-          items: parsedRes.items ? parsedRes.items : [],
-          id: id,
-          author: parsedRes.author,
-          created_at: parsedRes.created_at,
-          updated_at: parsedRes.updated_at || undefined,
-        });
-      })
-      .catch(err => console.log(err));
-  };
-
-  const getLists = lists => {
-    setUserLists([]);
-    let listsArray = [];
-    fetch('https://shopping-list-app-e9d27.firebaseio.com/lists.json')
-      .then(res => res.json())
-      .then(parsedRes => {
-        lists.forEach(list => {
-          for (const [key, value] of Object.entries(parsedRes)) {
-            if (key === list.id) {
-              listsArray.push({
-                id: key,
-                name: value.name,
-                items: value.items ? value.items : [],
-                author: value.author,
-                created_at: value.created_at,
-                updated_at: value.updated_at || undefined,
-              });
-            }
-          }
-        });
-        setUserLists(listsArray);
-        setLoading(false);
-      });
-
-    return userLists;
-  };
-
-  const getUsersLists = async () => {
+  const getLocalLists = async () => {
     setLoading(true);
-    const userID = auth().currentUser._user.uid;
-    const response = await fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/users/${userID}.json`,
-    );
-    const json = await response.json();
-    if (json.lists) {
-      getLists(json.lists);
-    } else {
-      setLoading(false);
-      return userLists;
+    try {
+      const localLists = await AsyncStorage.getItem('lists');
+      setUserLists(localLists != null ? JSON.parse(localLists) : []);
+    } catch (e) {
+      console.log(e);
     }
+    console.log('Done.');
+    setLoading(false);
   };
 
   const onRefresh = () => {
     setRefreshing(true);
-    getUsersLists();
+    getLocalLists();
     wait(2000).then(() => setRefreshing(false));
   };
 
-  const onOpen = list => {
+  const onOpen = (list, index) => {
     const lists = [list];
     navigation.navigate('List View', {
       lists,
+      listNumber: index,
     });
   };
 
@@ -122,12 +76,9 @@ export default () => {
     onSelectMulti,
     onDeselect,
     clearSel,
-    getList,
-    getLists,
-    getUsersLists,
+    getLocalLists,
     userLists,
     setUserLists,
-    userList,
     refreshing,
     onRefresh,
     loading,

@@ -1,23 +1,35 @@
 import {useState} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 export default list => {
   const [itemOrder, setItemOrder] = useState(list.items);
-  const reorderItems = data => {
+  const [editMode, setEditMode] = useState(false);
+
+  const reorderItems = async data => {
     setItemOrder(data);
-    fetch(
-      `https://shopping-list-app-e9d27.firebaseio.com/lists/${
-        list.id
-      }/items.json`,
-      {
-        method: 'PUT',
-        body: JSON.stringify(data),
-      },
-    )
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    try {
+      const jsonValue = await AsyncStorage.getItem('lists');
+      const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
+
+      let currentList = currentLists.findIndex(
+        element => element.id === list.id,
+      );
+      currentLists[currentList].items = data;
+      try {
+        const newLocalLists = JSON.stringify(currentLists);
+        await AsyncStorage.setItem('lists', newLocalLists);
+      } catch (e) {
+        console.log(e);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return {
     itemOrder,
+    setItemOrder,
     reorderItems,
+    editMode,
+    setEditMode,
   };
 };

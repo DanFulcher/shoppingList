@@ -16,10 +16,13 @@ import {colours} from '../../../styles';
 const List = props => {
   const {getUser, user, currentUserID} = useUser();
   useEffect(() => {
-    getUser(props.data.author);
+    props.data.author && getUser(props.data.author);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const author = props.data.author === currentUserID ? 'You' : user.name;
+  const author =
+    !props.data.author || props.data.author === currentUserID
+      ? 'You'
+      : user.name;
   const checkCount = () => {
     let count = 0;
     for (let i = 0; i < props.data.items.length; ++i) {
@@ -83,16 +86,9 @@ const styles = StyleSheet.create({
     flexBasis: '100%',
     width: '100%',
     backgroundColor: colours.lighterBg,
-    marginBottom: 15,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: colours.background,
+    padding: 20,
   },
   listBlock__selected: {
     backgroundColor: colours.primary,

@@ -8,9 +8,9 @@ import CircleButton from '../components/Button/CircleButton';
 
 const ListView = props => {
   const {lists} = props.route.params;
+  const {listNumber} = props.route.params;
   const navigation = useNavigation();
   const multiView = lists.length > 1;
-  console.log(lists);
   return (
     <View style={styles.body}>
       <FlatList
@@ -18,7 +18,12 @@ const ListView = props => {
         showsHorizontalScrollIndicator={true}
         data={lists}
         renderItem={({item, index}) => (
-          <SingleList key={index} list={item} multiView={multiView} />
+          <SingleList
+            key={index}
+            list={item}
+            listID={listNumber}
+            multiView={multiView}
+          />
         )}
         snapToAlignment={'start'}
         snapToInterval={360}
@@ -32,7 +37,11 @@ const ListView = props => {
       />
       {!multiView && (
         <CircleButton
-          onPress={() => navigation.navigate('Add Item', {list: lists[0]})}
+          onPress={() =>
+            navigation.navigate('Add Item', {
+              listNumber,
+            })
+          }
         />
       )}
     </View>
@@ -41,7 +50,6 @@ const ListView = props => {
 
 const styles = StyleSheet.create({
   body: {
-    padding: 15,
     paddingBottom: 0,
     backgroundColor: colours.background,
     height: '100%',

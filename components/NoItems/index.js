@@ -15,6 +15,7 @@ const NoItems = props => {
 const styles = StyleSheet.create({
   noItems: {
     marginTop: 10,
+    paddingTop: 15,
     marginBottom: 20,
   },
   noItems__title: {

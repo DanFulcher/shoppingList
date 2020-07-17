@@ -17,7 +17,7 @@ const AddItem = props => {
     listUpdated,
     tempList,
   } = useUpdate();
-
+  const {listNumber} = props.route.params;
   return (
     <ScrollView
       contentContainerStyle={styles.scrollView}
@@ -48,7 +48,7 @@ const AddItem = props => {
             <CircleButton
               type="done"
               size={30}
-              onPress={() => updateList(props.route.params.list)}
+              onPress={() => updateList(listNumber)}
             />
           </>
         )}

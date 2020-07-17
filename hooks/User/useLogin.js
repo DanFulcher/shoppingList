@@ -25,14 +25,16 @@ export default () => {
     setPassword(text);
     setValidatePW(false);
   };
-  const onLogin = () => {
+  const onLogin = lists => {
     if (email && password) {
       auth()
         .signInWithEmailAndPassword(email, password)
         .then(res => {
           setEmail('');
           setPassword('');
-          navigation.navigate('My Lists', {user: res.user.uid});
+          lists
+            ? navigation.navigate('Share List', {lists})
+            : navigation.navigate('My Lists', {user: res.user.uid});
         })
         .catch(error => {
           console.log(error.code);

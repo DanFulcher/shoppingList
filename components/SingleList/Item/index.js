@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/Entypo';
 const Item = props => {
   const [checked, setChecked] = useState(props.data.checked);
   const [showModal, setShowModal] = useState(false);
-  const [showFlagModal, setShowFlagModal] = useState(false);
   const {checkItem} = useUpdate();
   const {deleteItem} = useDelete();
   const navigation = useNavigation();
@@ -31,14 +30,6 @@ const Item = props => {
   const handleDel = () => {
     deleteItem(props.listID, props.itemID);
     setShowModal(false);
-  };
-  const handleFlagEdit = () => {
-    setShowFlagModal(false);
-    handleEdit();
-  };
-  const handleFlagDel = () => {
-    setShowFlagModal(false);
-    handleDel();
   };
   return (
     <>
@@ -65,11 +56,6 @@ const Item = props => {
         </View>
 
         <View style={styles.item__actions}>
-          {props.data.flag && props.data.flag.flagged && (
-            <TouchableOpacity onPress={() => setShowFlagModal(true)}>
-              <Icon name="flag" size={16} color={colours.error} />
-            </TouchableOpacity>
-          )}
           {!checked && (
             <TouchableOpacity onPress={() => setShowModal(true)}>
               <Icon
@@ -93,20 +79,6 @@ const Item = props => {
           <Text style={styles.modal__option}>Remove item from list</Text>
         </TouchableOpacity>
       </Modal>
-      {props.data.flag && (
-        <Modal
-          showModal={showFlagModal}
-          toggle={() => setShowFlagModal(!showFlagModal)}
-          modalTitle={props.data.name}>
-          <Text style={styles.modal__text}>{props.data.flag.message}</Text>
-          <TouchableOpacity onPress={() => handleFlagEdit()}>
-            <Text style={styles.modal__option}>Replace item</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleFlagDel()}>
-            <Text style={styles.modal__option}>Remove item</Text>
-          </TouchableOpacity>
-        </Modal>
-      )}
     </>
   );
 };

@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import auth from '@react-native-firebase/auth';
 
 import Hamburger from '../components/Hamburger';
 import ShareIcon from '../components/ShareIcon';
@@ -18,28 +17,9 @@ import EditItem from '../pages/EditItem';
 const Stack = createStackNavigator();
 
 const ListsStack = () => {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-
-  const onAuthStateChanged = userName => {
-    setUser(userName);
-    if (initializing) {
-      setInitializing(false);
-    }
-  };
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (initializing) {
-    return null;
-  }
   return (
     <Stack.Navigator
-      initialRouteName={!user ? 'Login' : 'My Lists'}
+      initialRouteName={'My Lists'}
       screenOptions={{
         headerStyle: {
           backgroundColor: colours.primary,
