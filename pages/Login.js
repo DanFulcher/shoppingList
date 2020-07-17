@@ -19,7 +19,7 @@ const Login = props => {
     onLogin,
   } = useLogin();
   const navigation = useNavigation();
-  const lists = props.route.params.lists || null;
+  const lists = props.route.params ? props.route.params.lists : null;
   return (
     <View style={styles.body}>
       <ScrollView keyboardShouldPersistTaps="handled">

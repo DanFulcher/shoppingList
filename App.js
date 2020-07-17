@@ -17,6 +17,7 @@ import auth from '@react-native-firebase/auth';
 
 import DrawerContent from './components/DrawerContent';
 import ListsStack from './stacks/ListsStack';
+import NotiStack from './stacks/NotiStack';
 import ProfileStack from './stacks/ProfileStack';
 
 import {colours} from './styles';
@@ -70,7 +71,12 @@ const App: () => React$Node = () => {
             },
           }}>
           <Drawer.Screen name="My Lists" component={ListsStack} />
-          {user && <Drawer.Screen name="Profile" component={ProfileStack} />}
+          {user && (
+            <>
+              <Drawer.Screen name="Notifications" component={NotiStack} />
+              <Drawer.Screen name="Profile" component={ProfileStack} />
+            </>
+          )}
         </Drawer.Navigator>
       </NavigationContainer>
     </>

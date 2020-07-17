@@ -4,8 +4,7 @@ import {ScrollView, RefreshControl, View, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import useLists from '../hooks/Lists/useLists';
-import {useFocusEffect} from '@react-navigation/native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 import Lists from '../components/Lists';
 import Loading from '../components/Loading';

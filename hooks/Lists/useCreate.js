@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import auth from '@react-native-firebase/auth';
 import moment from 'moment';
 
 export default () => {
@@ -44,7 +43,7 @@ export default () => {
         try {
           const newLocalLists = JSON.stringify(currentLists);
           await AsyncStorage.setItem('lists', newLocalLists);
-          navigation.navigate('My Lists');
+          navigation.navigate('List View', {lists: [newList]});
         } catch (e) {
           console.log(e);
         }
