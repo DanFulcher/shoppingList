@@ -34,12 +34,20 @@ const DrawerContent = props => {
           style={styles.drawerItem}
         />
       ) : (
-        <DrawerItem
-          {...props}
-          label="Sign In    "
-          onPress={() => props.navigation.navigate('Login')}
-          style={styles.drawerItem}
-        />
+        <>
+          <DrawerItem
+            {...props}
+            label="Create an account"
+            onPress={() => props.navigation.navigate('Login')}
+            style={styles.drawerItem}
+          />
+          <DrawerItem
+            {...props}
+            label="Sign In    "
+            onPress={() => props.navigation.navigate('Login')}
+            style={styles.drawerItem}
+          />
+        </>
       )}
     </ScrollView>
   );
