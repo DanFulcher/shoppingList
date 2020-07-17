@@ -69,10 +69,22 @@ export default () => {
     });
   };
 
+  const onReject = notification => {
+    fetch(
+      `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUserID}/notifications/${notification}.json`,
+      {
+        method: 'DELETE',
+      },
+    ).then(() => {
+      getNotifications();
+    });
+  };
+
   return {
     notifications,
     getNotifications,
     onAccept,
+    onReject,
     showModal,
     setShowModal,
   };
