@@ -33,7 +33,7 @@ const Notifications = () => {
   );
   return (
     <ScrollView>
-      {notifications ? (
+      {notifications && Object.keys(notifications).length ? (
         <>
           <View style={styles.notificationContainer}>
             {Object.keys(notifications).map(function(key, index) {
@@ -57,10 +57,12 @@ const Notifications = () => {
           </Text>
         </>
       ) : (
-        <NoItems
-          title="No Notifications"
-          text="This is where you will see lists that have been shared with you"
-        />
+        <View style={styles.body}>
+          <NoItems
+            title="No Notifications"
+            text="This is where you will see lists that have been shared with you"
+          />
+        </View>
       )}
       <Modal
         showModal={showModal}
@@ -90,6 +92,9 @@ const Notifications = () => {
   );
 };
 const styles = StyleSheet.create({
+  body: {
+    paddingHorizontal: 15, 
+  },
   notificationContainer: {
     marginBottom: 15,
   },
