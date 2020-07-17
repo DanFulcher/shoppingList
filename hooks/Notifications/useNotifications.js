@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 
 export default () => {
   const [notifications, setNotifs] = useState([]);
+  const [currentUserLists, setLists] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const currentUserID = auth().currentUser._user.uid;
 
@@ -14,6 +15,7 @@ export default () => {
     )
       .then(res => res.json())
       .then(parsedRes => {
+        setLists(parsedRes.lists || []);
         setNotifs(parsedRes.notifications || []);
       });
   };
@@ -39,6 +41,17 @@ export default () => {
           }
         })
         .then(() => {
+          fetch(
+            `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUserID}/lists/${
+              currentUserLists.length
+            }.json`,
+            {
+              method: 'PATCH',
+              body: JSON.stringify({
+                id: list,
+              }),
+            },
+          );
           fetch(
             `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUserID}/notifications/${notification}.json`,
             {
