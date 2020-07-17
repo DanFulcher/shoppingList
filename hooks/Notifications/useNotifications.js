@@ -22,7 +22,6 @@ export default () => {
 
   const onAccept = (notification, lists) => {
     lists.forEach(list => {
-      let i = 1;
       fetch(`https://shopping-list-app-e9d27.firebaseio.com/lists/${list}.json`)
         .then(res => res.json())
         .then(async parsedRes => {
@@ -65,7 +64,6 @@ export default () => {
             setShowModal(true);
           });
         });
-      i++;
     });
   };
 

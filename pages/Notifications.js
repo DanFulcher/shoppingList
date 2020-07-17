@@ -93,7 +93,7 @@ const Notifications = () => {
 };
 const styles = StyleSheet.create({
   body: {
-    paddingHorizontal: 15, 
+    paddingHorizontal: 15,
   },
   notificationContainer: {
     marginBottom: 15,
