@@ -44,6 +44,7 @@ const Notifications = () => {
                   id={key}
                   message={notification.message}
                   read={notification.read}
+                  created_at={notification.created_at}
                   onAccept={() => onAccept(key, notification.lists)}
                   onReject={() => onReject(key)}
                 />
@@ -97,6 +98,8 @@ const styles = StyleSheet.create({
   },
   notificationContainer: {
     marginBottom: 15,
+    display: 'flex',
+    flexDirection: 'column-reverse',
   },
   notificationInstructions: {
     textAlign: 'center',

@@ -41,14 +41,12 @@ const ShareList = props => {
 
 const styles = StyleSheet.create({
   body: {
-    padding: 15,
     backgroundColor: colours.background,
     height: '100%',
   },
   inputContainer: {
     backgroundColor: colours.lighterBg,
     padding: 15,
-    marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

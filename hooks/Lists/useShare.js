@@ -2,6 +2,7 @@ import {useState, useEffect, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import useUser from '../User/useUser';
 import {createFilter} from 'react-native-search-filter';
+import moment from 'moment';
 
 export default () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +12,7 @@ export default () => {
   const {getUsers, users, getMe, user} = useUser();
   const [sharedLists, setSharedLists] = useState([]);
   const KEYS_TO_FILTERS = ['name', 'email'];
+  const timestamp = moment().valueOf();
   useFocusEffect(
     useCallback(() => {
       getUsers();
@@ -77,6 +79,7 @@ export default () => {
           } with you.`,
           lists: sharedLists,
           read: false,
+          created_at: timestamp,
         }),
       },
     );

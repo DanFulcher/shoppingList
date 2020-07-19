@@ -2,21 +2,28 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {default as MatIcon} from 'react-native-vector-icons/MaterialIcons';
 import {default as EntIcon} from 'react-native-vector-icons/Entypo';
+import moment from 'moment';
 
 import {colours} from '../../styles';
 
 const Notification = props => {
+  const created_at = moment(props.created_at).fromNow();
   return (
     <View style={styles.notification}>
       <View style={styles.notification__textContainer}>
         {!props.read && <View style={styles.notification__unread} />}
-        <Text
-          style={[
-            styles.notification__text,
-            !props.read && styles.notification__text__unread,
-          ]}>
-          {props.message}
-        </Text>
+        <View>
+          <Text
+            style={[
+              styles.notification__text,
+              !props.read && styles.notification__text__unread,
+            ]}>
+            {props.message}
+          </Text>
+          {props.created_at && (
+            <Text style={styles.notification__meta}>{created_at}</Text>
+          )}
+        </View>
       </View>
       <View style={styles.notification__actions}>
         <TouchableOpacity onPress={props.onAccept}>
@@ -63,6 +70,10 @@ const styles = StyleSheet.create({
   },
   notification__text__unread: {
     fontWeight: 'bold',
+  },
+  notification__meta: {
+    fontSize: 11,
+    color: colours.lessDark,
   },
   notification__actions: {
     flexBasis: '40%',

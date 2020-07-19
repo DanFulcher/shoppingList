@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useNavigation} from '@react-navigation/native';
 
 export default () => {
   const [notifications, setNotifs] = useState([]);
