@@ -66,6 +66,16 @@ export default () => {
     setMultiSelMode(false);
   };
 
+  const checkCount = items => {
+    let count = 0;
+    for (let i = 0; i < items.length; ++i) {
+      if (items[i].checked === true) {
+        count++;
+      }
+    }
+    return count;
+  };
+
   return {
     multiSelMode,
     setMultiSelMode,
@@ -76,6 +86,7 @@ export default () => {
     onSelectMulti,
     onDeselect,
     clearSel,
+    checkCount,
     getLocalLists,
     userLists,
     setUserLists,

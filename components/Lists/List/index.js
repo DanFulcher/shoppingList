@@ -10,11 +10,13 @@ import {
 
 import moment from 'moment';
 
+import useLists from '../../../hooks/Lists/useLists';
 import useUser from '../../../hooks/User/useUser';
 import {colours} from '../../../styles';
 
 const List = props => {
   const {getUser, user, currentUserID} = useUser();
+  const {checkCount} = useLists();
   useEffect(() => {
     props.data.author && getUser(props.data.author);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -23,15 +25,6 @@ const List = props => {
     !props.data.author || props.data.author === currentUserID
       ? 'You'
       : user.name;
-  const checkCount = () => {
-    let count = 0;
-    for (let i = 0; i < props.data.items.length; ++i) {
-      if (props.data.items[i].checked === true) {
-        count++;
-      }
-    }
-    return count;
-  };
   const selected = props.selectedLists.find(
     element => element.id === props.data.id,
   );
@@ -69,7 +62,7 @@ const List = props => {
               styles.listBlock__checkCount,
               selected && styles.listBlock__text__selected,
             ]}>
-            {checkCount()}/{props.data.items.length}
+            {checkCount(props.data.items)}/{props.data.items.length}
           </Text>
         </View>
         <Text style={styles.listBlock__meta}>By {author}</Text>
