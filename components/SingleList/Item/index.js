@@ -33,41 +33,47 @@ const Item = props => {
   };
   return (
     <>
-      <View style={styles.item}>
-        <View style={styles.item__info}>
-          <CheckBox
-            value={checked}
-            onValueChange={() => onCheck()}
-            tintColors={
-              props.data.flag && props.data.flag.flagged
-                ? {true: colours.lessDark, false: colours.lessDark}
-                : {true: colours.primary, false: colours.primary}
-            }
-            disabled={props.data.flag && props.data.flag.flagged}
-          />
-          <Text
-            style={[
-              styles.item__text,
-              checked && styles.item__text__linethrough,
-            ]}>
-            {props.data.name}
-            {props.data.quantity > 1 && ` x ${props.data.quantity}`}
-          </Text>
-        </View>
+      <TouchableOpacity
+        onPress={() => onCheck()}
+        onLongPress={props.drag}
+        delayLongPress={200}>
+        <View style={styles.item}>
+          <View style={styles.item__info}>
+            <CheckBox
+              value={checked}
+              onValueChange={() => onCheck()}
+              tintColors={
+                props.data.flag && props.data.flag.flagged
+                  ? {true: colours.lessDark, false: colours.lessDark}
+                  : {true: colours.primary, false: colours.primary}
+              }
+              size={30}
+              disabled={props.data.flag && props.data.flag.flagged}
+            />
+            <Text
+              style={[
+                styles.item__text,
+                checked && styles.item__text__linethrough,
+              ]}>
+              {props.data.name}
+              {props.data.quantity > 1 && ` x ${props.data.quantity}`}
+            </Text>
+          </View>
 
-        <View style={styles.item__actions}>
-          {!checked && (
-            <TouchableOpacity onPress={() => setShowModal(true)}>
-              <Icon
-                style={styles.item__actions__item}
-                name="dots-three-vertical"
-                size={16}
-                color={colours.lessDark}
-              />
-            </TouchableOpacity>
-          )}
+          <View style={styles.item__actions}>
+            {!checked && (
+              <TouchableOpacity onPress={() => setShowModal(true)}>
+                <Icon
+                  style={styles.item__actions__item}
+                  name="dots-three-vertical"
+                  size={18}
+                  color={colours.lessDark}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
       <Modal
         showModal={showModal}
         toggle={() => setShowModal(!showModal)}
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: colours.background,
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   item__info: {
     display: 'flex',

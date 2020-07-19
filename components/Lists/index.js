@@ -89,7 +89,6 @@ const Lists = props => {
           <TouchableWithoutFeedback
             onPress={() => {
               deleteLists(selectedLists);
-              setShowModal(!showModal);
             }}>
             <Text
               style={[styles.modalActions__text, styles.modalActions__warning]}>

@@ -25,9 +25,7 @@ const SingleList = props => {
   }, [props.list.items, setItemOrder]);
   const renderItem = ({item, index, drag}) => {
     return (
-      <TouchableOpacity onLongPress={drag} delayLongPress={200}>
-        <Item data={item} listID={props.listID} itemID={index} />
-      </TouchableOpacity>
+      <Item data={item} listID={props.listID} itemID={index} drag={drag} />
     );
   };
   return (
@@ -61,7 +59,7 @@ const SingleList = props => {
 const styles = StyleSheet.create({
   listBody: {
     width: Dimensions.get('screen').width,
-    height: '95%',
+    height: '100%',
     padding: 15,
     backgroundColor: colours.lighterBg,
     marginBottom: 100,

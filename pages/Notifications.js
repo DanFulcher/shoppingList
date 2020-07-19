@@ -82,7 +82,6 @@ const Notifications = () => {
           <View style={styles.modalActions}>
             <TouchableWithoutFeedback
               onPress={() => {
-                setShowModal(!showModal);
                 navigation.reset({
                   index: 0,
                   routes: [{name: 'My Lists'}],

@@ -30,7 +30,11 @@ const ListView = props => {
         decelerationRate={'fast'}
         pagingEnabled
         ListFooterComponent={
-          multiView && <Text>{'Swipe here to scroll between lists >>>>'}</Text>
+          multiView && (
+            <View style={styles.swipteInstructions}>
+              <Text>{'Swipe here to scroll between lists >>>>'}</Text>
+            </View>
+          )
         }
         ListFooterComponentStyle={styles.multiView__textContainer}
         keyExtractor={(item, index) => `list-${index}`}
@@ -58,6 +62,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     marginBottom: 40,
+  },
+  swipteInstructions: {
+    paddingHorizontal: 15,
   },
 });
 
