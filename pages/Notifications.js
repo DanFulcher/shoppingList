@@ -12,6 +12,7 @@ import useNotifications from '../hooks/Notifications/useNotifications';
 import Notification from '../components/Notification';
 import NoItems from '../components/NoItems';
 import Modal from '../components/Modal';
+import Loading from '../components/Loading';
 
 import {colours} from '../styles';
 
@@ -19,6 +20,7 @@ const Notifications = () => {
   const {
     getNotifications,
     notifications,
+    loading,
     onAccept,
     onReject,
     showModal,
@@ -33,7 +35,11 @@ const Notifications = () => {
   );
   return (
     <ScrollView>
-      {notifications && Object.keys(notifications).length ? (
+      {loading ? (
+        <View style={styles.body}>
+          <Loading />
+        </View>
+      ) : notifications && Object.keys(notifications).length ? (
         <>
           <View style={styles.notificationContainer}>
             {Object.keys(notifications).map(function(key, index) {
@@ -94,7 +100,7 @@ const Notifications = () => {
 };
 const styles = StyleSheet.create({
   body: {
-    paddingHorizontal: 15,
+    padding: 15,
   },
   notificationContainer: {
     marginBottom: 15,

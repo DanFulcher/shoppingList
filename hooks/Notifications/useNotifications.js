@@ -4,11 +4,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export default () => {
   const [notifications, setNotifs] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [currentUserLists, setLists] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const currentUserID = auth().currentUser._user.uid;
 
   const getNotifications = () => {
+    setLoading(true);
     fetch(
       `https://shopping-list-app-e9d27.firebaseio.com/users/${currentUserID}.json`,
     )
@@ -16,6 +18,9 @@ export default () => {
       .then(parsedRes => {
         setLists(parsedRes.lists || []);
         setNotifs(parsedRes.notifications || []);
+      })
+      .then(() => {
+        setLoading(false);
       });
   };
 
@@ -79,6 +84,7 @@ export default () => {
 
   return {
     notifications,
+    loading,
     getNotifications,
     onAccept,
     onReject,
