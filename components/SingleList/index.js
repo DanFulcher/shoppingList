@@ -148,18 +148,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  modal__option: {
-    fontSize: 16,
-    color: colours.dark,
-    marginBottom: 10,
-  },
   listBody__title: {
     fontSize: 18,
     color: colours.dark,
   },
   listBody__header__complete: {
     fontSize: 12,
-    // fontWeight: '700',
     color: colours.lessDark,
     marginLeft: 10,
     alignSelf: 'flex-end',
