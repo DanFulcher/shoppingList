@@ -15,9 +15,11 @@ const Item = props => {
   const {checkItem} = useUpdate();
   const {deleteItem} = useDelete();
   const navigation = useNavigation();
+  // console.log(props);
   const onCheck = () => {
     checkItem(props.listID, props.itemID, checked);
     setChecked(!checked);
+    props.updateChecked(!checked);
   };
   const handleEdit = () => {
     setShowModal(false);
@@ -77,14 +79,19 @@ const Item = props => {
       <Modal
         showModal={showModal}
         toggle={() => setShowModal(!showModal)}
-        modalTitle="Item Options">
-        <TouchableOpacity onPress={() => handleEdit()}>
-          <Text style={styles.modal__option}>Edit item</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleDel()}>
-          <Text style={styles.modal__option}>Remove item from list</Text>
-        </TouchableOpacity>
-      </Modal>
+        modalTitle="Item Options"
+        modalOptions={[
+          {
+            text: 'Edit Item',
+            onPress: () => handleEdit(),
+          },
+          {
+            text: 'Remove Item from List',
+            onPress: () => handleDel(),
+            error: true,
+          },
+        ]}
+      />
     </>
   );
 };

@@ -38,7 +38,6 @@ export default () => {
           created_at: timestamp,
           id: generateID(),
         };
-        console.log(newList);
         currentLists.push(newList);
         try {
           const newLocalLists = JSON.stringify(currentLists);

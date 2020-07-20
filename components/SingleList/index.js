@@ -14,20 +14,40 @@ import NoItems from '../NoItems';
 import Modal from '../Modal';
 
 import useItems from '../../hooks/Items/useItems';
+import useLists from '../../hooks/Lists/useLists';
 
 import {colours} from '../../styles';
 
 const SingleList = props => {
+  const {checkCount} = useLists();
   const {itemOrder, setItemOrder, reorderItems, setEditMode} = useItems(
     props.list,
   );
+  const [checkedItems, setCheckedItems] = useState(checkCount(itemOrder));
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     setItemOrder(props.list.items);
   }, [props.list.items, setItemOrder]);
+  useEffect(() => {
+    if (itemOrder.length > 0) {
+      setShowModal(checkedItems === itemOrder.length);
+    }
+  }, [setShowModal, itemOrder, checkedItems]);
+  const handleItemCheck = isItemChecked => {
+    setCheckedItems(isItemChecked ? checkedItems + 1 : checkedItems - 1);
+  };
 
   const renderItem = ({item, index, drag}) => {
     return (
-      <Item data={item} listID={props.listID} itemID={index} drag={drag} />
+      <Item
+        data={item}
+        listID={props.listID}
+        itemID={index}
+        drag={drag}
+        updateChecked={val => {
+          handleItemCheck(val);
+        }}
+      />
     );
   };
   return (
@@ -59,6 +79,13 @@ const SingleList = props => {
           onDragEnd={({data}) => reorderItems(data)}
         />
       </View>
+      <Modal
+        showModal={showModal}
+        toggle={() => setShowModal(!showModal)}
+        modalTitle="List Complete!"
+        modalText={`You have got everything on ${props.list.name}`}
+        modalType="Done"
+      />
     </>
   );
 };

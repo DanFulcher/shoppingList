@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   View,
@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import useNotifications from '../hooks/Notifications/useNotifications';
 
 import Notification from '../components/Notification';
@@ -27,12 +27,10 @@ const Notifications = () => {
     setShowModal,
   } = useNotifications();
   const navigation = useNavigation();
-  useFocusEffect(
-    useCallback(() => {
-      getNotifications();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []),
-  );
+  useEffect(() => {
+    getNotifications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <ScrollView>
       {loading ? (
@@ -74,26 +72,20 @@ const Notifications = () => {
       <Modal
         showModal={showModal}
         toggle={() => setShowModal(!showModal)}
-        modalTitle="List downloaded">
-        <>
-          <Text style={styles.modal__text}>
-            List has been added to your lists.
-          </Text>
-          <View style={styles.modalActions}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{name: 'My Lists'}],
-                });
-              }}>
-              <Text style={styles.modalActions__text__small}>
-                Go to My Lists
-              </Text>
-            </TouchableWithoutFeedback>
-          </View>
-        </>
-      </Modal>
+        modalType="Done"
+        modalTitle="List(s) downloaded"
+        modalText="They will know appear in your lists."
+        modalOptions={[
+          {
+            text: 'Go to My Lists',
+            onPress: () =>
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'My Lists'}],
+              }),
+          },
+        ]}
+      />
     </ScrollView>
   );
 };

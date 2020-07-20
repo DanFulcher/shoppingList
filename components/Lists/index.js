@@ -79,27 +79,23 @@ const Lists = props => {
       <Modal
         showModal={showModal}
         toggle={() => setShowModal(!showModal)}
-        modalTitle="Delete List(s)">
-        <Text style={styles.modal__text}>
-          Are you sure you want to delete{' '}
-          {selectedLists.length > 1 ? 'these lists' : 'this list'}? This action
-          cannot be undone.
-        </Text>
-        <View style={styles.modalActions}>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              deleteLists(selectedLists);
-            }}>
-            <Text
-              style={[styles.modalActions__text, styles.modalActions__warning]}>
-              Yes
-            </Text>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => setShowModal(!showModal)}>
-            <Text style={styles.modalActions__text}>No</Text>
-          </TouchableWithoutFeedback>
-        </View>
-      </Modal>
+        modalTitle="Delete List(s)"
+        modalText={`Are you sure you want to delete ${
+          selectedLists.length > 1 ? 'these lists' : 'this list'
+        }? This action cannot be undone`}
+        horizontalOptions={true}
+        modalOptions={[
+          {
+            text: 'Yes',
+            onPress: () => deleteLists(selectedLists),
+            error: true,
+          },
+          {
+            text: 'No',
+            onPress: () => setShowModal(!showModal),
+          },
+        ]}
+      />
     </>
   );
 };

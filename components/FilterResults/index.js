@@ -43,53 +43,42 @@ const FilterResaults = props => {
       <Modal
         showModal={showModal}
         toggle={() => setShowModal(!showModal)}
-        modalTitle={complete ? 'Success!' : 'Share List(s)'}>
-        {complete ? (
-          <>
-            <Text
-              style={
-                styles.modal__text
-              }>{`You have successfully shared your list with ${
-              selectedUser.name
-            }`}</Text>
-            <View style={styles.modalActions}>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{name: 'My Lists'}],
-                  });
-                }}>
-                <Text style={styles.modalActions__text__small}>
-                  Back to My Lists
-                </Text>
-              </TouchableWithoutFeedback>
-            </View>
-          </>
-        ) : (
-          <>
-            <Text style={styles.modal__text}>
-              {`Are you sure you would like to share ${
+        modalType={complete ? 'Done' : ''}
+        modalTitle={complete ? 'Success!' : 'Share List(s)'}
+        modalText={
+          complete
+            ? `You have successfully shared your list with ${selectedUser.name}`
+            : `Are you sure you would like to share ${
                 props.lists.length > 1
                   ? `${props.lists.length} lists`
                   : props.lists[0].name
-              } with ${selectedUser.name}`}
-            </Text>
-            <View style={styles.modalActions}>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  shareList(selectedUser, props.lists);
-                }}>
-                <Text style={styles.modalActions__text}>Yes</Text>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback
-                onPress={() => setShowModal(!showModal)}>
-                <Text style={styles.modalActions__text}>No</Text>
-              </TouchableWithoutFeedback>
-            </View>
-          </>
-        )}
-      </Modal>
+              } with ${selectedUser.name}`
+        }
+        horizontalOptions={true}
+        modalOptions={
+          complete
+            ? [
+                {
+                  text: 'Back to My Lists',
+                  onPress: () =>
+                    navigation.reset({
+                      index: 0,
+                      routes: [{name: 'My Lists'}],
+                    }),
+                },
+              ]
+            : [
+                {
+                  text: 'Yes',
+                  onPress: () => shareList(selectedUser, props.lists),
+                },
+                {
+                  text: 'No',
+                  onPress: () => setShowModal(!showModal),
+                },
+              ]
+        }
+      />
     </View>
   );
 };
