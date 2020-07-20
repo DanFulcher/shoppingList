@@ -6,7 +6,6 @@ import {default as ReactModal} from 'react-native-modal';
 import {colours} from '../../styles';
 
 const Modal = props => {
-  console.log(props.modalOptions);
   return (
     <ReactModal isVisible={props.showModal}>
       <View style={styles.modalBody}>

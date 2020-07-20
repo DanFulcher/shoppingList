@@ -31,7 +31,6 @@ const Item = props => {
   };
   const handleDel = () => {
     deleteItem(props.listID, props.itemID);
-    setShowModal(false);
   };
   return (
     <>

@@ -24,17 +24,30 @@ const SingleList = props => {
     props.list,
   );
   const [checkedItems, setCheckedItems] = useState(checkCount(itemOrder));
+  const [listComplete, setListComplete] = useState(
+    checkedItems === itemOrder.length,
+  );
   const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     setItemOrder(props.list.items);
   }, [props.list.items, setItemOrder]);
+
   useEffect(() => {
-    if (itemOrder.length > 0) {
-      setShowModal(checkedItems === itemOrder.length);
+    if (checkedItems === itemOrder.length) {
+      setListComplete(true);
+    } else {
+      setListComplete(false);
     }
-  }, [setShowModal, itemOrder, checkedItems]);
+  }, [setListComplete, checkedItems, itemOrder]);
   const handleItemCheck = isItemChecked => {
     setCheckedItems(isItemChecked ? checkedItems + 1 : checkedItems - 1);
+    if (isItemChecked && checkedItems + 1 === itemOrder.length) {
+      setListComplete(true);
+      setShowModal(true);
+    } else {
+      setListComplete(false);
+    }
   };
 
   const renderItem = ({item, index, drag}) => {
@@ -60,7 +73,14 @@ const SingleList = props => {
         <DraggableFlatList
           ListHeaderComponent={
             <View style={styles.listBody__header}>
-              <Text style={styles.listBody__title}>{props.list.name}</Text>
+              <View style={styles.listBody__header__titleCont}>
+                <Text style={styles.listBody__title}>{props.list.name}</Text>
+                {listComplete && (
+                  <Text style={styles.listBody__header__complete}>
+                    (List Complete)
+                  </Text>
+                )}
+              </View>
               <TouchableOpacity onPress={() => setEditMode(true)}>
                 <Icon name="edit" color={colours.lessDark} size={20} />
               </TouchableOpacity>
@@ -123,6 +143,11 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     marginBottom: 5,
   },
+  listBody__header__titleCont: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   modal__option: {
     fontSize: 16,
     color: colours.dark,
@@ -131,7 +156,14 @@ const styles = StyleSheet.create({
   listBody__title: {
     fontSize: 18,
     color: colours.dark,
-    marginBottom: 0,
+  },
+  listBody__header__complete: {
+    fontSize: 12,
+    // fontWeight: '700',
+    color: colours.lessDark,
+    marginLeft: 10,
+    alignSelf: 'flex-end',
+    marginBottom: 3,
   },
 });
 export default SingleList;
