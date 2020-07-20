@@ -21,6 +21,7 @@ const List = props => {
     props.data.author && getUser(props.data.author);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const completed = checkCount(props.data.items) === props.data.items.length;
   const author =
     !props.data.author || props.data.author === currentUserID
       ? 'You'
@@ -61,6 +62,10 @@ const List = props => {
             style={[
               styles.listBlock__checkCount,
               selected && styles.listBlock__text__selected,
+              completed && styles.listBlock__checkCount__completed,
+              selected &&
+                completed &&
+                styles.listBlock__checkCount__completed__sel,
             ]}>
             {checkCount(props.data.items)}/{props.data.items.length}
           </Text>
@@ -104,7 +109,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colours.dark,
   },
+  listBlock__checkCount__completed: {
+    color: colours.primary,
+    fontWeight: '700',
+  },
   listBlock__text__selected: {
+    color: colours.white,
+  },
+  listBlock__checkCount__completed__sel: {
+    fontWeight: '700',
     color: colours.white,
   },
   listBlock__item: {
