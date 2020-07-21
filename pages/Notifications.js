@@ -1,11 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  StyleSheet,
-} from 'react-native';
+import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import useNotifications from '../hooks/Notifications/useNotifications';
 
