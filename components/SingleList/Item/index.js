@@ -15,7 +15,6 @@ const Item = props => {
   const {checkItem} = useUpdate();
   const {deleteItem} = useDelete();
   const navigation = useNavigation();
-  // console.log(props);
   const onCheck = () => {
     checkItem(props.listID, props.itemID, checked);
     setChecked(!checked);

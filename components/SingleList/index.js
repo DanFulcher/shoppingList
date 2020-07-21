@@ -1,14 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import {Text, View, StyleSheet, Dimensions} from 'react-native';
 
 import DraggableFlatList from 'react-native-draggable-flatlist';
-import Icon from 'react-native-vector-icons/Entypo';
 import Item from './Item';
 import NoItems from '../NoItems';
 import Modal from '../Modal';
@@ -20,9 +13,7 @@ import {colours} from '../../styles';
 
 const SingleList = props => {
   const {checkCount} = useLists();
-  const {itemOrder, setItemOrder, reorderItems, setEditMode} = useItems(
-    props.list,
-  );
+  const {itemOrder, setItemOrder, reorderItems} = useItems(props.list);
   const [checkedItems, setCheckedItems] = useState(checkCount(itemOrder));
   const [listComplete, setListComplete] = useState(
     checkedItems === itemOrder.length,
@@ -75,15 +66,12 @@ const SingleList = props => {
             <View style={styles.listBody__header}>
               <View style={styles.listBody__header__titleCont}>
                 <Text style={styles.listBody__title}>{props.list.name}</Text>
-                {listComplete && (
+                {listComplete && itemOrder.length > 0 && (
                   <Text style={styles.listBody__header__complete}>
                     (List Complete)
                   </Text>
                 )}
               </View>
-              <TouchableOpacity onPress={() => setEditMode(true)}>
-                <Icon name="edit" color={colours.lessDark} size={20} />
-              </TouchableOpacity>
             </View>
           }
           ListEmptyComponent={

@@ -61,11 +61,10 @@ const List = props => {
           <Text
             style={[
               styles.listBlock__checkCount,
+              completed &&
+                props.data.items.length > 0 &&
+                styles.listBlock__checkCount__completed,
               selected && styles.listBlock__text__selected,
-              completed && styles.listBlock__checkCount__completed,
-              selected &&
-                completed &&
-                styles.listBlock__checkCount__completed__sel,
             ]}>
             {checkCount(props.data.items)}/{props.data.items.length}
           </Text>
@@ -114,10 +113,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   listBlock__text__selected: {
-    color: colours.white,
-  },
-  listBlock__checkCount__completed__sel: {
-    fontWeight: '700',
     color: colours.white,
   },
   listBlock__item: {
