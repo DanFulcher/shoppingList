@@ -22,7 +22,10 @@ const DrawerContent = props => {
                     auth()
                       .signOut()
                       .then(() => {
-                        props.navigation.navigate('Login');
+                        props.navigation.reset({
+                          index: 0,
+                          routes: [{name: 'My Lists'}],
+                        });
                       }),
                 },
                 {
