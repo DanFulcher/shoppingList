@@ -46,9 +46,14 @@ export default () => {
     try {
       const jsonValue = await AsyncStorage.getItem('lists');
       const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
-      tempList.forEach(tempListItem => {
-        currentLists[list].items.push(tempListItem);
-      });
+
+      if (currentLists[list].items) {
+        tempList.forEach(tempListItem => {
+          currentLists[list].items.push(tempListItem);
+        });
+      } else {
+        currentLists[list].items = tempList;
+      }
       currentLists[list].updated_at = timestamp;
       try {
         const newLocalLists = JSON.stringify(currentLists);

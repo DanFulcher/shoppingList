@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 
 import Hamburger from '../components/Hamburger';
 import ShareIcon from '../components/ShareIcon';
@@ -44,10 +44,16 @@ const ListsStack = () => {
       <Stack.Screen
         name="List View"
         component={ListView}
-        options={({route}) => ({
+        options={({route, navigation}) => ({
           title: `${route.params.lists.length} List${
             route.params.lists.length > 1 ? 's' : ''
           }`,
+          headerLeft: props => (
+            <HeaderBackButton
+              {...props}
+              onPress={() => navigation.navigate('My Lists')}
+            />
+          ),
           headerRight: () => <ShareIcon lists={route.params.lists} />,
         })}
       />
