@@ -23,7 +23,6 @@ export default () => {
   useEffect(() => {
     if (complete && sharedLists.length > 0) {
       sendSharedNotification();
-      console.log(sharedLists);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [complete, sharedLists]);

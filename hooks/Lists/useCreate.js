@@ -42,7 +42,10 @@ export default () => {
         try {
           const newLocalLists = JSON.stringify(currentLists);
           await AsyncStorage.setItem('lists', newLocalLists);
-          navigation.navigate('List View', {lists: [newList]});
+          navigation.navigate('List View', {
+            lists: [newList],
+            listNumber: currentLists.length - 1,
+          });
         } catch (e) {
           console.log(e);
         }

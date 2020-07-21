@@ -46,7 +46,6 @@ export default () => {
     try {
       const jsonValue = await AsyncStorage.getItem('lists');
       const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
-
       if (currentLists[list].items) {
         tempList.forEach(tempListItem => {
           currentLists[list].items.push(tempListItem);

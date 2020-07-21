@@ -25,7 +25,6 @@ export default () => {
     } catch (e) {
       console.log(e);
     }
-    console.log('Done.');
     setLoading(false);
   };
 
