@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {ScrollView, RefreshControl, View, StyleSheet} from 'react-native';
 
 import useLists from '../hooks/Lists/useLists';
@@ -7,24 +7,19 @@ import {useFocusEffect} from '@react-navigation/native';
 import Lists from '../components/Lists';
 import Loading from '../components/Loading';
 import {colours} from '../styles';
-
 const MyLists = props => {
-  const {
-    userLists,
-    setUserLists,
-    getUsersLists,
-    onRefresh,
-    refreshing,
-    loading,
-  } = useLists();
+  const [lists, setLists] = useState([]);
+  const {userLists, getLocalLists, onRefresh, refreshing, loading} = useLists();
 
   useFocusEffect(
     useCallback(() => {
-      setUserLists([]);
-      getUsersLists();
+      getLocalLists();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
+  useEffect(() => {
+    setLists(userLists);
+  }, [userLists]);
   return (
     <ScrollView
       refreshControl={
@@ -32,7 +27,7 @@ const MyLists = props => {
       }
       contentContainerStyle={styles.scrollView}>
       <View style={styles.body}>
-        {loading ? <Loading /> : userLists && <Lists lists={userLists} />}
+        {loading ? <Loading /> : lists && <Lists lists={lists} />}
       </View>
     </ScrollView>
   );
@@ -43,7 +38,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   body: {
-    padding: 15,
     backgroundColor: colours.background,
     height: '100%',
   },

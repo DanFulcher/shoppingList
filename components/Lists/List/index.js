@@ -10,25 +10,22 @@ import {
 
 import moment from 'moment';
 
+import useLists from '../../../hooks/Lists/useLists';
 import useUser from '../../../hooks/User/useUser';
 import {colours} from '../../../styles';
 
 const List = props => {
   const {getUser, user, currentUserID} = useUser();
+  const {checkCount} = useLists();
   useEffect(() => {
-    getUser(props.data.author);
+    props.data.author && getUser(props.data.author);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const author = props.data.author === currentUserID ? 'You' : user.name;
-  const checkCount = () => {
-    let count = 0;
-    for (let i = 0; i < props.data.items.length; ++i) {
-      if (props.data.items[i].checked === true) {
-        count++;
-      }
-    }
-    return count;
-  };
+  const completed = checkCount(props.data.items) === props.data.items.length;
+  const author =
+    !props.data.author || props.data.author === currentUserID
+      ? 'You'
+      : user.name;
   const selected = props.selectedLists.find(
     element => element.id === props.data.id,
   );
@@ -65,8 +62,12 @@ const List = props => {
             style={[
               styles.listBlock__checkCount,
               selected && styles.listBlock__text__selected,
+              completed && styles.listBlock__checkCount__completed,
+              selected &&
+                completed &&
+                styles.listBlock__checkCount__completed__sel,
             ]}>
-            {checkCount()}/{props.data.items.length}
+            {checkCount(props.data.items)}/{props.data.items.length}
           </Text>
         </View>
         <Text style={styles.listBlock__meta}>By {author}</Text>
@@ -83,16 +84,9 @@ const styles = StyleSheet.create({
     flexBasis: '100%',
     width: '100%',
     backgroundColor: colours.lighterBg,
-    marginBottom: 15,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: colours.background,
+    padding: 20,
   },
   listBlock__selected: {
     backgroundColor: colours.primary,
@@ -115,7 +109,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: colours.dark,
   },
+  listBlock__checkCount__completed: {
+    color: colours.primary,
+    fontWeight: '700',
+  },
   listBlock__text__selected: {
+    color: colours.white,
+  },
+  listBlock__checkCount__completed__sel: {
+    fontWeight: '700',
     color: colours.white,
   },
   listBlock__item: {

@@ -7,27 +7,51 @@ const DrawerContent = props => {
   return (
     <ScrollView>
       <DrawerItemList {...props} />
-      <DrawerItem
-        {...props}
-        label="Sign Out    "
-        onPress={() =>
-          Alert.alert('Sign Out', 'Are you sure you would like to sign out?', [
-            {
-              text: 'Yes',
-              onPress: () =>
-                auth()
-                  .signOut()
-                  .then(() => {
-                    props.navigation.navigate('Login');
-                  }),
-            },
-            {
-              text: 'No',
-            },
-          ])
-        }
-        style={styles.drawerItem}
-      />
+      {props.loggedIn ? (
+        <DrawerItem
+          {...props}
+          label="Sign Out    "
+          onPress={() =>
+            Alert.alert(
+              'Sign Out',
+              'Are you sure you would like to sign out?',
+              [
+                {
+                  text: 'Yes',
+                  onPress: () =>
+                    auth()
+                      .signOut()
+                      .then(() => {
+                        props.navigation.reset({
+                          index: 0,
+                          routes: [{name: 'My Lists'}],
+                        });
+                      }),
+                },
+                {
+                  text: 'No',
+                },
+              ],
+            )
+          }
+          style={styles.drawerItem}
+        />
+      ) : (
+        <>
+          <DrawerItem
+            {...props}
+            label="Create an account"
+            onPress={() => props.navigation.navigate('Login')}
+            style={styles.drawerItem}
+          />
+          <DrawerItem
+            {...props}
+            label="Sign In    "
+            onPress={() => props.navigation.navigate('Login')}
+            style={styles.drawerItem}
+          />
+        </>
+      )}
     </ScrollView>
   );
 };

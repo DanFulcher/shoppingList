@@ -12,13 +12,14 @@ import Icon from 'react-native-vector-icons/Entypo';
 const Item = props => {
   const [checked, setChecked] = useState(props.data.checked);
   const [showModal, setShowModal] = useState(false);
-  const [showFlag, setShowFlag] = useState(false);
-  const {checkItem, flagItem} = useUpdate();
+  const {checkItem} = useUpdate();
   const {deleteItem} = useDelete();
   const navigation = useNavigation();
+  // console.log(props);
   const onCheck = () => {
     checkItem(props.listID, props.itemID, checked);
     setChecked(!checked);
+    props.updateChecked(!checked);
   };
   const handleEdit = () => {
     setShowModal(false);
@@ -28,47 +29,28 @@ const Item = props => {
       data: props.data,
     });
   };
-  const handleFlag = flagType => {
-    setShowModal(false);
-    flagItem(props.listID, props.itemID, flagType);
-  };
   const handleDel = () => {
     deleteItem(props.listID, props.itemID);
-    setShowModal(false);
-  };
-  const handleFlagEdit = () => {
-    setShowFlag(false);
-    handleEdit();
-  };
-  const handleFlagDel = () => {
-    setShowFlag(false);
-    handleDel();
   };
   return (
     <>
-      <View style={styles.item}>
-        <View style={styles.item__info}>
-          <CheckBox
-            value={checked}
-            onValueChange={() => onCheck()}
-            tintColors={
-              props.data.flag && props.data.flag.flagged
-                ? {true: colours.lessDark, false: colours.lessDark}
-                : {true: colours.primary, false: colours.primary}
-            }
-            disabled={props.data.flag && props.data.flag.flagged}
-          />
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Edit Item', {
-                list: props.listID,
-                item: props.itemID,
-                data: props.data,
-              })
-            }
-            onLongPress={() => {
-              setShowModal(true);
-            }}>
+      <TouchableOpacity
+        onPress={() => onCheck()}
+        onLongPress={props.drag}
+        delayLongPress={200}>
+        <View style={styles.item}>
+          <View style={styles.item__info}>
+            <CheckBox
+              value={checked}
+              onValueChange={() => onCheck()}
+              tintColors={
+                props.data.flag && props.data.flag.flagged
+                  ? {true: colours.lessDark, false: colours.lessDark}
+                  : {true: colours.primary, false: colours.primary}
+              }
+              size={30}
+              disabled={props.data.flag && props.data.flag.flagged}
+            />
             <Text
               style={[
                 styles.item__text,
@@ -77,68 +59,38 @@ const Item = props => {
               {props.data.name}
               {props.data.quantity > 1 && ` x ${props.data.quantity}`}
             </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
 
-        <View style={styles.item__actions}>
-          {props.data.flag && props.data.flag.flagged && (
-            <TouchableOpacity onPress={() => setShowFlag(true)}>
-              <Icon name="flag" size={16} color={colours.error} />
-            </TouchableOpacity>
-          )}
-          {!checked && (
-            <TouchableOpacity onPress={() => setShowModal(true)}>
-              <Icon
-                style={styles.item__actions__item}
-                name="dots-three-vertical"
-                size={16}
-                color={colours.lessDark}
-              />
-            </TouchableOpacity>
-          )}
+          <View style={styles.item__actions}>
+            {!checked && (
+              <TouchableOpacity onPress={() => setShowModal(true)}>
+                <Icon
+                  style={styles.item__actions__item}
+                  name="dots-three-vertical"
+                  size={18}
+                  color={colours.lessDark}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
       <Modal
         showModal={showModal}
         toggle={() => setShowModal(!showModal)}
-        modalTitle="Item Options">
-        {props.data.flag && props.data.flag.flagged ? (
-          <TouchableOpacity onPress={() => handleFlag('remove')}>
-            <Text style={styles.modal__option}>Remove Flag</Text>
-          </TouchableOpacity>
-        ) : (
-          <>
-            <TouchableOpacity onPress={() => handleFlag('location')}>
-              <Text style={styles.modal__option}>I can't find this item</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFlag('stock')}>
-              <Text style={styles.modal__option}>
-                This item is out of stock
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-        <TouchableOpacity onPress={() => handleEdit()}>
-          <Text style={styles.modal__option}>Edit item</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleDel()}>
-          <Text style={styles.modal__option}>Remove item from list</Text>
-        </TouchableOpacity>
-      </Modal>
-      {props.data.flag && (
-        <Modal
-          showModal={showFlag}
-          toggle={() => setShowFlag(!showFlag)}
-          modalTitle={props.data.name}>
-          <Text style={styles.modal__text}>{props.data.flag.message}</Text>
-          <TouchableOpacity onPress={() => handleFlagEdit()}>
-            <Text style={styles.modal__option}>Replace item</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleFlagDel()}>
-            <Text style={styles.modal__option}>Remove item</Text>
-          </TouchableOpacity>
-        </Modal>
-      )}
+        modalTitle="Item Options"
+        modalOptions={[
+          {
+            text: 'Edit Item',
+            onPress: () => handleEdit(),
+          },
+          {
+            text: 'Remove Item from List',
+            onPress: () => handleDel(),
+            error: true,
+          },
+        ]}
+      />
     </>
   );
 };
@@ -151,7 +103,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: colours.background,
-    paddingVertical: 5,
+    paddingVertical: 15,
   },
   item__info: {
     display: 'flex',

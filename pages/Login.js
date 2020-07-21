@@ -19,6 +19,7 @@ const Login = props => {
     onLogin,
   } = useLogin();
   const navigation = useNavigation();
+  const lists = props.route.params ? props.route.params.lists : null;
   return (
     <View style={styles.body}>
       <ScrollView keyboardShouldPersistTaps="handled">
@@ -39,7 +40,7 @@ const Login = props => {
             value={password}
             password
           />
-          <Button title="Log in" onPress={() => onLogin()} />
+          <Button title="Log in" onPress={() => onLogin(lists)} />
         </View>
         <Text style={styles.formText}>
           New to the app? Create an account to start creating and sharing lists

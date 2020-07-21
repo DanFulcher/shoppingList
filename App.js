@@ -9,12 +9,15 @@ import 'react-native-gesture-handler';
 
 import SplashScreen from 'react-native-splash-screen';
 
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
+import auth from '@react-native-firebase/auth';
+
 import DrawerContent from './components/DrawerContent';
 import ListsStack from './stacks/ListsStack';
+import NotiStack from './stacks/NotiStack';
 import ProfileStack from './stacks/ProfileStack';
 
 import {colours} from './styles';
@@ -25,6 +28,25 @@ const App: () => React$Node = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  const onAuthStateChanged = userName => {
+    setUser(userName);
+    if (initializing) {
+      setInitializing(false);
+    }
+  };
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (initializing) {
+    return null;
+  }
   return (
     <>
       <NavigationContainer>
@@ -34,7 +56,9 @@ const App: () => React$Node = () => {
           drawerStyle={{
             backgroundColor: colours.lighterBg,
           }}
-          drawerContent={props => <DrawerContent {...props} />}
+          drawerContent={props => (
+            <DrawerContent {...props} loggedIn={user ? true : false} />
+          )}
           drawerContentOptions={{
             activeBackgroundColor: colours.primary,
             activeTintColor: colours.white,
@@ -47,7 +71,12 @@ const App: () => React$Node = () => {
             },
           }}>
           <Drawer.Screen name="My Lists" component={ListsStack} />
-          <Drawer.Screen name="Profile" component={ProfileStack} />
+          {user && (
+            <>
+              <Drawer.Screen name="Notifications" component={NotiStack} />
+              <Drawer.Screen name="Profile" component={ProfileStack} />
+            </>
+          )}
         </Drawer.Navigator>
       </NavigationContainer>
     </>
