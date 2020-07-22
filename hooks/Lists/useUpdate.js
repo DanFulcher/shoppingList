@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Keyboard} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import generateID from '../../helpers/generateID';
 
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
@@ -24,6 +25,7 @@ export default () => {
     setValidateQuant(false);
     setItemQuant(number);
   };
+
   const addToList = () => {
     Keyboard.dismiss();
     if (itemName !== '') {
@@ -33,6 +35,7 @@ export default () => {
           name: itemName,
           quantity: parseFloat(itemQuant),
           checked: false,
+          id: generateID(),
         },
       ]);
       setItemName('');

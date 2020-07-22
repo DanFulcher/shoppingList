@@ -13,27 +13,27 @@ import {colours} from '../../styles';
 
 const SingleList = props => {
   const {checkCount} = useLists();
-  const {itemOrder, setItemOrder, reorderItems} = useItems(props.list);
-  const [checkedItems, setCheckedItems] = useState(checkCount(itemOrder));
+  const {items, setItems, reorderItems} = useItems(props.list);
+  const [checkedItems, setCheckedItems] = useState(checkCount(items));
   const [listComplete, setListComplete] = useState(
-    checkedItems === itemOrder.length,
+    checkedItems === items.length,
   );
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    setItemOrder(props.list.items);
-  }, [props.list.items, setItemOrder]);
+    setItems(props.list.items);
+  }, [props.list.items, setItems]);
 
   useEffect(() => {
-    if (checkedItems === itemOrder.length) {
+    if (checkedItems === items.length) {
       setListComplete(true);
     } else {
       setListComplete(false);
     }
-  }, [setListComplete, checkedItems, itemOrder]);
+  }, [setListComplete, checkedItems, items]);
   const handleItemCheck = isItemChecked => {
     setCheckedItems(isItemChecked ? checkedItems + 1 : checkedItems - 1);
-    if (isItemChecked && checkedItems + 1 === itemOrder.length) {
+    if (isItemChecked && checkedItems + 1 === items.length) {
       setListComplete(true);
       setShowModal(true);
     } else {
@@ -48,8 +48,8 @@ const SingleList = props => {
         listID={props.listID}
         itemID={index}
         drag={drag}
-        updateChecked={val => {
-          handleItemCheck(val);
+        updateChecked={isChecked => {
+          handleItemCheck(isChecked);
         }}
       />
     );
@@ -66,7 +66,7 @@ const SingleList = props => {
             <View style={styles.listBody__header}>
               <View style={styles.listBody__header__titleCont}>
                 <Text style={styles.listBody__title}>{props.list.name}</Text>
-                {listComplete && itemOrder.length > 0 && (
+                {listComplete && items.length > 0 && (
                   <Text style={styles.listBody__header__complete}>
                     (List Complete)
                   </Text>
@@ -81,9 +81,9 @@ const SingleList = props => {
               text2="Press the '+' icon to start adding items"
             />
           }
-          data={itemOrder}
+          data={items}
           renderItem={renderItem}
-          keyExtractor={(item, index) => `listItem-${index}`}
+          keyExtractor={item => item.id}
           onDragEnd={({data}) => reorderItems(data)}
         />
       </View>
