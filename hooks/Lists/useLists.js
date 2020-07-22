@@ -17,7 +17,7 @@ export default () => {
     });
   };
 
-  const getLocalLists = async () => {
+  const getLists = async () => {
     setLoading(true);
     try {
       const localLists = await AsyncStorage.getItem('lists');
@@ -30,7 +30,7 @@ export default () => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    getLocalLists();
+    getLists();
     wait(2000).then(() => setRefreshing(false));
   };
 
@@ -86,7 +86,7 @@ export default () => {
     onDeselect,
     clearSel,
     checkCount,
-    getLocalLists,
+    getLists,
     userLists,
     setUserLists,
     refreshing,
