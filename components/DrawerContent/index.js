@@ -40,7 +40,7 @@ const DrawerContent = props => {
         <>
           <DrawerItem
             {...props}
-            label="Create an account"
+            label="Create an account   "
             onPress={() => props.navigation.navigate('Login')}
             style={styles.drawerItem}
           />

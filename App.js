@@ -73,7 +73,7 @@ const App: () => React$Node = () => {
           <Drawer.Screen name="My Lists" component={ListsStack} />
           {user && (
             <>
-              <Drawer.Screen name="Notifications" component={NotiStack} />
+              <Drawer.Screen name="Notifications   " component={NotiStack} />
               <Drawer.Screen name="Profile" component={ProfileStack} />
             </>
           )}

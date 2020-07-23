@@ -1,12 +1,17 @@
 import React from 'react';
-import {ScrollView, Text, View, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import {colours} from '../styles';
 
-import useUpdate from '../hooks/Lists/useUpdate';
+import useUpdate from '../hooks/Items/useCreate';
 
 import Input from '../components/Forms/Fields/Input';
 import Button from '../components/Button';
-import CircleButton from '../components/Button/CircleButton';
 const AddItem = props => {
   const {
     itemName,
@@ -22,6 +27,18 @@ const AddItem = props => {
     <ScrollView
       contentContainerStyle={styles.scrollView}
       keyboardShouldPersistTaps="handled">
+      {listUpdated && (
+        <View style={styles.successBanner}>
+          <Text style={styles.successBanner__message}>
+            {tempList[tempList.length - 1].name} has been added to your list.
+          </Text>
+          <TouchableOpacity
+            style={styles.successBanner__done}
+            onPress={() => updateList(listNumber)}>
+            <Text style={styles.successBanner__done__text}>Done</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.body}>
         <View style={styles.form}>
           <Input
@@ -37,21 +54,6 @@ const AddItem = props => {
             onPress={() => addToList()}
           />
         </View>
-        {listUpdated && (
-          <>
-            <Text style={styles.successMessage}>
-              {tempList[tempList.length - 1].name} has been added to your list.
-            </Text>
-            <Text style={styles.successMessage}>
-              Click the tick icon to return to your list.
-            </Text>
-            <CircleButton
-              type="done"
-              size={30}
-              onPress={() => updateList(listNumber)}
-            />
-          </>
-        )}
       </View>
     </ScrollView>
   );
@@ -69,9 +71,36 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: 20,
   },
-  successMessage: {
+  successBanner: {
+    backgroundColor: colours.lighterBg,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  successBanner__message: {
     color: colours.dark,
-    textAlign: 'center',
+    width: '70%',
+  },
+  successBanner__done: {
+    width: '25%',
+  },
+  successBanner__done__text: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colours.primary,
+    width: '100%',
+    textAlign: 'right',
   },
 });
 

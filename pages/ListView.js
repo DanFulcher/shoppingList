@@ -11,6 +11,7 @@ const ListView = props => {
   const {listNumber} = props.route.params;
   const navigation = useNavigation();
   const multiView = lists.length > 1;
+  console.log(lists);
   return (
     <View style={styles.body}>
       <FlatList
@@ -32,7 +33,7 @@ const ListView = props => {
         ListFooterComponent={
           multiView && (
             <View style={styles.swipteInstructions}>
-              <Text>{'Swipe here to scroll between lists >>>>'}</Text>
+              <Text>{'<<<< Swipe here to scroll between lists >>>>'}</Text>
             </View>
           )
         }

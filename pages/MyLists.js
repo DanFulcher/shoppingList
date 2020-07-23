@@ -9,11 +9,11 @@ import Loading from '../components/Loading';
 import {colours} from '../styles';
 const MyLists = props => {
   const [lists, setLists] = useState([]);
-  const {userLists, getLocalLists, onRefresh, refreshing, loading} = useLists();
+  const {userLists, getLists, onRefresh, refreshing, loading} = useLists();
 
   useFocusEffect(
     useCallback(() => {
-      getLocalLists();
+      getLists();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );

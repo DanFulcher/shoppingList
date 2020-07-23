@@ -1,11 +1,11 @@
 import {useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 export default list => {
-  const [itemOrder, setItemOrder] = useState(list.items);
+  const [items, setItems] = useState(list.items);
   const [editMode, setEditMode] = useState(false);
 
   const reorderItems = async data => {
-    setItemOrder(data);
+    setItems(data);
     try {
       const jsonValue = await AsyncStorage.getItem('lists');
       const currentLists = jsonValue != null ? JSON.parse(jsonValue) : [];
@@ -26,8 +26,8 @@ export default list => {
   };
 
   return {
-    itemOrder,
-    setItemOrder,
+    items,
+    setItems,
     reorderItems,
     editMode,
     setEditMode,
