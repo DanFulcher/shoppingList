@@ -33,7 +33,7 @@ const ListView = props => {
         ListFooterComponent={
           multiView && (
             <View style={styles.swipteInstructions}>
-              <Text>{'Swipe here to scroll between lists >>>>'}</Text>
+              <Text>{'<<<< Swipe here to scroll between lists >>>>'}</Text>
             </View>
           )
         }

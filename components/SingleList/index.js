@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
   },
   listBody__multiView: {
     width: 350,
-    flexBasis: '80%',
-    height: '83%',
+    flexBasis: '86%',
+    height: '86%',
     marginRight: 10,
   },
   listBody__header: {
