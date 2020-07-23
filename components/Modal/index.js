@@ -119,9 +119,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
-  modalOptions: {
-    paddingTop: 15,
-  },
   modalOptions__horizontal: {
     display: 'flex',
     flexDirection: 'row',
@@ -130,7 +127,7 @@ const styles = StyleSheet.create({
   modal__option: {
     textAlign: 'center',
     fontSize: 16,
-    marginBottom: 10,
+    marginTop: 10,
     color: colours.dark,
     borderBottomColor: colours.lessDark,
   },

@@ -1,5 +1,5 @@
 export const colours = {
-  primary: '#006BA6',
+  primary: '#0075F2',
   hover: '#48C0FF',
   warning: '#FFE74C',
   error: '#D62839',

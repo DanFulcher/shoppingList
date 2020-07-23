@@ -107,6 +107,8 @@ const styles = StyleSheet.create({
   listBlock__checkCount: {
     fontSize: 18,
     color: colours.dark,
+    width: '15%',
+    textAlign: 'right',
   },
   listBlock__checkCount__completed: {
     color: colours.primary,

@@ -1,9 +1,9 @@
-const generateID = length => {
+const generateID = () => {
   var result = '';
   var characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
-  for (var i = 0; i < length || 8; i++) {
+  for (var i = 0; i < 8; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
