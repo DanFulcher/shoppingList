@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {colours} from '../styles';
 
-import useUpdate from '../hooks/Lists/useUpdate';
+import useUpdate from '../hooks/Items/useCreate';
 
 import Input from '../components/Forms/Fields/Input';
 import Button from '../components/Button';

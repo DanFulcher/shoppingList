@@ -1,11 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet, Dimensions} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 
+import Icon from 'react-native-vector-icons/Entypo';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Item from './Item';
 import NoItems from '../NoItems';
 import Modal from '../Modal';
 
+import {useNavigation} from '@react-navigation/native';
 import useItems from '../../hooks/Items/useItems';
 import useLists from '../../hooks/Lists/useLists';
 
@@ -19,6 +27,7 @@ const SingleList = props => {
     checkedItems === items.length,
   );
   const [showModal, setShowModal] = useState(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     setItems(props.list.items);
@@ -36,9 +45,18 @@ const SingleList = props => {
     if (isItemChecked && checkedItems + 1 === items.length) {
       setListComplete(true);
       setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+      }, 2500);
     } else {
       setListComplete(false);
     }
+  };
+  const handleEdit = () => {
+    navigation.navigate('Edit List', {
+      listName: props.list.name,
+      listID: props.list.id,
+    });
   };
 
   const renderItem = ({item, index, drag}) => {
@@ -72,6 +90,9 @@ const SingleList = props => {
                   </Text>
                 )}
               </View>
+              <TouchableOpacity onPress={() => handleEdit()}>
+                <Icon name="edit" color={colours.lessDark} size={20} />
+              </TouchableOpacity>
             </View>
           }
           ListEmptyComponent={
